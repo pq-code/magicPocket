@@ -1,8 +1,8 @@
 const { Server } = require('socket.io');
-import NodeSocket from '../socket/linkStart'
+import NodeSocket from '../socket/ws/linkStart'
 const http = require('http');
 
-const server = http.createServer((req, res) => {
+const server = http.createServer((res, req) => {
   // 设置响应头部信息
   res.writeHead(200, { 'Content-Type': 'text/plain' });
 

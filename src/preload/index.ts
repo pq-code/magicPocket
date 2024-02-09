@@ -1,7 +1,6 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
-
 // Custom APIs for renderer
 const api = {}
 
@@ -21,3 +20,5 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 }
+
+
