@@ -10,7 +10,7 @@ export class NodeSocket {
     }
     linkStart() {
         try {
-            console.log('开始ws')
+            console.log('----------ws启动成功--------')
             this.io.on('connection', (socket) => {
                 console.log(`客户端建立连接成功${socket.id}`)
                 socket.emit('broadcast', { NumberOnline: this.io.engine.clientsCount })

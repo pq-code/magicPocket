@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
-import { linkStartHttp } from "../preload/socket/http/index"
+import { linkStartHttp } from "../preload/app/index"
 
 Menu.setApplicationMenu(null)
 

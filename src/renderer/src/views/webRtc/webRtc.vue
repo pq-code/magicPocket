@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { tr } from "element-plus/es/locale";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const playVideo = ref();
 const cameraStream = ref();
@@ -33,21 +32,23 @@ const cancellation = () => {
   cameraStream.value = null;
 };
 
-var ws = new WebSocket(`ws://localhost:3000`);
-//连接成功后的回调函数
-ws.onopen = () => {
-  //发送消息给服务器
-  ws.send("客户端连接成功");
-  console.log("客户端连接成功");
-};
-//监听服务器发来的消息
-ws.onmessage = (res) => {
-  console.log("服务端：", res.data);
-};
-//关闭连接的回调
-ws.onclose = function () {
-  console.log("客户端断开连接");
-};
+onMounted(() => {
+  var ws = new WebSocket(`ws://localhost:3000`);
+  //连接成功后的回调函数
+  ws.onopen = () => {
+    //发送消息给服务器
+    ws.send("客户端连接成功");
+    console.log("客户端连接成功");
+  };
+  //监听服务器发来的消息
+  ws.onmessage = (res) => {
+    console.log("服务端：", res.data);
+  };
+  //关闭连接的回调
+  ws.onclose = function () {
+    console.log("客户端断开连接");
+  };
+});
 </script>
 
 <template>

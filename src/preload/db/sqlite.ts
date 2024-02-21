@@ -6,9 +6,9 @@ const path = require('path')
 let documentsPath
 
 if (process.env['ELECTRON_RENDERER_URL']) {
-  documentsPath = './out/config/sqlite/greenChannel.db'
+  documentsPath = './out/config/sqlite/magicPocket.db'
 } else {
-  documentsPath = path.join(process.env.USERPROFILE, 'Documents') + '\\greenChannel\\sqlite\\greenChannel.db'
+  documentsPath = path.join(process.env.USERPROFILE, 'Documents') + '\\magicPocket\\sqlite\\magicPocket.db'
 }
 
 console.log('documentsPath-------------****-----------', documentsPath)

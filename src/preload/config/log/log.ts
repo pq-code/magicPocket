@@ -16,7 +16,7 @@ let logsPath
 if (process.env['ELECTRON_RENDERER_URL']) {
   logsPath = './out/config/logs/' + date + '.log'
 } else {
-  logsPath = path.join(process.env.USERPROFILE, 'Documents') + '\\greenChannel\\logs\\' + date + '.log'
+  logsPath = path.join(process.env.USERPROFILE, 'Documents') + '\\magicPocket\\logs\\' + date + '.log'
 }
 
 console.log('logsPath-------------****-----------', logsPath) // 获取到安装目录的文件夹名称
