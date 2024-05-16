@@ -8,8 +8,22 @@ import { NodeSocket } from "../socket/ws/linkStart"
 
 import { httpPort } from "../config/node/config"
 
+import { join } from 'path'
+
+import { is } from '@electron-toolkit/utils'
+
 let httpHost = httpPort
 let app = express();
+
+console.log('path.join(__dirname)', join(__dirname), process.env['ELECTRON_RENDERER_URL'])
+
+if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+  app.use(express.static(process.env['ELECTRON_RENDERER_URL'])) // 获取页面
+} else {
+  app.use(express.static(join(__dirname, '../renderer/index.html')))// 获取页面
+}
+
+
 
 // 开启http
 export const linkStartHttp = () => {
@@ -34,12 +48,12 @@ export const linkStartHttp = () => {
       App running at:
          - Local: http://localhost:${httpHost}
          - Network:  http://${locatIpIpv4}:${httpHost}
-         ${locatIpIpv6[0] ? '- ipdv6Network: http://[' + locatIpIpv6[0]?.address || '没有ipv6' + ' }]:' + httpHost : ''}
+         ${locatIpIpv6[0] ? '- ipdv6Network: http://[' + (locatIpIpv6[0] as any)?.address || '没有ipv6' + ' }]:' + httpHost : ''}
       `);
   });
 
   //设置出错时的回调函数
-  server.on('error', function (err) {
+  server.on('error', function (err: any) {
     if (err.code === 'EADDRINUSE') {
       console.log('地址正被使用，重试中...')
       httpHost++

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import systemSettings from './branch/systemSettings'
-
+import ssh from './branch/ssh'
 const router = {
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -12,12 +12,13 @@ const router = {
     {
       path: "/dashboard",
       name: "dashboard",
-      redirect: "/dashboard/webRtc",
+      redirect: "/dashboard/ssh",
       component: () =>
         import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
       // leaf: true,//只有一个节点
       children: [
-        ...systemSettings
+        ...systemSettings,
+        ...ssh
       ],
       meta: { hidden: false, title: "首页" },
     }

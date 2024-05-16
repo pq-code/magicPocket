@@ -3,9 +3,10 @@
 export const getLocalIP = () => {
   const os = require('os');
   const osType = os.type(); //系统类型
-  const ifaces = os.networkInterfaces(); //网络信息
-  let locatIpIpv4 = '';
-  let locatIpIpv6 = [];
+  const ifaces: any = os.networkInterfaces(); //网络信息
+  let locatIpIpv4: any = '';
+  let locatIpIpv6: any = [];
+  console.log('系统类型', osType)
   try {
     for (let dev in ifaces) {
       if (dev === '本地连接' || dev === 'WLAN' || dev == 'en0') {
