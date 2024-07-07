@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import dashboardSide from '@renderer/views/dashboard/components/dashboardSide/dashboardSide.vue'
 
-let lengthWidth = ref(window.innerWidth > 1000 ? true : false)
+const defaultSwitch = true
+
+let lengthWidth = ref( window.innerWidth > 1000 ? true : false)
 // 收起撤面板
 let onWindowResize = () => {
   return (lengthWidth.value = window.innerWidth >= 1000)
@@ -11,7 +13,7 @@ window.addEventListener('resize', onWindowResize)
 </script>
 
 <template>
-  <div class="dashboard-main-center-left" :style="{ maxWidth: lengthWidth ? '220px' : '80px' }">
+  <div class="dashboard-main-center-left" :style="{ maxWidth: defaultSwitch ?'80px' :  lengthWidth ? '220px' : '80px' }">
     <dashboardSide></dashboardSide>
   </div>
 

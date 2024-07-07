@@ -23,6 +23,7 @@
     "@babel/plugin-transform-arrow-functions": "^7.23.3",
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "@element-plus/icons-vue": "^2.3.1",
     "dayjs": "^1.11.10",
     "electron-log": "^5.0.3",
     "electron-updater": "^6.1.7",
