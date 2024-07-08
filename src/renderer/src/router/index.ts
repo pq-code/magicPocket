@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import systemSettings from './branch/systemSettings'
 import ssh from './branch/ssh'
+
 import draggingDragging from './branch/draggingDragging'
 const router = {
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,26 +11,35 @@ const router = {
       name: 'home',
       redirect: "/draggingDragging",
     },
+    // {
+    //   path: "/dashboard",
+    //   name: "dashboard",
+    //   redirect: "/dashboard/ssh",
+    //   component: () =>
+    //     import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
+    //   children: [
+    //     ...systemSettings,
+    //     ...ssh,
+    //     ...draggingDragging
+    //   ],
+    //   meta: { hidden: false, title: "首页" },
+    // },
     {
-      path: "/dashboard",
-      name: "dashboard",
-      redirect: "/dashboard/ssh",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
-      children: [
-        ...systemSettings,
-        ...ssh,
-        ...draggingDragging
-      ],
-      meta: { hidden: false, title: "首页" },
+      path: '/login',
+      name: 'login',
+      component: () => import("@renderer/views/draggingDragging/draggingDragging.vue"),
+      meta: {
+        hidden: true,
+        title: ('routes.basic.login'),
+      },
     },
     {
-      path: "/draggingDragging",
-      name: "draggingDragging",
+      path: '/draggingDragging',
+      name: 'draggingDragging',
       component: () =>
         import(/* webpackChunkName: "about" */ "@renderer/views/draggingDragging/draggingDragging.vue"),
-      meta: { hidden: false, title: "首页" },
-    },
+      meta: { hidden: false, title: '表单搭建平台' }
+    }
   ]
 }
 

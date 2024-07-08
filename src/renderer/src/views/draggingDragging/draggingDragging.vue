@@ -1,36 +1,59 @@
 <script setup lang='ts'>
+import { ref } from 'vue'
+import draggingDraggingL from '@renderer/views/draggingDragging/components/draggingDraggingL.jsx'
+import draggingDraggingMain from '@renderer/views/draggingDragging/components/draggingDraggingMain.jsx'
+import draggingDraggingR from '@renderer/views/draggingDragging/components/draggingDraggingR.jsx'
+
+const lengthWidth = ref(true);
+
 </script>
 <template>
   <div class="draggingDragging">
-     <div class="draggingDragging-l">
-      
-     </div>
+    <div class="draggingDragging-head">
+
+    </div>
+
+    <div class="draggingDragging-center">
+      <div class="draggingDragging-l" :style="{ maxWidth: lengthWidth ? '320px' : '80px' }">
+        <draggingDraggingL></draggingDraggingL>
+      </div>
       <div class="draggingDragging-middle">
-
-     </div>
+        <draggingDraggingMain></draggingDraggingMain>
+      </div>
       <div class="draggingDragging-r">
-
-     </div>
+        <draggingDraggingR></draggingDraggingR>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped lang='less'>
  .draggingDragging {
   display: flex;
-  height: 100%;
-  .draggingDragging-l {
-    width: 300px;
-    height: 100%;
-    background: #ffff;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  .draggingDragging-head {
+    height: 50px;
   }
-  .draggingDragging-middle {
-    flex: 1;
+  .draggingDragging-center {
+    display: flex;
     height: 100%;
-    background: #b8b8b8;
-  }
-  .draggingDragging-r {
-    width: 300px;
-    height: 100%;
-    background: #ffff;
+    width: 100%;
+    .draggingDragging-l {
+      width: 300px;
+      height: 100%;
+      background: #ffff;
+    }
+    .draggingDragging-middle {
+      flex: 1;
+      height: 100%;
+      background: #ebebeb;
+    }
+    .draggingDragging-r {
+      width: 300px;
+      height: 100%;
+      background: #ffff;
+    }
   }
  }
 </style>
