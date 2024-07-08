@@ -1,6 +1,7 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import structuralContainer from '@renderer/packages/structuralContainer'
+import { VueDraggable } from 'vue-draggable-plus'
 
 import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElDatePicker, ElRadioGroup, ElRadio, ElSelect, ElOption, ElInput } from 'element-plus';
 
@@ -22,10 +23,24 @@ const draggingDraggingMain = defineComponent({
   },
   setup(props, { emit }) {
     const { pageJSON } = useDraggingDraggingStore()
+    const renderComponentList = ref()
     const inputValue = ref(props.modelValue);
     const init = () => {
 
     }
+    const hasMessage = () => {
+      debugger
+      const len = list2.value.length
+      if (len > 3) {
+        isDisabled.value = true
+        ElMessage({
+          showClose: true,
+          message: '已经四张图片了',
+          type: 'warning',
+        })
+      }
+    }
+
     onMounted(() => {
       init()
       console.log( useDraggingDraggingStore(),pageJSON)
@@ -36,7 +51,14 @@ const draggingDraggingMain = defineComponent({
       <div className='draggingDraggingMain'>
         {/* 预览用，内部装子容器 */}
         <div className='pageContainer'>
-          <structuralContainer pageJSON={pageJSON}></structuralContainer>
+          <VueDraggable
+            ref="pageContainer"
+            vmodel={renderComponentList.value}
+            onAdd={hasMessage}
+            group="people"
+            animation="150">
+          {/* <structuralContainer pageJSON={pageJSON.value}></structuralContainer> */}
+        </VueDraggable>
         </div>
       </div>
     );

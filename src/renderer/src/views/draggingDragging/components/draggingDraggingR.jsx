@@ -28,7 +28,6 @@ const draggingDraggingL = defineComponent({
     return () => (
       <div className='draggingDraggingR'>
         <div>
-          
         </div>
       </div>
     );

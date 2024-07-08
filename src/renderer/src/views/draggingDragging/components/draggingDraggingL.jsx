@@ -20,6 +20,7 @@ const draggingDraggingL = defineComponent({
   setup(props, { emit }) {
     const activeNames = ref([])
     const inputValue = ref(props.modelValue);
+
     const handleChange = () => {
 
     }
@@ -37,7 +38,7 @@ const draggingDraggingL = defineComponent({
           <ElInput placeholder="搜索组件库" suffix-icon={Search} > </ElInput>
           <div className='draggingDraggingL-container'>
           <ElCollapse vModel={activeNames} onChange={handleChange}>
-            <ElCollapseItem title="表单组件" name="1">
+              <ElCollapseItem title="表单组件" name="1">
               <componentContainer></componentContainer>
             </ElCollapseItem>
           </ElCollapse>

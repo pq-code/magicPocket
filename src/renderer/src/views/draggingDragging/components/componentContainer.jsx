@@ -1,6 +1,7 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
-
+import { VueDraggable } from 'vue-draggable-plus'
 import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElDatePicker, ElRadioGroup, ElRadio, ElSelect, ElOption, ElInput } from 'element-plus';
+import { componentList } from "@renderer/components/materialArea/materialArea"
 
 const componentContainer = defineComponent({
   props: {
@@ -20,12 +21,11 @@ const componentContainer = defineComponent({
   },
   setup(props, { emit }) {
     const inputValue = ref(props.modelValue);
-    const componentContainerSon = ref([
-      { name: '表单' },
-      { name: '输入框' },
-      { name: '下拉框' },
-      { name: '时间' },
-    ])
+    const isDisabled = false
+    const list1 = ref([])
+    const componentContainerSon = ref(
+      componentList
+    )
     const init = () => {
 
     }
@@ -40,9 +40,19 @@ const componentContainer = defineComponent({
 
     return () => (
       <div className='componentContainer'>
-        {componentContainerSon.value.map((item, index) => {
-           return  <div className='componentContainerSon' onClick={selectComponents}> {item.name} </div>
-         })}
+        <VueDraggable ref="componentContainer"
+          vmodel={componentContainerSon.value}
+          group={ {name: 'people', pull: 'clone', put: false} }
+          itemKey="componentName" animation="150">
+          {componentContainerSon.value.map((item, index) => {
+            return <div
+                    key={`${item.componentName}_${index}`}
+                    className='componentContainerSon'
+                    onClick={selectComponents}>
+                      {item.componentName}
+                  </div>
+          })}
+        </VueDraggable>
       </div>
     );
   },
