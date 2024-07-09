@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUpdated, ref, watch, nextTick } from "vue";
 // import { ColumnStyle, ElTable, SummaryMethod } from "element-plus";
-import Sortable from "sortablejs";
+// import Sortable from "sortablejs";
 import PPagination from "./components/p-pagination.vue";
 import { dataGrouping } from "../table";
 import type { Domains } from "../types/types";
@@ -188,40 +188,40 @@ watch(
 
 // 列拖拽
 const columnDrop = () => {
-  const wrapperTr = document.querySelector(
-    `#${randomId.value} .el-table__header-wrapper tr`
-  ) as HTMLElement;
+  // const wrapperTr = document.querySelector(
+  //   `#${randomId.value} .el-table__header-wrapper tr`
+  // ) as HTMLElement;
 
-  if (!wrapperTr) return false;
+  // if (!wrapperTr) return false;
 
-  Sortable.create(wrapperTr, {
-    filter: ".ignore-elements",
-    draggable: ".draggable",
-    animation: 180,
-    delay: 0,
-    onEnd: (evt: { newIndex: any; oldIndex: any }) => {
-      if (
-        pData.value.tableSetUp.showSelection &&
-        pData.value.tableSetUp?.tableColumns
-      ) {
-        const oldItem = pData.value.tableSetUp.tableColumns.splice(
-          evt.oldIndex - 1,
-          1
-        )[0];
-        pData.value.tableSetUp?.tableColumns.splice(
-          evt.newIndex - 1,
-          0,
-          oldItem
-        );
-      } else if (pData.value.tableSetUp.tableColumns) {
-        const oldItem = pData.value.tableSetUp?.tableColumns.splice(
-          evt.oldIndex,
-          1
-        )[0];
-        pData.value.tableSetUp?.tableColumns.splice(evt.newIndex, 0, oldItem);
-      }
-    },
-  });
+  // Sortable.create(wrapperTr, {
+  //   filter: ".ignore-elements",
+  //   draggable: ".draggable",
+  //   animation: 180,
+  //   delay: 0,
+  //   onEnd: (evt: { newIndex: any; oldIndex: any }) => {
+  //     if (
+  //       pData.value.tableSetUp.showSelection &&
+  //       pData.value.tableSetUp?.tableColumns
+  //     ) {
+  //       const oldItem = pData.value.tableSetUp.tableColumns.splice(
+  //         evt.oldIndex - 1,
+  //         1
+  //       )[0];
+  //       pData.value.tableSetUp?.tableColumns.splice(
+  //         evt.newIndex - 1,
+  //         0,
+  //         oldItem
+  //       );
+  //     } else if (pData.value.tableSetUp.tableColumns) {
+  //       const oldItem = pData.value.tableSetUp?.tableColumns.splice(
+  //         evt.oldIndex,
+  //         1
+  //       )[0];
+  //       pData.value.tableSetUp?.tableColumns.splice(evt.newIndex, 0, oldItem);
+  //     }
+  //   },
+  // });
 };
 
 // 合计

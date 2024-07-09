@@ -2,8 +2,7 @@ import { defineComponent, ref, watch, onMounted } from 'vue';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import '../style/index.less'
 import From from '../../From/index'
-
-import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElCollapse,ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
+import { VueDraggable } from 'vue-draggable-plus'
 
 const PageContainer = defineComponent({
   props: {
@@ -22,7 +21,15 @@ const PageContainer = defineComponent({
   },
   setup(props, { emit }) {
     const inputValue = ref(props.modelValue);
-    const { pageJSON } = useDraggingDraggingStore()
+    const { pageJSON,currentDragObject} = useDraggingDraggingStore()
+    const componentList = computed(() => pageJSON.children);
+    const onAdd = () => {
+      console.log('pageJSON', pageJSON, currentDragObject)
+      debugger
+    }
+    const handleEnd = (e) => {
+      debugger
+    }
 
     const dynamicRendering = (item) => {
       if (item instanceof Array) {
@@ -32,43 +39,38 @@ const PageContainer = defineComponent({
     }
 
     const typeMapping = (item = {}, index) => {
-      console.log(item)
-      debugger
       let returnElement
-      switch (item) {
-        case item.type == 'from':
-          returnElement = (generateFrom(item.children,index))
+      switch (item.type) {
+        case 'from':
+          returnElement = (generateFrom(item,index))
           break;
          // 其他类型的处理
          default:
-          returnElement = (generateFrom(item,index))
+          returnElement = null
           break;
       }
       return returnElement;
     }
 
-    const generateFrom = (item) => {
+    const generateFrom = (item,index) => {
       return (
-        <From pageJSON={item}></From>
+        <From key={item.id || index} pageJSON={item}></From>
       )
     }
     onMounted(() => {
     });
 
     return () => (
-      // <div className={'PageContainer' || pageJSON.props.className} style={pageJSON.props.style}>
-       
-      // </div>
-      <VueDraggable ref="componentContainer"
-        className={ pageJSON.props.className || 'PageContainer'}
-        style={pageJSON.props.style}
-        vModel={pageJSON.props.children}
-        animation="150"
+      <VueDraggable
+        vModel={componentList.value}
+        animation={150}
         group='people'
-        tag="ul"
-        sort={true}
+        sort={false}
+        onEnd={handleEnd}
       >
-        {dynamicRendering(pageJSON.props.children)}
+       {componentList.value.map((e,i) => {
+          return dynamicRendering(e,i)
+        })}
       </VueDraggable>
     );
   },

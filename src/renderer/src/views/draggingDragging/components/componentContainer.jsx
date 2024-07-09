@@ -24,11 +24,12 @@ const componentContainer = defineComponent({
     event: 'update:modelValue',
   },
   setup(props, { emit }) {
-    // let { currentDragObject } = useDraggingDraggingStore()
+    let { currentDragObject } = useDraggingDraggingStore()
     const inputValue = ref(props.modelValue);
     const isDisabled = false
 
-    const componentContainerSon = computed(() =>  props.componentList);
+    const componentContainerSon = computed(() => props.componentList);
+    const componentContainerSon2 = ref([])
 
     const init = () => {
 
@@ -39,8 +40,7 @@ const componentContainer = defineComponent({
     }
 
     const onStart = (e) => {
-      useDraggingDraggingStore().currentDragObject = e.clonedData
-      // console.log(useDraggingDraggingStore().currentDragObject)
+      currentDragObject = e.clonedData
     }
 
     const selectComponents = (e) => {
@@ -52,13 +52,12 @@ const componentContainer = defineComponent({
     });
 
     return () => (
-      <VueDraggable ref="componentContainer"
+      <VueDraggable
         className='componentContainer'
         vModel={componentContainerSon.value}
-        animation="150"
-        group={{name: 'people', pull: 'clone', put: false}}
+        animation={150}
+        group={{ name: 'people', pull: 'clone', put: false }}
         sort={false}
-        onClone={onClone}
         onStart={onStart}
       >
         {componentContainerSon.value.map((item, index) => {

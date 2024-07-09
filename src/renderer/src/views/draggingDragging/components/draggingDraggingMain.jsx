@@ -21,7 +21,6 @@ const draggingDraggingMain = defineComponent({
     const inputValue = ref(props.modelValue);
     onMounted(() => {
     });
-
     return () => (
       <div className='draggingDraggingMain'>
         <Structuralcontainer></Structuralcontainer>

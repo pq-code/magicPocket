@@ -26,25 +26,18 @@ const From = defineComponent({
 
     }
 
-    // 生成页面
-    const generatePage = (item) => {
-      item || [].map((e, i) => {
-        console.log(e)
-        typeMapping(e,i)
-      })
-      return item
-    }
-
     onMounted(() => {
       init()
     });
 
     return () => (
-      <div className={props.pageJSON.className ? `PageContainer,${props.pageJSON.className}` : 'PageContainer'} style={props.pageJSON.style}>
-        {
-          (generatePage(props.pageJSON.children))
-        }
-      </div>
+      <ElForm>
+        <ElRow>
+          <ElCol>
+            adadad
+          </ElCol>
+        </ElRow>
+      </ElForm>
     );
   },
 });

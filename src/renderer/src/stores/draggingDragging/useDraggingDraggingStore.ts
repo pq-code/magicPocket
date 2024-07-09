@@ -10,7 +10,8 @@ export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () 
       className: 'PageContainer',
       style: '',
     },
-    children: []
+    children: [
+    ]
   })
   // const pageJSON = ref([])
   const currentDragObject = ref({}) // 当前拖拽对象
