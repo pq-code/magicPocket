@@ -4,6 +4,8 @@ import draggingDraggingL from '@renderer/views/draggingDragging/components/dragg
 import draggingDraggingMain from '@renderer/views/draggingDragging/components/draggingDraggingMain.jsx'
 import draggingDraggingR from '@renderer/views/draggingDragging/components/draggingDraggingR.jsx'
 
+import './style/draggingDraggingL.less'
+
 const lengthWidth = ref(true);
 
 </script>

@@ -1,4 +1,6 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
+import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
+import '../style/index.less'
 import From from '../../From/index'
 
 import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElCollapse,ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
@@ -20,24 +22,18 @@ const PageContainer = defineComponent({
   },
   setup(props, { emit }) {
     const inputValue = ref(props.modelValue);
-    const handleChange = () => {
+    const { pageJSON } = useDraggingDraggingStore()
 
+    const dynamicRendering = (item) => {
+      if (item instanceof Array) {
+        return item.map((e, i) => dynamicRendering(e, i));
+      }
+      return typeMapping(item)
     }
-    const init = () => {
-
-    }
-    // 生成页面
-    // const generatePage = (item) => {
-    //   debugger
-    //   item || [].map((e, i) => {
-    //     console.log(e)
-    //     debugger
-    //     typeMapping(e,i)
-    //   })
-    //   return item
-    // }
 
     const typeMapping = (item = {}, index) => {
+      console.log(item)
+      debugger
       let returnElement
       switch (item) {
         case item.type == 'from':
@@ -57,13 +53,23 @@ const PageContainer = defineComponent({
       )
     }
     onMounted(() => {
-      init()
     });
 
     return () => (
-      <div className={'PageContainer' || props.pageJSON?.className } style={ props.pageJSON?.style }>
-         {typeMapping(props.pageJSON)}
-      </div>
+      // <div className={'PageContainer' || pageJSON.props.className} style={pageJSON.props.style}>
+       
+      // </div>
+      <VueDraggable ref="componentContainer"
+        className={ pageJSON.props.className || 'PageContainer'}
+        style={pageJSON.props.style}
+        vModel={pageJSON.props.children}
+        animation="150"
+        group='people'
+        tag="ul"
+        sort={true}
+      >
+        {dynamicRendering(pageJSON.props.children)}
+      </VueDraggable>
     );
   },
 });

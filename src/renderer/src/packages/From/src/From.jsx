@@ -28,10 +28,8 @@ const From = defineComponent({
 
     // 生成页面
     const generatePage = (item) => {
-      debugger
       item || [].map((e, i) => {
         console.log(e)
-        debugger
         typeMapping(e,i)
       })
       return item

@@ -1,67 +1,34 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
-import PageContainer from '../../PageContainer/index'
-
-import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElCollapse,ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
-
-const componentContainer = defineComponent({
+import '../style/index.less'
+import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
+const StructuralContainer = defineComponent({
   props: {
     modelValue: {
       type: Object,
       default: () => {}
     },
-    pageJson: Object
+    listData: {
+      type: Array,
+      default: () => []
+    }
+    // fileListMap: Object
   },
   model: {
     prop: 'modelValue',
     event: 'update:modelValue',
   },
   setup(props, { emit }) {
-    const inputValue = ref(props.modelValue);
-    const handleChange = () => {
-
-    }
-    const init = () => {
-
-    }
-
-    const typeMapping = (item = {}, index) => {
-      let returnElement
-      switch (item) {
-        case item.type == 'page':
-          returnElement = (page(item,index))
-          break;
-         // 其他类型的处理
-         default:
-          returnElement = (page(item,index))
-          break;
-      }
-      return returnElement;
-    }
-
-    // 页面
-    const page = (item, index) => {
-      debugger
-      return (
-        <PageContainer pageJSON={item} key='page'></PageContainer>
-      )
-    }
-
-    // 动态渲染
-    const dynamicRendering = (item) => {
-      if (item instanceof Array) {
-        return item.map((e, i) => dynamicRendering(e, i));
-      }
-      return (typeMapping(item))
-    }
-
     onMounted(() => {
-      init()
     });
 
     return () => (
-      dynamicRendering(props.pageJson)
+      // 容器
+      <div className='StructuralContainer'>
+        {/* 页面容器 */}
+        <PageContainer></PageContainer>
+      </div>
     );
   },
 });
 
-export default componentContainer;
+export default StructuralContainer;

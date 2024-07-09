@@ -1,5 +1,7 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus'
+import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
+
 import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElDatePicker, ElRadioGroup, ElRadio, ElSelect, ElOption, ElInput } from 'element-plus';
 
 const componentContainer = defineComponent({
@@ -22,6 +24,7 @@ const componentContainer = defineComponent({
     event: 'update:modelValue',
   },
   setup(props, { emit }) {
+    // let { currentDragObject } = useDraggingDraggingStore()
     const inputValue = ref(props.modelValue);
     const isDisabled = false
 
@@ -29,6 +32,15 @@ const componentContainer = defineComponent({
 
     const init = () => {
 
+    }
+
+    const onClone = (e) => {
+      console.log(e)
+    }
+
+    const onStart = (e) => {
+      useDraggingDraggingStore().currentDragObject = e.clonedData
+      // console.log(useDraggingDraggingStore().currentDragObject)
     }
 
     const selectComponents = (e) => {
@@ -42,9 +54,13 @@ const componentContainer = defineComponent({
     return () => (
       <VueDraggable ref="componentContainer"
         className='componentContainer'
-        vmodel={componentContainerSon.value}
-        group={ {name: 'people', pull: 'clone', put: false} }
-        itemKey="componentName" animation="150">
+        vModel={componentContainerSon.value}
+        animation="150"
+        group={{name: 'people', pull: 'clone', put: false}}
+        sort={false}
+        onClone={onClone}
+        onStart={onStart}
+      >
         {componentContainerSon.value.map((item, index) => {
           return <div
                   key={`${item.componentName}_${index}`}

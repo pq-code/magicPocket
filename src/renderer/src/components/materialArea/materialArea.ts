@@ -1,7 +1,19 @@
+
 export const componentList = [
   {
+    componentName: "div容器",
+    type: "container",
+    icon: "",
+    group: "基础组件",
+    props: [{
+      name: "title",
+      className: '',
+      style: ''
+    }]
+  },
+  {
     componentName: "表单",
-    title: "from",
+    type: "from",
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
@@ -18,7 +30,7 @@ export const componentList = [
   },
   {
     componentName: "输入框",
-    title: "input",
+    type: "input",
     icon: "",
     group: "基础组件",
     npm: {
@@ -37,7 +49,7 @@ export const componentList = [
   },
   {
     componentName: "下拉框",
-    title: "select",
+    type: "select",
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
@@ -56,7 +68,7 @@ export const componentList = [
   },
   {
     componentName: "tabel表格",
-    title: "tabel",
+    type: "tabel",
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
@@ -76,9 +88,20 @@ export const componentList = [
 ]
 
 export const componentMap = {
+  container: {
+    componentName: "div容器",
+    type: "container",
+    icon: "",
+    group: "基础组件",
+    props: [{
+      name: "title",
+      className: '',
+      style: ''
+    }]
+  },
   from:  {
     componentName: "表单",
-    title: "from",
+    type: "from",
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
@@ -95,7 +118,7 @@ export const componentMap = {
   },
   input: {
     componentName: "输入框",
-    title: "input",
+    type: "input",
     icon: "",
     group: "基础组件",
     npm: {
@@ -114,7 +137,7 @@ export const componentMap = {
   },
   select: {
     componentName: "下拉框",
-    title: "select",
+    type: "select",
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
@@ -133,7 +156,7 @@ export const componentMap = {
   },
   tabel:  {
     componentName: "tabel表格",
-    title: "tabel",
+    type: "tabel",
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思

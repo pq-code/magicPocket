@@ -11,7 +11,7 @@ import 'element-plus/dist/index.css';
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-import quadraticSpaceBag from "@renderer/packages/index";
+import quadraticSpaceBag from "@renderer/packages";
 
 import './assets/iconfont/iconfont.css'
 
