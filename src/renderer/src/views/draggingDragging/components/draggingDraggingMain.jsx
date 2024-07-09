@@ -23,13 +23,12 @@ const draggingDraggingMain = defineComponent({
   },
   setup(props, { emit }) {
     const { pageJSON } = useDraggingDraggingStore()
-    const renderComponentList = ref()
+    const renderComponentList = ref([])
     const inputValue = ref(props.modelValue);
     const init = () => {
 
     }
     const hasMessage = () => {
-      debugger
       const len = list2.value.length
       if (len > 3) {
         isDisabled.value = true
@@ -44,7 +43,6 @@ const draggingDraggingMain = defineComponent({
     onMounted(() => {
       init()
       console.log( useDraggingDraggingStore(),pageJSON)
-      debugger
     });
 
     return () => (
@@ -53,7 +51,7 @@ const draggingDraggingMain = defineComponent({
         <div className='pageContainer'>
           <VueDraggable
             ref="pageContainer"
-            vmodel={renderComponentList.value}
+            vModel={renderComponentList.value}
             onAdd={hasMessage}
             group="people"
             animation="150">

@@ -4,13 +4,11 @@ export const componentList = [
     title: "from",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: { // import { Message } from @alifd/next 的意思
+      exportName: "ElFrom",
+      main: 'element-plus',
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
@@ -23,13 +21,13 @@ export const componentList = [
     title: "input",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: {
+      exportName: "ElFrom",
+      package: "element-plus",
+      // version: "1.19.18",
+      // main: "src/index.js",
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
@@ -42,13 +40,13 @@ export const componentList = [
     title: "select",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: { // import { Message } from @alifd/next 的意思
+      exportName: "el-select",
+      package: "element-plus",
+      // version: "1.19.18",
+      // main: "src/index.js",
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
@@ -61,32 +59,13 @@ export const componentList = [
     title: "tabel",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
-    props: [{
-      name: "title",
-      propType: "string",
-      description: "标题",
-      defaultValue: "标题"
-    }]
-  },
-  {
-    componentName: "区间",
-    title: "时间",
-    icon: "",
-    group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: { // import { Message } from @alifd/next 的意思
+      exportName: "Ptabel",
+      package: "@renderer/packages",
+      // version: "1.19.18",
+      // main: "src/index.js",
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
@@ -102,13 +81,11 @@ export const componentMap = {
     title: "from",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: { // import { Message } from @alifd/next 的意思
+      exportName: "ElFrom",
+      main: 'element-plus',
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
@@ -121,13 +98,13 @@ export const componentMap = {
     title: "input",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: {
+      exportName: "ElFrom",
+      package: "element-plus",
+      // version: "1.19.18",
+      // main: "src/index.js",
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
@@ -140,13 +117,13 @@ export const componentMap = {
     title: "select",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: { // import { Message } from @alifd/next 的意思
+      exportName: "el-select",
+      package: "element-plus",
+      // version: "1.19.18",
+      // main: "src/index.js",
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
@@ -154,37 +131,18 @@ export const componentMap = {
       defaultValue: "标题"
     }]
   },
-  tabel: {
+  tabel:  {
     componentName: "tabel表格",
     title: "tabel",
     icon: "",
     group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
-    props: [{
-      name: "title",
-      propType: "string",
-      description: "标题",
-      defaultValue: "标题"
-    }]
-  },
-  tabel: {
-    componentName: "tabel表格",
-    title: "tabel",
-    icon: "",
-    group: "基础组件",
-    // npm: { // import { Message } from @alifd/next 的意思
-    //   exportName: "Message",
-    //   package: "@alifd/next",
-    //   version: "1.19.18",
-    //   main: "src/index.js",
-    //   destructuring: true,
-    // },
+    npm: { // import { Message } from @alifd/next 的意思
+      exportName: "Ptabel",
+      package: "@renderer/packages",
+      // version: "1.19.18",
+      // main: "src/index.js",
+      destructuring: true,
+    },
     props: [{
       name: "title",
       propType: "string",
