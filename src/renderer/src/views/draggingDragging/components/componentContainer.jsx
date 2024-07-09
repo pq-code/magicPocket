@@ -29,7 +29,6 @@ const componentContainer = defineComponent({
     const isDisabled = false
 
     const componentContainerSon = computed(() => props.componentList);
-    const componentContainerSon2 = ref([])
 
     const init = () => {
 
@@ -43,6 +42,10 @@ const componentContainer = defineComponent({
       currentDragObject = e.clonedData
     }
 
+    const handleEnd = (e) => {
+      console.log(e)
+    }
+
     const selectComponents = (e) => {
       console.log(e)
     }
@@ -53,21 +56,21 @@ const componentContainer = defineComponent({
 
     return () => (
       <VueDraggable
-        className='componentContainer'
-        vModel={componentContainerSon.value}
-        animation={150}
-        group={{ name: 'people', pull: 'clone', put: false }}
-        sort={false}
-        onStart={onStart}
-      >
-        {componentContainerSon.value.map((item, index) => {
-          return <div
-                  key={`${item.componentName}_${index}`}
-                  className='componentContainerSon'
-                  onClick={selectComponents}>
-                    {item.componentName}
-                </div>
-        })}
+          className='componentContainer'
+          vModel={componentContainerSon.value}
+          animation={150}
+          group={{ name: 'people', pull: 'clone', put: false }}
+          sort={false}
+          onStart={onStart}
+        >
+          {componentContainerSon.value.map((item, index) => {
+            return <div
+                    key={`${item.componentName}_${index}`}
+                    className='componentContainerSon'
+                    onClick={selectComponents}>
+                      {item.componentName}
+                  </div>
+          })}
       </VueDraggable>
     );
   },

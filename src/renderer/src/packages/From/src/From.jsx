@@ -33,8 +33,20 @@ const From = defineComponent({
     return () => (
       <ElForm>
         <ElRow>
-          <ElCol>
-            adadad
+          <ElCol span={8}>
+            <ElFormItem label='选项1'>
+              <ElInput></ElInput>
+            </ElFormItem>
+          </ElCol>
+          <ElCol span={8}>
+          <ElFormItem label='选项2'>
+              <ElInput></ElInput>
+            </ElFormItem>
+          </ElCol>
+          <ElCol span={8}>
+            <ElFormItem label='选项3'>
+              <ElSelect></ElSelect>
+            </ElFormItem>
           </ElCol>
         </ElRow>
       </ElForm>

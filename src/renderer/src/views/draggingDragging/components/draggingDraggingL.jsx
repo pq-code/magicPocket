@@ -28,11 +28,11 @@ const draggingDraggingL = defineComponent({
       let map = new Map()
       componentList.forEach(element => {
         if (!map.has(element.group)) {
-          element.id = buildUUID()
+          element.key = buildUUID()
           map.set(element.group,[element])
         } else {
           let rustl = map.get(element.group)
-          element.id = buildUUID()
+          element.key = buildUUID()
           map.set(element.group,[...rustl,element])
         }
       });

@@ -5,11 +5,12 @@ export const componentList = [
     type: "container",
     icon: "",
     group: "基础组件",
-    props: [{
+    props: {
       name: "title",
-      className: '',
+      className: 'container',
       style: ''
-    }]
+    },
+    children:[]
   },
   {
     componentName: "表单",
@@ -21,12 +22,13 @@ export const componentList = [
       main: 'element-plus',
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    },
+    children:[]
   },
   {
     componentName: "输入框",
@@ -40,12 +42,12 @@ export const componentList = [
       // main: "src/index.js",
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    }
   },
   {
     componentName: "下拉框",
@@ -59,12 +61,12 @@ export const componentList = [
       // main: "src/index.js",
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    }
   },
   {
     componentName: "tabel表格",
@@ -78,26 +80,27 @@ export const componentList = [
       // main: "src/index.js",
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    }
   },
 ]
 
 export const componentMap = {
-  container: {
+  container:   {
     componentName: "div容器",
     type: "container",
     icon: "",
     group: "基础组件",
-    props: [{
+    props: {
       name: "title",
-      className: '',
+      className: 'container1',
       style: ''
-    }]
+    },
+    children:[]
   },
   from:  {
     componentName: "表单",
@@ -109,12 +112,13 @@ export const componentMap = {
       main: 'element-plus',
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    },
+    children:[]
   },
   input: {
     componentName: "输入框",
@@ -128,12 +132,12 @@ export const componentMap = {
       // main: "src/index.js",
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    }
   },
   select: {
     componentName: "下拉框",
@@ -147,12 +151,12 @@ export const componentMap = {
       // main: "src/index.js",
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    }
   },
   tabel:  {
     componentName: "tabel表格",
@@ -166,11 +170,11 @@ export const componentMap = {
       // main: "src/index.js",
       destructuring: true,
     },
-    props: [{
+    props: {
       name: "title",
       propType: "string",
       description: "标题",
       defaultValue: "标题"
-    }]
+    }
   },
 }

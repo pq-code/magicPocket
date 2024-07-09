@@ -22,12 +22,15 @@ const PageContainer = defineComponent({
   setup(props, { emit }) {
     const inputValue = ref(props.modelValue);
     const { pageJSON,currentDragObject} = useDraggingDraggingStore()
-    const componentList = computed(() => pageJSON.children);
-    const onAdd = () => {
-      console.log('pageJSON', pageJSON, currentDragObject)
-      debugger
-    }
+    // const componentList = computed(() => pageJSON.children);
+    const componentList = ref([])
+    // const onAdd = () => {
+    //   pageJSON.children.push(currentDragObject)
+    //   console.log('pageJSON', pageJSON, currentDragObject)
+    //   debugger
+    // }
     const handleEnd = (e) => {
+      console.log(e)
       debugger
     }
 
@@ -46,7 +49,7 @@ const PageContainer = defineComponent({
           break;
          // 其他类型的处理
          default:
-          returnElement = null
+          returnElement = generateContainer(item,index)
           break;
       }
       return returnElement;
@@ -54,7 +57,13 @@ const PageContainer = defineComponent({
 
     const generateFrom = (item,index) => {
       return (
-        <From key={item.id || index} pageJSON={item}></From>
+        <From key={item.key || index} pageJSON={item}>{item}</From>
+      )
+    }
+
+    const generateContainer = (item, index) => {
+      return (
+        <div key={item.key || index} className={item.props.className} style={item.props.style}/>
       )
     }
     onMounted(() => {
@@ -62,10 +71,11 @@ const PageContainer = defineComponent({
 
     return () => (
       <VueDraggable
+        className='PageContainer'
         vModel={componentList.value}
         animation={150}
         group='people'
-        sort={false}
+        sort='ture'
         onEnd={handleEnd}
       >
        {componentList.value.map((e,i) => {
