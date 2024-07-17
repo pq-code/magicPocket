@@ -1,8 +1,10 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
-import '../style/index.less'
-import From from '../../From/index'
+import './style/index.less'
+import From from '@renderer/packages/From/index'
+// import PageContainer from '@renderer/packages/PageContainer/index'
 import { VueDraggable } from 'vue-draggable-plus'
+import { customComponent } from './utils/component'
 
 const PageContainer = defineComponent({
   props: {
@@ -24,13 +26,10 @@ const PageContainer = defineComponent({
     const { pageJSON,currentDragObject} = useDraggingDraggingStore()
     // const componentList = computed(() => pageJSON.children);
     const componentList = ref([])
-    // const onAdd = () => {
-    //   pageJSON.children.push(currentDragObject)
-    //   console.log('pageJSON', pageJSON, currentDragObject)
-    //   debugger
-    // }
+
     const handleEnd = (e) => {
-      console.log(e)
+      pageJSON.children = componentList
+      console.log('pageJSON', pageJSON, currentDragObject, e)
       debugger
     }
 
@@ -55,15 +54,23 @@ const PageContainer = defineComponent({
       return returnElement;
     }
 
-    const generateFrom = (item,index) => {
+    const generateFrom = async(item, index) => {
+      if (item.npm) {
+        debugger
+        customComponent(item)
+      }
       return (
-        <From key={item.key || index} pageJSON={item}>{item}</From>
+        <From key={item.key || index} pageJSON={item}>
+          <PageContainer pageJSON={item.children}></PageContainer>
+        </From>
       )
     }
 
     const generateContainer = (item, index) => {
       return (
-        <div key={item.key || index} className={item.props.className} style={item.props.style}/>
+        <div key={item.key || index} className={item.props.className} style={item.props.style}>
+          <PageContainer pageJSON={item.children}></PageContainer>
+        </div>
       )
     }
     onMounted(() => {

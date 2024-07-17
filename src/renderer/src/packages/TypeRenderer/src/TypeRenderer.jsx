@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import '../style/index.less'
 import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
-const StructuralContainer = defineComponent({
+const TypeRenderer = defineComponent({
   props: {
     modelValue: {
       type: Object,
@@ -31,4 +31,4 @@ const StructuralContainer = defineComponent({
   },
 });
 
-export default StructuralContainer;
+export default TypeRenderer;

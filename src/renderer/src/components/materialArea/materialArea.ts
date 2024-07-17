@@ -18,8 +18,8 @@ export const componentList = [
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
-      exportName: "ElFrom",
-      main: 'element-plus',
+      exportName: "From",
+      package: '@renderer/packages',
       destructuring: true,
     },
     props: {
@@ -36,10 +36,10 @@ export const componentList = [
     icon: "",
     group: "基础组件",
     npm: {
-      exportName: "ElFrom",
+      exportName: "ElInput",
       package: "element-plus",
       // version: "1.19.18",
-      // main: "src/index.js",
+      // package: "src/index.js",
       destructuring: true,
     },
     props: {
@@ -55,10 +55,10 @@ export const componentList = [
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
-      exportName: "el-select",
+      exportName: "ElSelect",
       package: "element-plus",
       // version: "1.19.18",
-      // main: "src/index.js",
+      // package: "src/index.js",
       destructuring: true,
     },
     props: {
@@ -77,7 +77,7 @@ export const componentList = [
       exportName: "Ptabel",
       package: "@renderer/packages",
       // version: "1.19.18",
-      // main: "src/index.js",
+      // package: "src/index.js",
       destructuring: true,
     },
     props: {
@@ -108,8 +108,8 @@ export const componentMap = {
     icon: "",
     group: "基础组件",
     npm: { // import { Message } from @alifd/next 的意思
-      exportName: "ElFrom",
-      main: 'element-plus',
+      exportName: "From",
+      package: '@renderer/packages',
       destructuring: true,
     },
     props: {
@@ -129,7 +129,7 @@ export const componentMap = {
       exportName: "ElFrom",
       package: "element-plus",
       // version: "1.19.18",
-      // main: "src/index.js",
+      // package: "src/index.js",
       destructuring: true,
     },
     props: {
@@ -148,7 +148,7 @@ export const componentMap = {
       exportName: "el-select",
       package: "element-plus",
       // version: "1.19.18",
-      // main: "src/index.js",
+      // package: "src/index.js",
       destructuring: true,
     },
     props: {
@@ -167,7 +167,7 @@ export const componentMap = {
       exportName: "Ptabel",
       package: "@renderer/packages",
       // version: "1.19.18",
-      // main: "src/index.js",
+      // package: "src/index.js",
       destructuring: true,
     },
     props: {

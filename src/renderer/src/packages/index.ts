@@ -2,15 +2,17 @@
 import type { App } from "vue";
 
 // 导入组件
-// import StructuralContainer from './StructuralContainer'
+// import TypeRenderer from './TypeRenderer'
 // import PageContainer from './PageContainer'
 import PTable from './PTable'
+import From from './From'
 
 // 存储组件列表
 const components = [
-    // StructuralContainer,
+    // TypeRenderer,
     // PageContainer,
     PTable,
+    From
 ]
 
 const install = function (Vue: App) {
@@ -30,7 +32,8 @@ if (typeof windowObj !== 'undefined' && windowObj.Vue) {
 export default install
 
 export {
-    // StructuralContainer,
+    // TypeRenderer,
     // PageContainer,
-    PTable
+    PTable,
+    From
 }

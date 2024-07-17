@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
-import Structuralcontainer from '@renderer/packages/Structuralcontainer/src/Structuralcontainer.jsx'
+import TypeRenderer from '@renderer/packages/TypeRenderer/src/TypeRenderer.jsx'
 
 const draggingDraggingMain = defineComponent({
   props: {
@@ -23,7 +23,7 @@ const draggingDraggingMain = defineComponent({
     });
     return () => (
       <div className='draggingDraggingMain'>
-        <Structuralcontainer></Structuralcontainer>
+        <TypeRenderer></TypeRenderer>
       </div>
     );
   },
