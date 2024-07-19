@@ -20,10 +20,18 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false,
-      nodeIntegration: true
+      sandbox: true,
+      nodeIntegration: true,
+      partition: 'persist:window-id', // 使用唯一标识符区分渲染进程
     }
   })
+
+  // 图片资源压缩：使用合适的图片格式（如WebP），并进行压缩优化，减少加载时间和内存占用。
+  // 静态资源缓存：利用HTTP缓存头或Service Worker实现静态资源缓存，加快加载速度。
+  mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
+    details.requestHeaders['Cache-Control'] = 'max-age=3600'; // 设置缓存有效期为1小时
+    callback({ requestHeaders: details.requestHeaders });
+  });
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

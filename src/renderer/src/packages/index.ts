@@ -5,14 +5,14 @@ import type { App } from "vue";
 // import TypeRenderer from './TypeRenderer'
 // import PageContainer from './PageContainer'
 import PTable from './PTable'
-import From from './From'
+import Form from './Form'
 
 // 存储组件列表
 const components = [
     // TypeRenderer,
     // PageContainer,
     PTable,
-    From
+    Form
 ]
 
 const install = function (Vue: App) {
@@ -35,5 +35,5 @@ export {
     // TypeRenderer,
     // PageContainer,
     PTable,
-    From
+    Form
 }

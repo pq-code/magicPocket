@@ -1,7 +1,6 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import './style/index.less'
-import From from '@renderer/packages/From/index'
 // import PageContainer from '@renderer/packages/PageContainer/index'
 import { VueDraggable } from 'vue-draggable-plus'
 import { customComponent } from './utils/component'
@@ -28,23 +27,25 @@ const PageContainer = defineComponent({
     const componentList = ref([])
 
     const handleEnd = (e) => {
+      debugger
       pageJSON.children = componentList
       console.log('pageJSON', pageJSON, currentDragObject, e)
       debugger
     }
 
-    const dynamicRendering = (item) => {
+    const dynamicRendering = (item,index) => {
       if (item instanceof Array) {
         return item.map((e, i) => dynamicRendering(e, i));
       }
-      return typeMapping(item)
+      return typeMapping(item,index)
     }
 
     const typeMapping = (item = {}, index) => {
+      debugger
       let returnElement
       switch (item.type) {
-        case 'from':
-          returnElement = (generateFrom(item,index))
+        case 'Form':
+          returnElement = (generateForm(item,index))
           break;
          // 其他类型的处理
          default:
@@ -54,9 +55,9 @@ const PageContainer = defineComponent({
       return returnElement;
     }
 
-    const generateFrom = async(item, index) => {
-      if (item.npm) {
-        debugger
+    const generateForm = async (item, index) => {
+      debugger
+      if (item.npm && !window[item.npm.name]) {
         customComponent(item)
       }
       return (
@@ -73,6 +74,7 @@ const PageContainer = defineComponent({
         </div>
       )
     }
+
     onMounted(() => {
     });
 
