@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
-import TypeRenderer from '@renderer/packages/TypeRenderer/src/TypeRenderer.jsx'
+import RenderEngine from '@renderer/packages/RenderEngine/src/RenderEngine.jsx'
 
 const draggingDraggingMain = defineComponent({
   props: {
@@ -23,7 +23,7 @@ const draggingDraggingMain = defineComponent({
     });
     return () => (
       <div className='draggingDraggingMain'>
-        <TypeRenderer></TypeRenderer>
+        <RenderEngine></RenderEngine>
       </div>
     );
   },

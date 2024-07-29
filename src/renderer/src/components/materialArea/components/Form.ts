@@ -3,7 +3,6 @@ const component = async() => {
   return component
 }
 
-
 export const From = {
   componentName: "表单",
   type: "from",
@@ -21,6 +20,8 @@ export const From = {
     description: "标题",
     defaultValue: "标题",
   },
-  children:[]
+  children: [
+    {}
+  ]
 }
 

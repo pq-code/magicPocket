@@ -26,13 +26,29 @@ const From = defineComponent({
 
     }
 
+    const structure = (item) => {
+      if (item.cols) {
+        
+      }
+    }
+
     onMounted(() => {
       init()
+      debugger
     });
-
+    // rules={props.pageJSON.props.rules}
+    // labelWidth={props.pageJSON.props.labelWidth || '120px'}
+    // labelPosition={props.pageJSON.props.labelPosition || 'top'}
+    // className={props.pageJSON.props.className || 'form'}
     return () => (
-      <ElForm>
-        <ElRow>
+      <ElForm vModel={formData}
+        ref="formRef"
+        {...props.pageJSON}
+       >
+        {
+          structure(props.pageJSON)
+        }
+        {/* <ElRow>
           <ElCol span={8}>
             <ElFormItem label='选项1'>
               <ElInput></ElInput>
@@ -48,7 +64,7 @@ const From = defineComponent({
               <ElSelect></ElSelect>
             </ElFormItem>
           </ElCol>
-        </ElRow>
+        </ElRow> */}
       </ElForm>
     );
   },

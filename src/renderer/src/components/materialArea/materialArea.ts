@@ -235,7 +235,6 @@ export const componentMap = {
       component: async() => {
         const component = await import('@renderer/packages')
         console.log(component)
-        debugger
         return component['Form']
       }
     },
@@ -245,7 +244,77 @@ export const componentMap = {
       description: "标题",
       defaultValue: "标题",
     },
-    children:[]
+    children: [
+      {
+        componentName: "输入框",
+        type: "input",
+        icon: "",
+        group: "基础组件",
+        npm: {
+          exportName: "ElInput",
+          package: "element-plus",
+          // version: "1.19.18",
+          // package: "src/index.js",
+          destructuring: true,
+        },
+        props: {
+          "formItemProps": {
+            "primaryKey": "760",
+            "label": "表单项",
+            "size": "medium",
+            "device": "desktop",
+            "fullWidth": true
+          },
+          "placeholder": "请输入"
+        }
+      },
+      {
+        componentName: "输入框",
+        type: "input",
+        icon: "",
+        group: "基础组件",
+        npm: {
+          exportName: "ElInput",
+          package: "element-plus",
+          // version: "1.19.18",
+          // package: "src/index.js",
+          destructuring: true,
+        },
+        props: {
+          "formItemProps": {
+            "primaryKey": "760",
+            "label": "表单项",
+            "size": "medium",
+            "device": "desktop",
+            "fullWidth": true
+          },
+          "placeholder": "请输入"
+        }
+      },
+      {
+        componentName: "输入框",
+        type: "input",
+        icon: "",
+        group: "基础组件",
+        npm: {
+          exportName: "ElInput",
+          package: "element-plus",
+          // version: "1.19.18",
+          // package: "src/index.js",
+          destructuring: true,
+        },
+        props: {
+          "formItemProps": {
+            "primaryKey": "760",
+            "label": "表单项",
+            "size": "medium",
+            "device": "desktop",
+            "fullWidth": true
+          },
+          "placeholder": "请输入"
+        }
+      },
+    ]
   },
   input: {
     componentName: "输入框",

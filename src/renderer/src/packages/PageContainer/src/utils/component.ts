@@ -37,17 +37,16 @@ export const customComponent = async (item) => {
   // } catch (err) {
   //   console.error(err);
   // }
-  debugger
-  if (item.npm.component) {
-    console.log(item.npm.component)
-    debugger
-    if (window[item.npm.name]) {
-      window[item.npm.name] = item.npm.component
-    }
-    debugger
-    // window[item.npm.name] = item.npm.component
-    const name = item.npm.exportName // 组件名称
-    app.component(name, item.npm.component);
-  }
+  // if (item.npm.component) {
+  //   console.log(item.npm.component)
+  //   debugger
+  //   if (window[item.npm.name]) {
+  //     window[item.npm.name] = item.npm.component
+  //   }
+  //   debugger
+  //   // window[item.npm.name] = item.npm.component
+  //   const name = item.npm.exportName // 组件名称
+  //   app.component(name, item.npm.component);
+  // }
 
 };

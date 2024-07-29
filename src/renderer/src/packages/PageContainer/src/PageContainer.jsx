@@ -1,9 +1,9 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import './style/index.less'
-// import PageContainer from '@renderer/packages/PageContainer/index'
+import Form from '@renderer/packages/Form'
 import { VueDraggable } from 'vue-draggable-plus'
-import { customComponent } from './utils/component'
+// import { customComponent } from './utils/component'
 
 const PageContainer = defineComponent({
   props: {
@@ -27,10 +27,8 @@ const PageContainer = defineComponent({
     const componentList = ref([])
 
     const handleEnd = (e) => {
-      debugger
       pageJSON.children = componentList
       console.log('pageJSON', pageJSON, currentDragObject, e)
-      debugger
     }
 
     const dynamicRendering = (item,index) => {
@@ -41,29 +39,24 @@ const PageContainer = defineComponent({
     }
 
     const typeMapping = (item = {}, index) => {
-      debugger
       let returnElement
       switch (item.type) {
         case 'Form':
           returnElement = (generateForm(item,index))
           break;
          // 其他类型的处理
-         default:
-          returnElement = generateContainer(item,index)
+        default:
+          returnElement = generateContainer(item, index)
           break;
       }
       return returnElement;
     }
 
     const generateForm = async (item, index) => {
-      debugger
-      if (item.npm && !window[item.npm.name]) {
-        customComponent(item)
-      }
       return (
-        <From key={item.key || index} pageJSON={item}>
+        <Form key={item.key || index} pageJSON={item}>
           <PageContainer pageJSON={item.children}></PageContainer>
-        </From>
+        </Form>
       )
     }
 
@@ -87,9 +80,9 @@ const PageContainer = defineComponent({
         sort='ture'
         onEnd={handleEnd}
       >
-       {componentList.value.map((e,i) => {
-          return dynamicRendering(e,i)
-        })}
+      {componentList.value.map((e,i) => {
+        return dynamicRendering(e,i)
+      })}
       </VueDraggable>
     );
   },
