@@ -6,7 +6,7 @@ export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () 
   const pageJSON = ref({
     type: 'page',
     title: '页面',
-    whetherYouCanDrag: false,
+    whetherYouCanDrag: true,
     props: {
       className: 'PageContainer',
       style: '',

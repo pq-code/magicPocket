@@ -1,6 +1,6 @@
 import Form from "@renderer/packages/Form";
 import { ElInput } from "element-plus";
-
+import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
 /**
  * 根据类型和子元素渲染不同类型的组件
  *
@@ -15,10 +15,10 @@ export const typeRender = (item, children) => {
       returnElement = generateContainer(item,children)
       break;
     case 'Form':
-      returnElement = (generateForm(item,children))
+      returnElement = generateForm(item,children)
       break;
     case 'input':
-      returnElement = (generateInput(item,children))
+      returnElement = generateInput(item,children)
       break;
      // 其他类型的处理
     default:
@@ -31,7 +31,7 @@ export const typeRender = (item, children) => {
 const generateContainer = (item, children) => {
   return (
     <div key={item.key} className={item.props.className} style={item.props.style}>
-      {children}
+      <PageContainer pageJSON={item} children={children}></PageContainer>
     </div>
   )
 }
