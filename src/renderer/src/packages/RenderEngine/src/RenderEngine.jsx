@@ -1,9 +1,9 @@
-import { defineComponent, ref, watch, onMounted } from 'vue';
+import { defineComponent, ref, watch, onMounted, computed } from 'vue';
 import '../style/index.less'
 import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { VueDraggable } from 'vue-draggable-plus'
-
+import { typeRender } from "../components/TypeRenderEngine"
 const RenderEngine = defineComponent({
   props: {
     modelValue: {
@@ -25,25 +25,33 @@ const RenderEngine = defineComponent({
   setup(props, { emit }) {
     const { pageJSON, currentDragObject, currentEnvironment } = useDraggingDraggingStore()
     const whetherYouCanDrag = pageJSON.whetherYouCanDrag
-    let componentList = ref(pageJSON.children || [])
+    let componentList = ref([])
 
     const handleEnd = (e) => {
       console.log(e)
       debugger
-    }
+     }
     /**
      * 渲染根虚拟节点
      *
      * @returns 返回根虚拟节点
      */
     const renderRootVnode = (h) => {
-      const _page = h;
-      const renderedComponents = renderComponents(_page);
-      // 渲染根目录
+      let renderComponent = renderComponents(componentList.value)
       return (
-        <div className={`${_page.props?.className} root`}>
-          {renderedComponents}
-        </div>
+        whetherYouCanDrag ?
+        <div className='root'>
+           <VueDraggable
+            className='PageContainer'
+            vModel={componentList.value}
+            animation={150}
+            group='people'
+            sort='ture'
+            onEnd={handleEnd}
+          >
+            { renderComponent }
+          </VueDraggable>
+          </div> : <div className='root'></div>
       )
     }
     /**
@@ -52,29 +60,15 @@ const RenderEngine = defineComponent({
      * @returns 渲染结果
      */
     const renderComponents = (_page) => {
-      if (Array.isArray(componentList.value) && componentList.value.length > 0) {
-        return componentList.value.map((child, index) => {
-          const Component = child.type;
-          const componentProps = child.props;
-          return (
-            startRender()
-          );
+      if (Array.isArray(_page)) {
+        return _page.flatMap(child => {
+          const children = Array.isArray(child.children) ? renderComponents(child.children) : [];
+          return startRender(child, children);
         });
-      } else if (whetherYouCanDrag) {
-        return (
-          <VueDraggable
-            className='PageContainer'
-            vModel={componentList.value}
-            animation={150}
-            group='people'
-            sort='ture'
-            onEnd={handleEnd}
-          >
-            <div>112121</div>
-          </VueDraggable>
-        )
       } else {
-        return null
+        return (
+          startRender(_page)
+        );
       }
     }
     /**
@@ -82,56 +76,18 @@ const RenderEngine = defineComponent({
      *
      * @returns 渲染后的页面组件
      */
-    const startRender = () => {
+    const startRender = (item, children) => {
       // 开发环境添加拖拽功能
-      if (whetherYouCanDrag) {
-        debugger
-        return (
-          <PageContainer pageJSON={componentList.value} children = {typeRender(componentList.value)}>
-          </PageContainer>
-        )
-      } else {
-        return typeRender(componentList.value);
-      }
-    }
-    /**
-     * 渲染类型
-     *
-     * @returns 渲染结果
-     */
-    const typeRender = (item) => {
-      let returnElement
-      switch (item.type) {
-        case 'Form':
-          returnElement = (generateForm(item,index))
-          break;
-         // 其他类型的处理
-        default:
-          returnElement = generateContainer(item, index)
-          break;
-      }
-      return returnElement;
+      return whetherYouCanDrag? <PageContainer pageJSON={item} children = {typeRender(item,children)}>
+        </PageContainer> : typeRender(item, children)
     }
 
-    const generateForm = async (item, index) => {
-      return (
-        <Form key={item.key || index} pageJSON={item}>
-          <PageContainer pageJSON={item.children}></PageContainer>
-        </Form>
-      )
-    }
-
-    const generateContainer = (item, index) => {
-      return (
-        <div key={item.key || index} className={item.props.className} style={item.props.style}>
-          <PageContainer pageJSON={item.children}></PageContainer>
-        </div>
-      )
-    }
+    // 渲染结果缓存
+    const renderResult = computed(() =>renderRootVnode(componentList.value));
 
     return () => (
       // 容器
-      renderRootVnode(pageJSON)
+      renderResult.value
     );
   },
 });

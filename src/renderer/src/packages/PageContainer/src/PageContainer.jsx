@@ -9,8 +9,8 @@ const PageContainer = defineComponent({
       default: () => {}
     },
     pageJSON: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
     },
     children: {
       type: Object,
@@ -23,6 +23,7 @@ const PageContainer = defineComponent({
   },
   setup(props, { emit }) {
     const componentList = computed(() => {
+      debugger
       return props.pageJSON;
     });
 
