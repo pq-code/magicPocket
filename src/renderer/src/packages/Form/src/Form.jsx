@@ -38,10 +38,10 @@ const From = defineComponent({
        >
         <ElRow>
         {
-          props.children.map(e => {
+            props.children.map(e => {ugger
             return (
-              <ElCol span={8}>
-              <ElFormItem label='选项1'>
+              <ElCol span={e.props.span || 8}>
+              <ElFormItem label={e.props.label}>
                 {e}
               </ElFormItem>
             </ElCol>

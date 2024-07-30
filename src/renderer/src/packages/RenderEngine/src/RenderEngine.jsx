@@ -25,16 +25,11 @@ const RenderEngine = defineComponent({
   setup(props, { emit }) {
     const { pageJSON, currentDragObject, currentEnvironment } = useDraggingDraggingStore()
     const whetherYouCanDrag = pageJSON.whetherYouCanDrag
-    let componentList = ref([])
+    let componentList = ref(pageJSON.children)
 
-    watch(() => componentList.value, (n, o) => {
-      console.log(n)
-      debugger
-    })
 
     const handleEnd = (e) => {
       console.log(e)
-      debugger
      }
     /**
      * 渲染根虚拟节点
@@ -46,6 +41,10 @@ const RenderEngine = defineComponent({
       return (
         whetherYouCanDrag ?
           <VueDraggable
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
             className='PageContainer'
             vModel={componentList.value}
             animation={150}
@@ -53,9 +52,7 @@ const RenderEngine = defineComponent({
             sort='ture'
             onEnd={handleEnd}
               >
-              <div className='root'>
-                { renderComponent }
-              </div>
+             { renderComponent }
           </VueDraggable>
           : <div className='root'>
             {renderComponent}
@@ -69,7 +66,7 @@ const RenderEngine = defineComponent({
      */
     const renderComponents = (_page) => {
       if (Array.isArray(_page)) {
-        return _page.flatMap(child => {
+        return _page.map(child => {
           const children = Array.isArray(child.children) ? renderComponents(child.children) : [];
           return startRender(child, children);
         });
@@ -86,7 +83,7 @@ const RenderEngine = defineComponent({
      */
     const startRender = (item, children) => {
       // 开发环境添加拖拽功能
-      return whetherYouCanDrag ? <PageContainer pageJSON={item} children = {typeRender(item,children)}>
+      return whetherYouCanDrag ? <PageContainer pageJSON={item} children = { typeRender(item,children)} >
         </PageContainer> : typeRender(item, children)
     }
 

@@ -1,7 +1,6 @@
 import Form from "@renderer/packages/Form";
 import { ElInput } from "element-plus";
 
-
 export const typeRender = (item, children) => {
   let returnElement
   switch (item.type) {
