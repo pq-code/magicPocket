@@ -1,6 +1,6 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import RenderEngine from '@renderer/packages/RenderEngine/src/RenderEngine.jsx'
-
+import { buildUUID } from "@renderer/utils"
 const draggingDraggingMain = defineComponent({
   props: {
     modelValue: {
@@ -18,12 +18,13 @@ const draggingDraggingMain = defineComponent({
     event: 'update:modelValue',
   },
   setup(props, { emit }) {
-    const inputValue = ref(props.modelValue);
+    const rootJSON = ref(props.modelValue);
     onMounted(() => {
     });
+
     return () => (
       <div className='draggingDraggingMain'>
-        <RenderEngine></RenderEngine>
+        <RenderEngine key={ rootJSON.id || buildUUID() } {...rootJSON} ></RenderEngine>
       </div>
     );
   },

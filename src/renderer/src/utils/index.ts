@@ -2,20 +2,22 @@ const hexList: string[] = []
 for (let i = 0; i <= 15; i++) {
   hexList[i] = i.toString(16)
 }
+
 export function buildUUID(): string {
-  let uuid = ''
+  let uuid = '';
   for (let i = 1; i <= 36; i++) {
     if (i === 9 || i === 14 || i === 19 || i === 24) {
-      uuid += '-'
-    } else if (i === 15) {
-      uuid += 4
-    } else if (i === 20) {
-      uuid += hexList[(Math.random() * 4) | 8]
+      uuid += '-';
+    } else if (i === 15 || i === 20) {
+      // 使用随机数生成16进制字符，确保i=15也是随机的
+      uuid += hexList[Math.floor(Math.random() * 16)];
     } else {
-      uuid += hexList[(Math.random() * 16) | 0]
+      uuid += hexList[Math.floor(Math.random() * 16)];
     }
   }
-  return uuid.replace(/-/g, '')
+  // 如果不需要移除短横线，则无需此替换
+  // return uuid.replace(/-/g, '');
+  return uuid;
 }
 
 // 拷贝
