@@ -1,6 +1,13 @@
 import Form from "@renderer/packages/Form";
 import { ElInput } from "element-plus";
 
+/**
+ * 根据类型和子元素渲染不同类型的组件
+ *
+ * @param item 当前渲染组件的类型信息
+ * @param children 当前渲染组件的子元素
+ * @returns 渲染完成的组件元素
+ */
 export const typeRender = (item, children) => {
   let returnElement
   switch (item.type) {
