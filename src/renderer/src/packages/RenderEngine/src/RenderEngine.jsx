@@ -27,6 +27,11 @@ const RenderEngine = defineComponent({
     const whetherYouCanDrag = pageJSON.whetherYouCanDrag
     let componentList = ref([])
 
+    watch(() => componentList.value, (n, o) => {
+      console.log(n)
+      debugger
+    })
+
     const handleEnd = (e) => {
       console.log(e)
       debugger
@@ -40,18 +45,21 @@ const RenderEngine = defineComponent({
       let renderComponent = renderComponents(componentList.value)
       return (
         whetherYouCanDrag ?
-        <div className='root'>
-           <VueDraggable
+          <VueDraggable
             className='PageContainer'
             vModel={componentList.value}
             animation={150}
             group='people'
             sort='ture'
             onEnd={handleEnd}
-          >
-            { renderComponent }
+              >
+              <div className='root'>
+                { renderComponent }
+              </div>
           </VueDraggable>
-          </div> : <div className='root'></div>
+          : <div className='root'>
+            {renderComponent}
+          </div>
       )
     }
     /**
@@ -78,7 +86,7 @@ const RenderEngine = defineComponent({
      */
     const startRender = (item, children) => {
       // 开发环境添加拖拽功能
-      return whetherYouCanDrag? <PageContainer pageJSON={item} children = {typeRender(item,children)}>
+      return whetherYouCanDrag ? <PageContainer pageJSON={item} children = {typeRender(item,children)}>
         </PageContainer> : typeRender(item, children)
     }
 

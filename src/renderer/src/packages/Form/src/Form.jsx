@@ -12,6 +12,10 @@ const From = defineComponent({
       type: Object,
       default: () => {}
     },
+    children: {
+      type: Array,
+      default: () => []
+    },
   },
   model: {
     prop: 'modelValue',
@@ -22,49 +26,29 @@ const From = defineComponent({
     const handleChange = () => {
 
     }
-    const init = () => {
-
-    }
 
     const structure = (item) => {
       if (item.cols) {
-        
       }
     }
-
-    onMounted(() => {
-      init()
-      debugger
-    });
-    // rules={props.pageJSON.props.rules}
-    // labelWidth={props.pageJSON.props.labelWidth || '120px'}
-    // labelPosition={props.pageJSON.props.labelPosition || 'top'}
-    // className={props.pageJSON.props.className || 'form'}
     return () => (
-      <ElForm vModel={formData}
+      <ElForm vModel={props.modelValue}
         ref="formRef"
         {...props.pageJSON}
        >
+        <ElRow>
         {
-          structure(props.pageJSON)
+          props.children.map(e => {
+            return (
+              <ElCol span={8}>
+              <ElFormItem label='选项1'>
+                {e}
+              </ElFormItem>
+            </ElCol>
+            )
+          })
         }
-        {/* <ElRow>
-          <ElCol span={8}>
-            <ElFormItem label='选项1'>
-              <ElInput></ElInput>
-            </ElFormItem>
-          </ElCol>
-          <ElCol span={8}>
-          <ElFormItem label='选项2'>
-              <ElInput></ElInput>
-            </ElFormItem>
-          </ElCol>
-          <ElCol span={8}>
-            <ElFormItem label='选项3'>
-              <ElSelect></ElSelect>
-            </ElFormItem>
-          </ElCol>
-        </ElRow> */}
+        </ElRow>
       </ElForm>
     );
   },

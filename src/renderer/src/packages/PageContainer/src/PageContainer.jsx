@@ -23,7 +23,6 @@ const PageContainer = defineComponent({
   },
   setup(props, { emit }) {
     const componentList = computed(() => {
-      debugger
       return props.pageJSON;
     });
 
