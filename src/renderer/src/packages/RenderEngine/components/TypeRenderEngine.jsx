@@ -28,10 +28,15 @@ export const typeRender = (item, children) => {
   return returnElement;
 }
 
+const clickContainer = (e) => {
+  console.log(e)
+  debugger
+}
+
 const generateContainer = (item, children) => {
   return (
-    <div key={item.key} className={item.props.className} style={item.props.style}>
-      <PageContainer pageJSON={item} children={children}></PageContainer>
+    <div key={item.key} className={item.props.className} style={item.props.style} onClick={clickContainer(item)}>
+      <PageContainer pageJSON={item} children={children} onChoose={clickContainer}></PageContainer>
     </div>
   )
 }
