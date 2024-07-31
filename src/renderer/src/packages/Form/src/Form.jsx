@@ -39,9 +39,12 @@ const From = defineComponent({
         <ElRow>
         {
             props.children.map(e => {
+            let pageJSON = e.props
+            console.log(e)
+            debugger
             return (
-              <ElCol span={e.props.span || 8}>
-              <ElFormItem label={e.props.label}>
+              <ElCol span={pageJSON.span || 8}>
+              <ElFormItem label={pageJSON.label}>
                 {e}
               </ElFormItem>
             </ElCol>
