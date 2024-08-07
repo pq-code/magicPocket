@@ -24,17 +24,24 @@ let {
   if (historyOperatingObject.value.length >= 20) {
     // 使用 slice 替代 shift + push，减少数组操作
     historyOperatingObject.value = historyOperatingObject.value.slice(1);
-    currentOperatingObjectIndex.value -= 1
+    currentOperatingObjectIndex.value = historyOperatingObject.value.length -1
   }
   // 假设 deepClone 函数存在且能正确返回 pageJSON.value 的深拷贝
   const clonedPage = deepClone(pageJSON.value) as typeof pageJSON;
-  if (clonedPage !== undefined) {
+    if (clonedPage !== undefined) {
+      if (historyOperatingObject.value.length - 1 !== currentOperatingObjectIndex.value) {
+        // 如果当前处于中间步骤，则清空后续步骤，并重新添加
+        historyOperatingObject.value = historyOperatingObject.value.slice(0, currentOperatingObjectIndex.value + 1);
+        historyOperatingObject.value.push(clonedPage);
+        currentOperatingObjectIndex.value = historyOperatingObject.value.length -1
+        return
+      }
     // 判断当前值和上一次是否相同，相同就不保存了
     if (JSON.stringify(clonedPage) === JSON.stringify(historyOperatingObject.value[historyOperatingObject.value.length - 1])) {
       return
     }
-    currentOperatingObjectIndex.value += 1
     historyOperatingObject.value.push(clonedPage);
+    currentOperatingObjectIndex.value = historyOperatingObject.value.length -1
   }
 };
 
@@ -43,16 +50,14 @@ let {
  *
  * @returns 无返回值
  */
-const backHistoryOperatingObject = () => {
-  if (historyOperatingObject.value.length > 1) {
+  const backHistoryOperatingObject = () => {
+  if (historyOperatingObject.value.length > 1 && currentOperatingObjectIndex.value >= 0) {
     // 获取历史中的倒数第二个对象，并设置为当前页面状态
-    const previousPage = historyOperatingObject.value[historyOperatingObject.value.length - 2];
+    const previousPage = historyOperatingObject.value[currentOperatingObjectIndex.value - 1];
     if (previousPage) {
-      pageJSON = deepClone(previousPage); // 使用 deepClone 来避免直接修改原始数据
+      pageJSON.value = deepClone(previousPage); // 使用 deepClone 来避免直接修改原始数据
+      currentOperatingObjectIndex.value -= 1;
     }
-    // 移除当前历史记录中的最后一个元素（因为我们已经回退了）
-    historyOperatingObject.value.pop();
-    currentOperatingObjectIndex.value -= 1;
   }
 };
 /**
@@ -61,7 +66,7 @@ const backHistoryOperatingObject = () => {
  * @returns 无返回值
  */
   const upHistoryOperatingObject = () => {
-    if (historyOperatingObject.value.length > 1 && currentOperatingObjectIndex.value < historyOperatingObject.value.length - 1) {
+    if (historyOperatingObject.value.length > 1 && currentOperatingObjectIndex.value < historyOperatingObject.value.length ) {
       // 获取上一步状态
       currentOperatingObjectIndex.value += 1;
       const previousPage = historyOperatingObject.value[currentOperatingObjectIndex.value];
@@ -106,7 +111,7 @@ const clearHistoryOperatingObject = () => {
   // ctrl+a 全选
 
   const handleKeyDown = (event) => {
-    if (event.ctrlKey || event.metaKey) { // 适应Mac的Command键
+    if (event.ctrlKey || event.metaKey || event.shiftKey) { // 适应Mac的Command键
       switch (event.key) {
         case 'z':
           if (event.shiftKey) {
@@ -133,18 +138,19 @@ const clearHistoryOperatingObject = () => {
     }
   };
 
-  const initObject = ref(null)
+  const initObject = ref(false)
 
   const init = () => {
-    if (initObject.value === null) {
-      initObject.value = document.addEventListener('keydown', handleKeyDown);
+    if (!initObject.value) {
+      document.addEventListener('keydown', handleKeyDown);
+      initObject.value = true;
     } else {
       console.log('已经开启监听')
     }
   }
 
   onMounted(() => {
-    init()
+    // init()
   });
 
   onBeforeUnmount(() => {

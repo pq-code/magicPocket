@@ -1,9 +1,11 @@
-import { defineComponent, ref, watch, onMounted, computed } from 'vue';
+import { defineComponent, ref, watch, nextTick, computed } from 'vue';
 import '../style/index.less'
-import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { VueDraggable } from 'vue-draggable-plus'
 import { typeRender } from "../components/TypeRenderEngine"
+import { storeToRefs } from 'pinia'
+import canvasOperation from '@renderer/views/draggingDragging/hooks/canvasOperation.ts'
+
 const RenderEngine = defineComponent({
   props: {
     modelValue: {
@@ -23,34 +25,53 @@ const RenderEngine = defineComponent({
   },
 
   setup(props, { emit }) {
-    const { pageJSON, currentDragObject, currentEnvironment } = useDraggingDraggingStore()
-    const whetherYouCanDrag = pageJSON.whetherYouCanDrag
-    let componentList = ref(pageJSON.children)
+    const { addHistoryOperatingObject } = canvasOperation()
 
+    const store = useDraggingDraggingStore();
+    const { pageJSON } = storeToRefs(store);
+    const whetherYouCanDrag = computed(() => pageJSON.value.whetherYouCanDrag);
+    const componentList = ref(pageJSON.value?.children || [])
+
+    watch(
+      () => pageJSON.value,
+      ({ children = [] }) => {
+        componentList.value = children;
+      },
+      { deep: true }
+    );
+
+    watch (
+      () => componentList.value,
+      (newValue) => {
+        if (newValue !== pageJSON.value.children) {
+          pageJSON.value.children = newValue;
+        }
+      }
+    );
 
     const handleEnd = (e) => {
-      console.log(e)
+      // 添加历史操作对象
+      nextTick(() => {
+        addHistoryOperatingObject()
+      })
      }
     /**
      * 渲染根虚拟节点
      *
      * @returns 返回根虚拟节点
      */
-    const renderRootVnode = (h) => {
+    const renderRootVnode = () => {
       let renderComponent = renderComponents(componentList.value)
       return (
         whetherYouCanDrag ?
           <VueDraggable
-            style={{
-              width: '100%',
-              height: '100%'
-            }}
+            style={{ width: '100%', height: '100%' }}
             className='PageContainer'
             vModel={componentList.value}
             animation={150}
             group='people'
-            sort='ture'
-            onEnd={handleEnd}
+            sort='true'
+            onAdd={handleEnd}
               >
              { renderComponent }
           </VueDraggable>
@@ -65,6 +86,7 @@ const RenderEngine = defineComponent({
      * @returns 渲染结果
      */
     const renderComponents = (_page) => {
+      if(!_page) return null
       if (Array.isArray(_page)) {
         return _page.map(child => {
           const children = Array.isArray(child.children) ? renderComponents(child.children) : [];
@@ -83,12 +105,10 @@ const RenderEngine = defineComponent({
      */
     const startRender = (item, children) => {
       return typeRender(item, children)
-      // return whetherYouCanDrag ? <PageContainer pageJSON={item} children = { typeRender(item,children)} >
-      //   </PageContainer> : typeRender(item, children)
     }
 
     // 渲染结果缓存
-    const renderResult = computed(() =>renderRootVnode(componentList.value));
+    const renderResult = computed(() => renderRootVnode());
 
     return () => (
       // 容器

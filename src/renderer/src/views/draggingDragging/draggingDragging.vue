@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import draggingDraggingL from '@renderer/views/draggingDragging/components/draggingDraggingL.jsx'
 import draggingDraggingMain from '@renderer/views/draggingDragging/components/draggingDraggingMain.jsx'
 import draggingDraggingR from '@renderer/views/draggingDragging/components/draggingDraggingR.jsx'
+import draggingDraggingHead from '@renderer/views/draggingDragging/components/draggingDraggingHead.jsx'
 import  canvasOperation from './hooks/canvasOperation';
 
 import './style/draggingDraggingL.less'
@@ -16,7 +17,7 @@ onMounted(()=>{
 <template>
   <div class="draggingDragging">
     <div class="draggingDragging-head">
-      
+      <draggingDraggingHead></draggingDraggingHead>
     </div>
 
     <div class="draggingDragging-center">
