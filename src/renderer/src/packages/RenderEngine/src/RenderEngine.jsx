@@ -82,11 +82,6 @@ const RenderEngine = defineComponent({
      * @returns 渲染后的页面组件
      */
     const startRender = (item, children) => {
-      // 开发环境添加拖拽功能
-      // if (whetherYouCanDrag && item.type !== "container") {
-      //   return <PageContainer pageJSON={item} children = { typeRender(item,children) } >
-      //   </PageContainer>
-      // }
       return typeRender(item, children)
       // return whetherYouCanDrag ? <PageContainer pageJSON={item} children = { typeRender(item,children)} >
       //   </PageContainer> : typeRender(item, children)

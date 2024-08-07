@@ -2,7 +2,7 @@ import { defineComponent, ref, watch, onMounted } from 'vue';
 import componentContainer from './componentContainer'
 import { Search } from '@element-plus/icons-vue'
 import { componentList } from "@renderer/components/materialArea/materialArea"
-import {buildUUID } from "@renderer/utils"
+import { buildUUID } from "@renderer/utils"
 import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElCollapse,ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
 
 const draggingDraggingL = defineComponent({

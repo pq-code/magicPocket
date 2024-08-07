@@ -30,7 +30,6 @@ export const typeRender = (item, children) => {
 
 const clickContainer = (e) => {
   console.log(e)
-  debugger
 }
 
 const generateContainer = (item, children) => {

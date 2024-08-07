@@ -106,13 +106,13 @@ const draggingDraggingL = defineComponent({
           mode="horizontal"
           onSelect={handleSelect}
         >
-          <ElMenuItem index='1'>
+          <ElMenuItem index='1' style={{width: '33.3%'}}>
             组件
           </ElMenuItem>
-          <ElMenuItem index='2'>
+          <ElMenuItem index='2' style={{width: '33.3%'}}>
             样式
           </ElMenuItem>
-          <ElMenuItem index='3'>
+          <ElMenuItem index='3' style={{width: '33.3%'}}>
             高级
           </ElMenuItem>
         </ElMenu>

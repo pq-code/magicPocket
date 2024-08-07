@@ -1,7 +1,9 @@
-import { ref } from 'vue'
+import { ref,onMounted,onBeforeUnmount } from 'vue'
 import { defineStore } from 'pinia'
+import { deepClone } from '@renderer/utils/index'
 
 export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () => {
+
   // 页面JSON
   const pageJSON = ref({
     type: 'page',
@@ -135,6 +137,20 @@ export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () 
 
   const currentEnvironment = ref(true) // 当前环境
 
-  return { pageJSON, currentDragObject, currentEnvironment }
+  const currentOperatingObject = ref()  // 当前操作对象
+  const oldCurrentOperatingObject = ref() // 上一个操作对象
+
+  const historyOperatingObject = ref([]) // 历史操作列表 最多纪录20步
+  const currentOperatingObjectIndex = ref(0) // 当前处于第几步
+
+  return {
+    pageJSON,
+    currentDragObject,
+    currentEnvironment,
+    currentOperatingObject,
+    oldCurrentOperatingObject,
+    historyOperatingObject,
+    currentOperatingObjectIndex,
+  }
 
 })

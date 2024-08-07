@@ -1,18 +1,22 @@
 <script setup lang='ts'>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import draggingDraggingL from '@renderer/views/draggingDragging/components/draggingDraggingL.jsx'
 import draggingDraggingMain from '@renderer/views/draggingDragging/components/draggingDraggingMain.jsx'
 import draggingDraggingR from '@renderer/views/draggingDragging/components/draggingDraggingR.jsx'
+import  canvasOperation from './hooks/canvasOperation';
 
 import './style/draggingDraggingL.less'
 
 const lengthWidth = ref(true);
-
+const { init } = canvasOperation();
+onMounted(()=>{
+  init()
+})
 </script>
 <template>
   <div class="draggingDragging">
     <div class="draggingDragging-head">
-
+      
     </div>
 
     <div class="draggingDragging-center">
