@@ -28,12 +28,12 @@ const draggingDraggingHead = defineComponent({
           <div className='dragging-dragging-head-center-button'>
           <ElTooltip effect="dark" placement="top-start" content="撤销">
             <ElButton text='primary'>
-              <i className='iconfont icon-houtui' onClick={upHistoryOperatingObject}></i>
+              <i className='iconfont icon-houtui' onClick={backHistoryOperatingObject}></i>
             </ElButton>
           </ElTooltip>
           <ElTooltip effect="dark" placement="top-start" content="恢复">
             <ElButton text='primary'>
-            <i className='iconfont icon-jiantouqianjin' onClick={backHistoryOperatingObject}></i>
+            <i className='iconfont icon-jiantouqianjin' onClick={upHistoryOperatingObject}></i>
             </ElButton>
           </ElTooltip>
           <ElButton onClick={clearHistoryOperatingObject}>重做</ElButton>

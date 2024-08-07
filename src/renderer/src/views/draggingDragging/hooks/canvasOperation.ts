@@ -33,7 +33,7 @@ let {
         // 如果当前处于中间步骤，则清空后续步骤，并重新添加
         historyOperatingObject.value = historyOperatingObject.value.slice(0, currentOperatingObjectIndex.value + 1);
         historyOperatingObject.value.push(clonedPage);
-        currentOperatingObjectIndex.value = historyOperatingObject.value.length -1
+        currentOperatingObjectIndex.value = historyOperatingObject.value.length - 1
         return
       }
     // 判断当前值和上一次是否相同，相同就不保存了
@@ -41,7 +41,7 @@ let {
       return
     }
     historyOperatingObject.value.push(clonedPage);
-    currentOperatingObjectIndex.value = historyOperatingObject.value.length -1
+    currentOperatingObjectIndex.value = historyOperatingObject.value.length - 1
   }
 };
 
