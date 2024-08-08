@@ -2,7 +2,7 @@ import { ElButton,ElPageHeader,ElBreadcrumbItem,ElAvatar,ElTag ,ElDrawer} from '
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import canvasOperation from '../hooks/canvasOperation';
 import CreateCode from '@renderer/packages/CreateCode';
-
+import router from '@renderer/router/index'
 const draggingDraggingHead = defineComponent({
   props: {
   },
@@ -19,7 +19,7 @@ const draggingDraggingHead = defineComponent({
     } = canvasOperation()
 
     const onBack = () => {
-
+      router.push({name:'dashboard'})
     }
 
     const foundCode = () =>{

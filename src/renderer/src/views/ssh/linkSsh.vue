@@ -98,12 +98,12 @@ const working = () => {
   .ssh-centre-main {
     flex: 1;
     padding: 10px;
-    background: #8d8d8d;
+    background: #e4e4e4;
     display: flex;
     .main {
       width: 100%;
       height: 100%;
-      background: #505050;
+      background: #f7f7f7;
       overflow: auto;
     }
   }

@@ -11,19 +11,19 @@ const router = {
       name: 'home',
       redirect: "/draggingDragging",
     },
-    // {
-    //   path: "/dashboard",
-    //   name: "dashboard",
-    //   redirect: "/dashboard/ssh",
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
-    //   children: [
-    //     ...systemSettings,
-    //     ...ssh,
-    //     ...draggingDragging
-    //   ],
-    //   meta: { hidden: false, title: "首页" },
-    // },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      redirect: "/dashboard/ssh",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
+      children: [
+        ...systemSettings,
+        ...ssh,
+        ...draggingDragging
+      ],
+      meta: { hidden: false, title: "首页" },
+    },
     {
       path: '/login',
       name: 'login',

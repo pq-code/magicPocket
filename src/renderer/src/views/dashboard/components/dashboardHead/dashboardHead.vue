@@ -5,12 +5,17 @@
 
 <style scoped lang="less">
 .dashboardHead-center {
-  height: 68px;
-  line-height: 68px;
-  background-color: rgb(148, 148, 148);
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.1rem;
+
+  background-color: #fdfdfd;
+  box-shadow: 0px 2px 4px 0px rgba(208, 208, 208, 0.5);
+  z-index: 100 !important;
+
+  padding: 0 10px;
   display: flex;
-  color: #ffffff;
-  font-size: 1.6rem;
-  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

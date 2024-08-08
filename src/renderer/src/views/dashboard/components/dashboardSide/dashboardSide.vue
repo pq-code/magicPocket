@@ -7,6 +7,6 @@
 .dashboardSide-center {
   height: 100%;
   width: 100%;
-  background-color: rgb(65, 65, 65);
+  background-color: #f6f6f6
 }
 </style>

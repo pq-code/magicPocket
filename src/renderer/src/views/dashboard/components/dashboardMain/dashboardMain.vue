@@ -34,7 +34,7 @@ window.addEventListener('resize', onWindowResize)
 .dashboard-main-center-right {
   height: 100%;
   width: 100%;
-  background-color: #1c1c1c;
+  background: #ebebeb;
   display: flex;
   flex-direction: column;
 

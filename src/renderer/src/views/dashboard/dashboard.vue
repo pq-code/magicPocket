@@ -23,12 +23,12 @@ import dashboardMain from '@renderer/views/dashboard/components/dashboardMain/da
   display: flex;
   flex-direction: column;
   .dashboard-title {
-    height: 68px;
+    height: 50px;
   }
   .dashboard-main {
     flex: 1;
     width: 100vw;
-    background-color: rgb(48, 48, 48);
+    background: #ebebeb;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
