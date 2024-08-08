@@ -3,6 +3,12 @@ import systemSettings from './branch/systemSettings'
 import ssh from './branch/ssh'
 
 import draggingDragging from './branch/draggingDragging'
+
+export const routerMap = [
+  ...systemSettings,
+  ...ssh,
+  ...draggingDragging
+]
 const router = {
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -14,14 +20,10 @@ const router = {
     {
       path: "/dashboard",
       name: "dashboard",
-      redirect: "/dashboard/ssh",
+      // redirect: "/draggingDragging",
       component: () =>
         import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
-      children: [
-        ...systemSettings,
-        ...ssh,
-        ...draggingDragging
-      ],
+      children: routerMap,
       meta: { hidden: false, title: "首页" },
     },
     {

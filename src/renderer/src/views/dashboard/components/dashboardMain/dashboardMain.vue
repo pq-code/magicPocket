@@ -10,11 +10,12 @@ let onWindowResize = () => {
   return (lengthWidth.value = window.innerWidth >= 1000)
 }
 window.addEventListener('resize', onWindowResize)
+
 </script>
 
 <template>
-  <div class="dashboard-main-center-left" :style="{ maxWidth: defaultSwitch ?'80px' :  lengthWidth ? '220px' : '80px' }">
-    <dashboardSide></dashboardSide>
+  <div class="dashboard-main-center-left" :style="{ maxWidth: lengthWidth ? '220px' : '65px' }">
+    <dashboardSide v-model="lengthWidth"></dashboardSide>
   </div>
 
   <!-- 子系统容器 -->
