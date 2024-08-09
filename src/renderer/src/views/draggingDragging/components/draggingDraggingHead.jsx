@@ -1,6 +1,6 @@
 import { ElButton,ElPageHeader,ElBreadcrumbItem,ElAvatar,ElTag ,ElDrawer} from 'element-plus';
 import { defineComponent, ref, watch, onMounted } from 'vue';
-import canvasOperation from '../hooks/canvasOperation';
+import useCanvasOperation from '../hooks/useCanvasOperation';
 import CreateCode from '@renderer/packages/CreateCode';
 import router from '@renderer/router/index'
 const draggingDraggingHead = defineComponent({
@@ -16,7 +16,7 @@ const draggingDraggingHead = defineComponent({
       upHistoryOperatingObject,
       clearHistoryOperatingObject,
       backHistoryOperatingObject
-    } = canvasOperation()
+    } = useCanvasOperation()
 
     const onBack = () => {
       router.push({name:'dashboard'})
@@ -46,7 +46,12 @@ const draggingDraggingHead = defineComponent({
                     fontSize: '13px',
                     fontWeight: 600,
                     color: '#333',
-                    padding: '0 5px'
+                    padding: '0 5px',
+                    color: 'rgb(51, 51, 51)',
+                    padding: '0px 5px',
+                    background: '-webkit-linear-gradient(315deg, #42d392 25%, #647eff)',
+                    '-webkit-background-clip': 'text',
+                    '-webkit-text-fill-color': 'transparent',
                   }
                 }> 低代码平台 </span>
                 <div class="flex items-center">

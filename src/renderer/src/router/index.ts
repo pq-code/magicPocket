@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import systemSettings from './branch/systemSettings'
 import ssh from './branch/ssh'
-
+import spaceDisplay from './branch/spaceDisplay'
 import draggingDragging from './branch/draggingDragging'
 
 export const routerMap = [
   ...systemSettings,
   ...ssh,
-  ...draggingDragging
+  ...draggingDragging,
+  ...spaceDisplay
 ]
 const router = {
   history: createWebHistory(import.meta.env.BASE_URL),

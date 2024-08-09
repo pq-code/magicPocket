@@ -5,7 +5,7 @@ import { deepClone } from '@renderer/utils/index'
 import { ElMessage } from "element-plus";
 import { storeToRefs } from 'pinia'
 
-export default function canvasOperation() {
+export default function useCanvasOperation() {
 
 let {
   pageJSON, // 页面所有数据

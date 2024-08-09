@@ -4,7 +4,7 @@ import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useD
 import { VueDraggable } from 'vue-draggable-plus'
 import { typeRender } from "../components/TypeRenderEngine"
 import { storeToRefs } from 'pinia'
-import canvasOperation from '@renderer/views/draggingDragging/hooks/canvasOperation.ts'
+import useCanvasOperation from '@renderer/views/draggingDragging/hooks/useCanvasOperation.ts'
 
 const RenderEngine = defineComponent({
   props: {
@@ -25,7 +25,7 @@ const RenderEngine = defineComponent({
   },
 
   setup(props, { emit }) {
-    const { addHistoryOperatingObject } = canvasOperation()
+    const { addHistoryOperatingObject } = useCanvasOperation()
 
     const store = useDraggingDraggingStore();
     const { pageJSON } = storeToRefs(store);
@@ -70,8 +70,8 @@ const RenderEngine = defineComponent({
             vModel={componentList.value}
             animation={150}
             group='people'
-            sort='true'
-            onAdd={handleEnd}
+            sort={true}
+            onSort={handleEnd}
               >
              { renderComponent }
           </VueDraggable>

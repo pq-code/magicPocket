@@ -4,12 +4,12 @@ import draggingDraggingL from '@renderer/views/draggingDragging/components/dragg
 import draggingDraggingMain from '@renderer/views/draggingDragging/components/draggingDraggingMain.jsx'
 import draggingDraggingR from '@renderer/views/draggingDragging/components/draggingDraggingR.jsx'
 import draggingDraggingHead from '@renderer/views/draggingDragging/components/draggingDraggingHead.jsx'
-import  canvasOperation from './hooks/canvasOperation';
+import  useCanvasOperation from './hooks/useCanvasOperation';
 
 import './style/draggingDraggingL.less'
 
 const lengthWidth = ref(true);
-const { init } = canvasOperation();
+const { init } = useCanvasOperation();
 onMounted(()=>{
   init()
 })
