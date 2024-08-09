@@ -3,6 +3,9 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper";
 import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib";
+// 引入gltf模型加载库GLTFLoader.js
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import Reflector from 'reflectorjs';
 
 const RenderEngine = defineComponent({
   props: {
@@ -24,10 +27,11 @@ const RenderEngine = defineComponent({
     setup(props, { emit }) {
         // 创建场景对象Scene
         let scene = new THREE.Scene();
-        let renderer
+        let renderer // 渲染器
         let camera // 摄像机
         let controls // 控制器
         let rectLight // 灯光
+        let threeOnWindowResize // 窗口大小
 
         // 窗口数据
         let width = window.innerWidth; //窗口宽度
@@ -49,6 +53,8 @@ const RenderEngine = defineComponent({
                 premultipliedAlpha: true, // true/false 表示是否可以设置像素深度（用来度量图像的分辨率）
                 preserveDrawingBuffer: true, // true/false 表示是否保存绘图缓冲
                 maxLights: 4, // 最大灯光数
+                receiveShadow: true, // 物体阴影
+                castShadow: true, // 灯光阴影
                 stencil: false, // false/true 表示是否使用模板字体或图案
             });
 
@@ -61,38 +67,41 @@ const RenderEngine = defineComponent({
             // 设置渲染器输出画布canvas
             renderer.setSize(width, height);//设置渲染区域尺寸
             renderer.setPixelRatio(window.devicePixelRatio);// 根据设备的像素比设置渲染的清晰度
-            renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
+            // renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
             renderer.setAnimationLoop(animation); // 设置动画
 
              // 初始化透视相机
             camera = new THREE.PerspectiveCamera(s, width / height, 0.1, 1000)
-            camera.position.set(40, 130, - 50); //设置相机位置
+            camera.position.set(200, 200, 200); //设置相机位置
             camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
 
             controls = new OrbitControls(camera, renderer.domElement);//创建控件对象
             // 启用惯性
             controls.enableDamping = true;
             // 相机向外移动极限
-            controls.maxDistance = 110; // 缩放
-            controls.minDistance = 50;
+            // controls.maxDistance = 110; // 缩放
+            // controls.minDistance = 50;
 
-            controls.minAzimuthAngle = -90; // radians 旋转
-            controls.maxAzimuthAngle = 30; // radians
+            // controls.minAzimuthAngle = -90; // radians 旋转
+            // controls.maxAzimuthAngle = 30; // radians
 
             controls.minPolarAngle = - 0; // radians
             controls.maxPolarAngle = Math.PI; // radians
 
-            // 创建灯光
-            rectLight = new THREE.RectAreaLight(0xffffff, 4, 200, 60);
-            rectLight.position.set(16, 30, 0);
+            // 创建矩形灯光
+            rectLight = new THREE.RectAreaLight(0xffffff, 4, 300, 200);
+            rectLight.position.set(0, 130, 0);
+            rectLight.rotation.x = -Math.PI / 2;
+            rectLight.castShadow = true; // 启用阴影投射
+
             scene.add(rectLight);
 
+            // 灯光辅助线
             scene.add(new RectAreaLightHelper(rectLight));
-
             RectAreaLightUniformsLib.init();
 
             // 设置画面动态缩放
-            let onWindowResize = function () {
+            threeOnWindowResize = function () {
                 getWH()
                 // 重置渲染器输出画布canvas尺寸
                 renderer.setSize(width, height);
@@ -101,18 +110,39 @@ const RenderEngine = defineComponent({
                 camera.updateProjectionMatrix();
             };
 
-            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('resize', threeOnWindowResize);
         }
         // 渲染
         init()
+       
 
         // 地面
         const geoFloor = new THREE.BoxGeometry(2000, 0.1, 2000);
         // 材质
-        const matStdFloor = new THREE.MeshPhysicalMaterial({ color: 0x808080, roughness: 0, metalness: 0.1, clearcoat: 0 });
+        const matStdFloor = new THREE.MeshPhysicalMaterial(
+            {
+                color: 0x808080,
+                roughness: 0.1, // 减小粗糙度以获得更平滑的表面
+                metalness: 0.5, // 增加金属感以获得更好的反射
+                clearcoat: 0.5, // 清漆层也可以增强反射效果
+                clearcoatRoughness: 0.05 // 清漆层的粗糙度
+            });
         // 创建网格对象
         const mshStdFloor = new THREE.Mesh(geoFloor, matStdFloor);
         scene.add(mshStdFloor);
+        // 设置接收阴影的投影面
+        mshStdFloor.receiveShadow = true;
+
+
+       // 创建GLTF加载器对象
+        const loader = new GLTFLoader();
+        loader.load( '/staticWarehouse/3dModel/su7/scene.gltf', function ( gltf ) {
+            console.log('控制台查看加载gltf文件返回的对象结构',gltf);
+            console.log('gltf对象场景属性', gltf.scene);
+            gltf.scene.scale.set(40, 40, 40); // 设置模型在x、‌y、‌z轴上的缩放比例为20
+            // 返回的场景对象gltf.scene插入到threejs场景中
+            scene.add(gltf.scene);
+        })
 
         // 渲染结果缓存
         const renderResult = computed(() => {
@@ -129,7 +159,7 @@ const RenderEngine = defineComponent({
         onUnmounted(() => {
             // 清理资源
             renderer.dispose();
-            window.removeEventListener('resize', onWindowResize);
+            window.removeEventListener('resize', threeOnWindowResize);
         })
 
         return () => (

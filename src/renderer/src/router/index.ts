@@ -21,7 +21,7 @@ const router = {
     {
       path: "/dashboard",
       name: "dashboard",
-      // redirect: "/draggingDragging",
+      redirect: "/spaceDisplay",
       component: () =>
         import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
       children: routerMap,
