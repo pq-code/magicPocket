@@ -1,6 +1,7 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
+import DlockContainerOperatorPanel from '@renderer/packages/DlockContainer/src/DlockContainerOperatorPanel.jsx'
 
-import { ElMenu, ElMenuItem, ElCollapse, ElCollapseItem, ElInput, ElSwitch, ElButton } from 'element-plus';
+import { ElInput, ElSwitch } from 'element-plus';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { storeToRefs } from 'pinia'
 
@@ -25,8 +26,6 @@ const draggingDraggingL = defineComponent({
       return currentOperatingObject.value
     });
 
-    const activeIndex = ref('1')
-    const activeNames = ref('1')
     const init = () => {
 
     }
@@ -34,48 +33,25 @@ const draggingDraggingL = defineComponent({
       init()
     });
 
-    const handleSelect = () => {
-
-    }
-    const handleChange = () => {
-    }
-    
-    const componentItemList = ref([{
-      label: '整体配置',
-      children: [
-        {
-          label: '按钮的位置',
-          type:'input'
-        },{
-          label: '只读状态',
-          type: 'switch',
-          value: 0
-        },
-        {
-          label: '表单项',
-          type:'input'
-        }
-      ]
-    },{
-      label: '表单项',
-      children: [
-        {
-          label: '表单项',
-          type:'formItem'
-        },{
-          label: '表单项',
-          type:'formItem'
-        },
-        {
-          label: '表单项',
-          type:'formItem'
-        }
-      ]
-    }])
-    const componentList = ref([])
-
     const RenderEngine = (item) => {
-      switch(item.type) {
+      console.log(item)
+      if (!item) return (
+        <div style={
+          {'text-align': 'center',
+            'line-height': '500px',
+            'font-size': '13px',
+            'font-weight': 600,
+            color: 'rgb(51, 51, 51)',
+            padding: '0px 5px',
+            background: '-webkit-linear-gradient(315deg, rgb(66, 211, 146) 25%, rgb(100, 126, 255)) text',
+            '-webkit-text-fill-color': 'transparent'}
+        }> 点击中间画布区域选中要操作的对象 </div>
+      )
+      switch (item.type) {
+        case 'container':
+          return (
+            <DlockContainerOperatorPanel item={item}></DlockContainerOperatorPanel>
+          )
         case 'formItem':
           return (
             <div className='form-item'>
@@ -111,36 +87,37 @@ const draggingDraggingL = defineComponent({
       }
     }
     return () => (
-      <div className='draggingDraggingR'>
-        <ElMenu
-          default-active={activeIndex}
-          mode="horizontal"
-          onSelect={handleSelect}
-        >
-          <ElMenuItem index='1' style={{width: '33.3%'}}>
-            组件
-          </ElMenuItem>
-          <ElMenuItem index='2' style={{width: '33.3%'}}>
-            样式
-          </ElMenuItem>
-          <ElMenuItem index='3' style={{width: '33.3%'}}>
-            高级
-          </ElMenuItem>
-        </ElMenu>
-        <div className='draggingDraggingR-content'>
-          <div className='draggingDraggingR-content-list'>
-            <ElCollapse vModel={activeNames} onChange={handleChange}>
-              {
-                (componentItemList.value.map((item, index) => {
-                  return <ElCollapseItem title={item.label} name={index}>
-                         { item.children?.map(e => RenderEngine(e)) }
-                        </ElCollapseItem>
-                }))
-              }
-            </ElCollapse>
-          </div>
-        </div>
-      </div>
+      RenderEngine(currentObject.value)
+      // <div className='draggingDraggingR'>
+      //   <ElMenu
+      //     default-active={activeIndex}
+      //     mode="horizontal"
+      //     onSelect={handleSelect}
+      //   >
+      //     <ElMenuItem index='1' style={{width: '33.3%'}}>
+      //       组件
+      //     </ElMenuItem>
+      //     <ElMenuItem index='2' style={{width: '33.3%'}}>
+      //       样式
+      //     </ElMenuItem>
+      //     <ElMenuItem index='3' style={{width: '33.3%'}}>
+      //       高级
+      //     </ElMenuItem>
+      //   </ElMenu>
+      //   <div className='draggingDraggingR-content'>
+      //     <div className='draggingDraggingR-content-list'>
+      //       <ElCollapse vModel={activeNames} onChange={handleChange}>
+      //         {
+      //           (componentItemList.value.map((item, index) => {
+      //             return <ElCollapseItem title={item.label} name={index}>
+      //                    { item.children?.map(e => RenderEngine(e)) }
+      //                   </ElCollapseItem>
+      //           }))
+      //         }
+      //       </ElCollapse>
+      //     </div>
+      //   </div>
+      // </div>
     );
   },
 });

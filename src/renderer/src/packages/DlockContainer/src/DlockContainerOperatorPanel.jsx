@@ -1,14 +1,17 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
+import './style/index.less'
 
-import { ElMenu, ElMenuItem, ElCollapse, ElCollapseItem, ElInput, ElSwitch, ElButton } from 'element-plus';
-import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
-import { storeToRefs } from 'pinia'
+import { ElMenu, ElMenuItem, ElCollapse, ElCollapseItem, ElInput, ElSwitch, ElButton, ElSegmented } from 'element-plus';
 
 const DlockContainerOperatorPanel = defineComponent({
   props: {
     modelValue: {
       type: Object,
       default: () => {}
+    },
+    item: {
+      type: Object,
+      default: () => { }
     }
   },
   model: {
@@ -16,21 +19,28 @@ const DlockContainerOperatorPanel = defineComponent({
     event: 'update:modelValue',
   },
   setup(props, { emit }) {
-    const store = useDraggingDraggingStore();
-    const { currentOperatingObject } = storeToRefs(store);
-
     // 当前操作对象
-    const currentObject = computed(() => {
-      return currentOperatingObject.value
-    });
+    // const currentObject = computed(() => {
+    //   debugger
+    //   return props.item
+    // });
 
-    watch(() => currentOperatingObject.value, (n, o) => {
-      console.log(n)
+    watch(()=>props.item, (newValue, oldValue) => {
+      console.log(newValue, oldValue)
     })
-
 
     const activeIndex = ref('1')
     const activeNames = ref('1')
+
+    const handleChange = () => {
+
+    }
+    const handleSelect = () => {
+
+    }
+
+    const RenderEngine = () => {
+    }
     const init = () => {
 
     }
@@ -38,85 +48,10 @@ const DlockContainerOperatorPanel = defineComponent({
       init()
     });
 
-    const handleSelect = () => {
-
-    }
-    const handleChange = () => {
-    }
-    const componentItemList = ref([{
-      label: '整体配置',
-      children: [
-        {
-          label: '按钮的位置',
-          type:'input'
-        },{
-          label: '只读状态',
-          type: 'switch',
-          value: 0
-        },
-        {
-          label: '表单项',
-          type:'input'
-        }
-      ]
-    },{
-      label: '表单项',
-      children: [
-        {
-          label: '表单项',
-          type:'formItem'
-        },{
-          label: '表单项',
-          type:'formItem'
-        },
-        {
-          label: '表单项',
-          type:'formItem'
-        }
-      ]
-    }])
-    const componentList = ref([])
-
-    const RenderEngine = (item) => {
-      switch(item.type) {
-        case 'formItem':
-          return (
-            <div className='form-item'>
-              <div className='form-item-label'>
-                <div>label</div>
-                <ElInput size="small" {...item} modelValue={item.label}> </ElInput>
-              </div>
-              <div className='form-item-modeVlaue'>
-                <div>value</div>
-                <ElInput size="small" {...item} > </ElInput>
-              </div>
-            </div>
-          )
-        case 'switch':
-          return (
-            <div className='RadioLabel'>
-              <div className='RadioLabel-titel'> {item.label}</div>
-              <ElSwitch
-                modelValue={item.value}
-                size="small"
-                active-text="编辑"
-                inactive-text="只读"
-              />
-            </div>
-          )
-        default:
-          return (
-            <div className='form-item'>
-              <div>{item.label}</div>
-              <ElInput size="small" {...item} > </ElInput>
-            </div>
-          )
-      }
-    }
     return () => (
       <div className='draggingDraggingR'>
         <ElMenu
-          default-active={activeIndex}
+          default-active={activeIndex.value}
           mode="horizontal"
           onSelect={handleSelect}
         >
@@ -132,15 +67,46 @@ const DlockContainerOperatorPanel = defineComponent({
         </ElMenu>
         <div className='draggingDraggingR-content'>
           <div className='draggingDraggingR-content-list'>
-            <ElCollapse vModel={activeNames} onChange={handleChange}>
-              {
-                (componentItemList.value.map((item, index) => {
-                  return <ElCollapseItem title={item.label} name={index}>
-                         { item.children?.map(e => RenderEngine(e)) }
-                        </ElCollapseItem>
-                }))
-              }
-            </ElCollapse>
+            {
+              activeIndex.value == '1' ?
+            (<ElCollapse vModel={activeNames.value} onChange={handleChange}>
+              <ElCollapseItem title='布局'>
+                <div className='layout'>
+                  <div style={{ display: 'flex', alignItems: 'center' ,'justify-content': 'space-between'}}>
+                    <span style={{'min-width': '100px'}}>水平</span>
+                    <ElSegmented vModel={props.item.props.levelLayout} size="small" options={['左', '中', '右', '两端']}/>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' ,'justify-content': 'space-between','margin-top': '10px'}}>
+                    <span style={{'min-width': '100px'}}>垂直</span>
+                    <ElSegmented vModel={props.item.props.verticalLayout} size="small" options={['左', '中', '右', '两端']}/>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' ,'justify-content': 'space-between','margin-top': '10px'}}>
+                    <span style={{'min-width': '100px'}}>间距</span>
+                    <ElInput vModel={props.item.props.spacing} size="small"/>
+                  </div>
+                </div>
+              </ElCollapseItem>
+
+              <ElCollapseItem title='宽高'>
+                <div className='layout'>
+                  <div style={{ display: 'flex', alignItems: 'center' ,'justify-content': 'space-between'}}>
+                    <span style={{'min-width': '100px'}}>宽度</span>
+                    <ElInput width="100%" vModel={props.item.props.spacing} size="small"/>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' ,'justify-content': 'space-between','margin-top': '10px'}}>
+                    <span style={{'min-width': '100px'}}>高度</span>
+                    <div style={{ display: 'flex' }}>
+                      <ElInput style={{'min-width': '100px'}} vModel={props.item.props.spacing} size="small"/>
+                      <ElSegmented style={{'margin-left': '10px'}} vModel={props.item.props.verticalLayout} size="small" options={['自适应']}/>
+                    </div>
+                  </div>
+                </div>
+              </ElCollapseItem>
+                </ElCollapse>) :
+                (
+                  <div></div>
+                )
+            }
           </div>
         </div>
       </div>
