@@ -39,7 +39,7 @@ const PageContainer = defineComponent({
         vModel={componentList.value}
         animation={150}
         group='people'
-        sort='ture'
+        sort={true}
         onEnd={handleEnd}
       >
         {props.children}

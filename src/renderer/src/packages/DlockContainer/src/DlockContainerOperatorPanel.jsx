@@ -4,13 +4,12 @@ import { ElMenu, ElMenuItem, ElCollapse, ElCollapseItem, ElInput, ElSwitch, ElBu
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { storeToRefs } from 'pinia'
 
-const draggingDraggingL = defineComponent({
+const DlockContainerOperatorPanel = defineComponent({
   props: {
     modelValue: {
       type: Object,
       default: () => {}
-    },
-    // fileListMap: Object
+    }
   },
   model: {
     prop: 'modelValue',
@@ -24,6 +23,11 @@ const draggingDraggingL = defineComponent({
     const currentObject = computed(() => {
       return currentOperatingObject.value
     });
+
+    watch(() => currentOperatingObject.value, (n, o) => {
+      console.log(n)
+    })
+
 
     const activeIndex = ref('1')
     const activeNames = ref('1')
@@ -39,7 +43,6 @@ const draggingDraggingL = defineComponent({
     }
     const handleChange = () => {
     }
-    
     const componentItemList = ref([{
       label: '整体配置',
       children: [
@@ -145,4 +148,4 @@ const draggingDraggingL = defineComponent({
   },
 });
 
-export default draggingDraggingL;
+export default DlockContainerOperatorPanel;

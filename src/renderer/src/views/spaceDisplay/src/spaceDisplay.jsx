@@ -5,7 +5,6 @@ import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHel
 import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib";
 // 引入gltf模型加载库GLTFLoader.js
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import Reflector from 'reflectorjs';
 
 const RenderEngine = defineComponent({
   props: {
@@ -114,7 +113,6 @@ const RenderEngine = defineComponent({
         }
         // 渲染
         init()
-       
 
         // 地面
         const geoFloor = new THREE.BoxGeometry(2000, 0.1, 2000);
@@ -125,7 +123,8 @@ const RenderEngine = defineComponent({
                 roughness: 0.1, // 减小粗糙度以获得更平滑的表面
                 metalness: 0.5, // 增加金属感以获得更好的反射
                 clearcoat: 0.5, // 清漆层也可以增强反射效果
-                clearcoatRoughness: 0.05 // 清漆层的粗糙度
+                clearcoatRoughness: 0.05, // 清漆层的粗糙度
+                castShadow: true
             });
         // 创建网格对象
         const mshStdFloor = new THREE.Mesh(geoFloor, matStdFloor);
