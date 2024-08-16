@@ -26,14 +26,14 @@ const CreateCode = defineComponent({
     }
     const clickCopy = () => {
       navigator.clipboard.writeText(code.value)
-        .then(() => {
-        // 复制成功的逻辑
-          ElMessage({ message: '复制成功', type: 'success' })
-        })
-        .catch((error) => {
-        // 复制失败的逻辑
-        console.error('复制失败：', error);
-    });
+          .then(() => {
+          // 复制成功的逻辑
+            ElMessage({ message: '复制成功', type: 'success' })
+          })
+          .catch((error) => {
+          // 复制失败的逻辑
+          console.error('复制失败：', error);
+      });
     }
     const code = ref(
       `

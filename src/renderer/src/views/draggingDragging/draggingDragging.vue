@@ -44,7 +44,7 @@ onMounted(()=>{
   }
   .draggingDragging-center {
     display: flex;
-    height: 100%;
+    height: calc(100% - 50px);
     width: 100%;
     .draggingDragging-l {
       width: 300px;
@@ -57,7 +57,7 @@ onMounted(()=>{
       background: #ebebeb;
     }
     .draggingDragging-r {
-      width: 300px;
+      width: 270px;
       height: 100%;
       background: #ffff;
     }
