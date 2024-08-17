@@ -61,6 +61,7 @@ const RenderEngine = defineComponent({
      * @returns 返回根虚拟节点
      */
     const renderRootVnode = () => {
+      debugger
       let renderComponent = renderComponents(componentList.value)
       return (
         whetherYouCanDrag ?
@@ -106,6 +107,10 @@ const RenderEngine = defineComponent({
     const startRender = (item, children) => {
       return typeRender(item, children)
     }
+
+    watch(()=>props.modelValue,()=>{
+      addHistoryOperatingObject()
+    })
 
     // 渲染结果缓存
     const renderResult = computed(() => renderRootVnode());

@@ -10,12 +10,16 @@ import './style/draggingDraggingL.less'
 
 const lengthWidth = ref(true);
 const { init } = useCanvasOperation();
+
+const mousedown = (e) => {
+  console.log('鼠标右键',e)
+}
 onMounted(()=>{
   init()
 })
 </script>
 <template>
-  <div class="draggingDragging">
+  <div class="draggingDragging" @contextmenu.prevent='mousedown'>
     <div class="draggingDragging-head">
       <draggingDraggingHead></draggingDraggingHead>
     </div>

@@ -31,6 +31,8 @@ const DlockContainerOperatorPanel = defineComponent({
     event: "update:modelValue",
   },
   setup(props, { emit }) {
+    const CodeHighlightRef = ref()
+    const draggingDraggingRRef = ref()
     // 当前操作对象
     // const currentObject = computed(() => {
     //   debugger
@@ -81,9 +83,14 @@ const DlockContainerOperatorPanel = defineComponent({
     const RenderEngine = () => {};
     const init = () => {};
     onMounted(() => {
-      init();
+      // 开启鼠标移动监听
+      console.log(draggingDraggingRRef.value,CodeHighlightRef.value)
+      debugger
+      draggingDraggingRRef.value.addEventListener('mouseleave', function () {
+        CodeHighlightRef.value.uncheck()
+      });
     });
-
+    
     return () => (
       <div className="draggingDraggingR">
         <ElMenu
@@ -102,7 +109,7 @@ const DlockContainerOperatorPanel = defineComponent({
           </ElMenuItem>
         </ElMenu>
         <div className="draggingDraggingR-content">
-          <div className="draggingDraggingR-content-list">
+          <div ref={draggingDraggingRRef} className="draggingDraggingR-content-list">
             {activeIndex.value == "1" ? (
               <ElCollapse vModel={activeNames.value} onChange={handleChange}>
                 <ElCollapseItem title="布局">
@@ -136,12 +143,12 @@ const DlockContainerOperatorPanel = defineComponent({
                       <span className="layoutItem-title">宽度</span>
                       <div style={{ display: "flex" }}>
                         <ElInput
-                          vModel={props.item.props.spacing}
+                          vModel={props.item.props.width}
                           size="small"
                         />
                         <ElSegmented
                           style={{ "margin-left": "10px" }}
-                          vModel={props.item.props.verticalLayout}
+                          vModel={props.item.props.width}
                           size="small"
                           options={["自适应"]}
                         />
@@ -151,12 +158,12 @@ const DlockContainerOperatorPanel = defineComponent({
                       <span className="layoutItem-title">高度</span>
                       <div style={{ display: "flex" }}>
                         <ElInput
-                          vModel={props.item.props.spacing}
+                          vModel={props.item.props.height}
                           size="small"
                         />
                         <ElSegmented
                           style={{ "margin-left": "10px" }}
-                          vModel={props.item.props.verticalLayout}
+                          vModel={props.item.props.height}
                           size="small"
                           options={["自适应"]}
                         />
@@ -184,6 +191,10 @@ const DlockContainerOperatorPanel = defineComponent({
                           "grid-row-gap": "10px",
                         }}
                       >
+                        <ElInput
+                          vModel={props.item.props.title}
+                          size="small"
+                        />
                         <ElSelect
                           vModel={props.item.props.spacing}
                           placeholder="Select"
@@ -300,6 +311,7 @@ const DlockContainerOperatorPanel = defineComponent({
                     >
                       <span className="layoutItem-title">代码</span>
                       <CodeHighlight
+                        ref={CodeHighlightRef}
                         language="javascript"
                         code={cssCode.value}
                       >

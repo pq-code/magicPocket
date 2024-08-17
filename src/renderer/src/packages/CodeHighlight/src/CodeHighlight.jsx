@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch, nextTick, computed } from 'vue';
+import { defineComponent, ref, watch, nextTick, defineExpose } from 'vue';
 import "./style/index.less";
 
 const CodeHighlight = defineComponent({
@@ -23,7 +23,9 @@ const CodeHighlight = defineComponent({
 
   setup(props, { emit }) {
     const id = 'code' + Number(Math.random() * 10000).toFixed(0);
+
     const selectedCodeIndex = ref()
+
     const selectedCode = (index) => {
       selectedCodeIndex.value = index
       navigator.clipboard.writeText(props.code[index])
@@ -36,6 +38,16 @@ const CodeHighlight = defineComponent({
           console.error('复制失败：', error);
       });
     }
+    // 取消选中
+    const uncheck = () => {
+      debugger
+      selectedCodeIndex.value = null
+    }
+
+    defineExpose({
+      uncheck
+    });
+
     return () => (
       <div className="codePiece">
         <highlightjs

@@ -69,18 +69,28 @@ const DlockContainer = defineComponent({
       e.currentTarget?.classList.remove('hover-highlighted');
     }
 
+    const renderComponent = () => {
+      debugger
+      return (
+        <div
+          id={props.item.key}
+          key={props.item.key}
+          className={props.item.props.className}
+          style={props.item.props.style}
+          onClick={clickContainer}
+          onMouseenter={handleMouseEnter}
+          onMouseleave={handleMouseLeave}
+        >
+          <PageContainer pageJSON={props.item} children={props.children}></PageContainer>
+        </div>
+      )
+    }
+    const vnode = computed(() => {
+      return renderComponent()
+    })
+
     return () => (
-      <div
-        id={props.item.key}
-        key={props.item.key}
-        className={props.item.props.className}
-        style={props.item.props.style}
-        onClick={clickContainer}
-        onMouseenter={handleMouseEnter}
-        onMouseleave={handleMouseLeave}
-      >
-        <PageContainer pageJSON={props.item} children={props.children}></PageContainer>
-      </div>
+      vnode.value
     );
   },
 });

@@ -67,7 +67,8 @@ const componentContainer = defineComponent({
           return <div
                   key={`${item.componentName}_${index}`}
                   className='componentContainerSon'
-                  onClick={selectComponents}>
+            onClick={selectComponents}>
+            <i class="iconfont icon-yibiaopan"></i>
                     {item.componentName}
                 </div>
         })}

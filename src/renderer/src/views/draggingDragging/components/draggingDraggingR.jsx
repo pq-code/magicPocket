@@ -22,9 +22,10 @@ const draggingDraggingL = defineComponent({
     const { currentOperatingObject } = storeToRefs(store);
 
     // 当前操作对象
-    const currentObject = computed(() => {
-      return currentOperatingObject.value
-    });
+    const currentObject = currentOperatingObject
+    // computed(() => {
+    //   return currentOperatingObject.value
+    // });
 
     const init = () => {
 
