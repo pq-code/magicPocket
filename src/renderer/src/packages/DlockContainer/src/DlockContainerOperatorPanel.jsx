@@ -1,6 +1,6 @@
 import { defineComponent, ref, watch, onMounted } from "vue";
 import "./style/index.less";
-import CodeHighlight from '@renderer/packages/CodeHighlight/src/CodeHighlight.jsx'
+import CodeHighlight from "@renderer/packages/CodeHighlight/src/CodeHighlight.jsx";
 
 import {
   ElMenu,
@@ -31,20 +31,8 @@ const DlockContainerOperatorPanel = defineComponent({
     event: "update:modelValue",
   },
   setup(props, { emit }) {
-    const CodeHighlightRef = ref()
-    const draggingDraggingRRef = ref()
-    // 当前操作对象
-    // const currentObject = computed(() => {
-    //   debugger
-    //   return props.item
-    // });
-
-    watch(
-      () => props.item,
-      (newValue, oldValue) => {
-        console.log(newValue, oldValue);
-      }
-    );
+    const CodeHighlightRef = ref();
+    const draggingDraggingRRef = ref();
 
     const activeIndex = ref("1");
     const activeNames = ref(["1", "2", "3", "4", "5"]);
@@ -77,20 +65,37 @@ const DlockContainerOperatorPanel = defineComponent({
       "opacity: 1;",
       "background: #D8D8D8;",
     ]);
+
+    // 当前操作对象
+    // const currentObject = computed(() => {
+    //   debugger
+    //   return props.item
+    // });
+
+    watch(
+      () => props.item,
+      (newValue, oldValue) => {
+        console.log(newValue, oldValue);
+      }
+    );
+
     const handleChange = () => {};
-    const handleSelect = () => {};
+    const handleSelect = (e) => {
+      console.log(e)
+      activeIndex.value = e
+    };
 
     const RenderEngine = () => {};
     const init = () => {};
+
     onMounted(() => {
       // 开启鼠标移动监听
-      console.log(draggingDraggingRRef.value,CodeHighlightRef.value)
-      debugger
-      draggingDraggingRRef.value.addEventListener('mouseleave', function () {
-        CodeHighlightRef.value.uncheck()
+      console.log(draggingDraggingRRef.value, CodeHighlightRef.value);
+      draggingDraggingRRef.value.addEventListener("mouseleave", function () {
+        CodeHighlightRef.value.uncheck();
       });
     });
-    
+
     return () => (
       <div className="draggingDraggingR">
         <ElMenu
@@ -109,7 +114,10 @@ const DlockContainerOperatorPanel = defineComponent({
           </ElMenuItem>
         </ElMenu>
         <div className="draggingDraggingR-content">
-          <div ref={draggingDraggingRRef} className="draggingDraggingR-content-list">
+          <div
+            ref={draggingDraggingRRef}
+            className="draggingDraggingR-content-list"
+          >
             {activeIndex.value == "1" ? (
               <ElCollapse vModel={activeNames.value} onChange={handleChange}>
                 <ElCollapseItem title="布局">
@@ -142,10 +150,7 @@ const DlockContainerOperatorPanel = defineComponent({
                     <div className="layoutItem">
                       <span className="layoutItem-title">宽度</span>
                       <div style={{ display: "flex" }}>
-                        <ElInput
-                          vModel={props.item.props.width}
-                          size="small"
-                        />
+                        <ElInput vModel={props.item.props.width} size="small" />
                         <ElSegmented
                           style={{ "margin-left": "10px" }}
                           vModel={props.item.props.width}
@@ -191,10 +196,7 @@ const DlockContainerOperatorPanel = defineComponent({
                           "grid-row-gap": "10px",
                         }}
                       >
-                        <ElInput
-                          vModel={props.item.props.title}
-                          size="small"
-                        />
+                        <ElInput vModel={props.item.props.title} size="small" />
                         <ElSelect
                           vModel={props.item.props.spacing}
                           placeholder="Select"
@@ -314,8 +316,7 @@ const DlockContainerOperatorPanel = defineComponent({
                         ref={CodeHighlightRef}
                         language="javascript"
                         code={cssCode.value}
-                      >
-                      </CodeHighlight>
+                      ></CodeHighlight>
                     </div>
                   </div>
                 </ElCollapseItem>

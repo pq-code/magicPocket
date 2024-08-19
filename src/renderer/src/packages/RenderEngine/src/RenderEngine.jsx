@@ -54,26 +54,30 @@ const RenderEngine = defineComponent({
       nextTick(() => {
         addHistoryOperatingObject()
       })
-     }
+    }
+    const nodeClone = (e) => {
+      console.log(e)
+      debugger
+    }
     /**
      * 渲染根虚拟节点
      *
      * @returns 返回根虚拟节点
      */
     const renderRootVnode = () => {
-      debugger
       let renderComponent = renderComponents(componentList.value)
       return (
         whetherYouCanDrag ?
           <VueDraggable
-            style={{ width: '100%', height: '100%' }}
             className='PageContainer'
+            style={{ width: '100%', height: '100%' }}
             vModel={componentList.value}
             animation={150}
             group='people'
             sort={true}
             onSort={handleEnd}
-              >
+            onClone={nodeClone}
+          >
              { renderComponent }
           </VueDraggable>
           : <div className='root'>
@@ -105,6 +109,8 @@ const RenderEngine = defineComponent({
      * @returns 渲染后的页面组件
      */
     const startRender = (item, children) => {
+      // 给DOM赋予唯一标识
+      item.key = `${item.type}-${Number(Math.random() * 10000).toFixed(0)}`
       return typeRender(item, children)
     }
 

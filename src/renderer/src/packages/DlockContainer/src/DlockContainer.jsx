@@ -41,6 +41,7 @@ const DlockContainer = defineComponent({
      */
     const clickContainer = (e) => {
       console.log(props.item, e, pageJSON.value)
+      debugger
       // 如果选中的对象不为空，则清除选中对象的高亮标记
       if (currentOperatingObject.value) {
         document.getElementById(currentOperatingObject.value.key).classList.remove('selected-highlighted');
@@ -70,7 +71,6 @@ const DlockContainer = defineComponent({
     }
 
     const renderComponent = () => {
-      debugger
       return (
         <div
           id={props.item.key}

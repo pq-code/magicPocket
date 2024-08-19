@@ -40,7 +40,6 @@ const CodeHighlight = defineComponent({
     }
     // 取消选中
     const uncheck = () => {
-      debugger
       selectedCodeIndex.value = null
     }
 

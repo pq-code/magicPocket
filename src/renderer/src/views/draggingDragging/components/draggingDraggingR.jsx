@@ -35,8 +35,7 @@ const draggingDraggingL = defineComponent({
     });
 
     const RenderEngine = (item) => {
-      console.log(item)
-      if (!item) return (
+      if (!item || JSON.stringify(item) == '{}') return (
         <div style={
           {'text-align': 'center',
             'line-height': '500px',
@@ -89,36 +88,6 @@ const draggingDraggingL = defineComponent({
     }
     return () => (
       RenderEngine(currentObject.value)
-      // <div className='draggingDraggingR'>
-      //   <ElMenu
-      //     default-active={activeIndex}
-      //     mode="horizontal"
-      //     onSelect={handleSelect}
-      //   >
-      //     <ElMenuItem index='1' style={{width: '33.3%'}}>
-      //       组件
-      //     </ElMenuItem>
-      //     <ElMenuItem index='2' style={{width: '33.3%'}}>
-      //       样式
-      //     </ElMenuItem>
-      //     <ElMenuItem index='3' style={{width: '33.3%'}}>
-      //       高级
-      //     </ElMenuItem>
-      //   </ElMenu>
-      //   <div className='draggingDraggingR-content'>
-      //     <div className='draggingDraggingR-content-list'>
-      //       <ElCollapse vModel={activeNames} onChange={handleChange}>
-      //         {
-      //           (componentItemList.value.map((item, index) => {
-      //             return <ElCollapseItem title={item.label} name={index}>
-      //                    { item.children?.map(e => RenderEngine(e)) }
-      //                   </ElCollapseItem>
-      //           }))
-      //         }
-      //       </ElCollapse>
-      //     </div>
-      //   </div>
-      // </div>
     );
   },
 });
