@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
-
+import DlockContainer from '@renderer/packages/DlockContainer/src/DlockContainer.jsx'
 import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElCollapse,ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
 
 const From = defineComponent({
@@ -32,25 +32,27 @@ const From = defineComponent({
       }
     }
     return () => (
-      <ElForm vModel={props.modelValue}
-        ref="formRef"
-        {...props.pageJSON}
-       >
-        <ElRow>
-        {
-            props.children.map(e => {
-            let pageJSON = e.props
-            return (
-              <ElCol span={pageJSON.span || 8}>
-              <ElFormItem label={pageJSON.label}>
-                {e}
-              </ElFormItem>
-            </ElCol>
-            )
-          })
-        }
-        </ElRow>
-      </ElForm>
+      <DlockContainer item={props.pageJSON} children={
+        <ElForm vModel={props.modelValue}
+            ref="formRef"
+            {...props.pageJSON}
+          >
+            <ElRow>
+            {
+                props.children.map(e => {
+                let pageJSON = e.props
+                return (
+                  <ElCol span={pageJSON.span || 8}>
+                  <ElFormItem label={pageJSON.label}>
+                    {e}
+                  </ElFormItem>
+                </ElCol>
+                )
+              })
+            }
+            </ElRow>
+          </ElForm>
+      } />
     );
   },
 });
