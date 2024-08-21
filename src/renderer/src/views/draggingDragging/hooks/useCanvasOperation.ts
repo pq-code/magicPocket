@@ -130,56 +130,47 @@ export default function useCanvasOperation() {
    * @param targetKey 目标节点的key值
    * @returns 如果找到并删除目标节点则返回true，否则返回false
    */
-  const depthFirstSearchAndDelete = (node, targetKey): boolean => {
+  const depthFirstSearchAndDelete = (node, targetKey) => {
     if (!node) return false;
+
+    if (node instanceof Array) {
+      node.map(e => depthFirstSearchAndDelete(e, targetKey))
+    }
 
     if (node.key === targetKey) {
       return true;
     }
 
-    if (node.children) {
+    if (node.children && node.children instanceof Array && node.children.length > 0) {
       for (let i = 0; i < node.children.length; i++) {
         if (depthFirstSearchAndDelete(node.children[i], targetKey)) {
-          // 如果在子树中找到了并“删除”了节点，则我们需要从父节点的children数组中移除它
           node.children.splice(i, 1);
-          currentOperatingObject.value = {}
-          // 注意：移除后，我们不需要继续遍历剩余的children，因为索引已经改变
-          // 但由于splice已经移除了元素，我们可以安全地返回true
-          return true;
+          currentOperatingObject.value = null
+          break;
         }
-        // 如果在子树中没有找到，i会递增并继续检查下一个子节点
       }
     }
-
-    // 如果没有在任何子树中找到目标节点，则返回false
-    return false;
+    return false
   };
 
+  /**
+   * 删除对象
+   *
+   * @returns 无返回值
+   */
   const deleteObject = () => {
-    let isDeleted = false;
-    // 广度优先遍历（这里简化为检查顶层children）
-    pageJSON.value.children = pageJSON.value.children.filter((item) => {
-      if (item.key === currentOperatingObject.value.key) {
-        isDeleted = true;
-        currentOperatingObject.value = {}
-        return false; // 移除匹配的项
-      }
-      return true; // 保留其他项
-    });
-    console.log("pageJSON.value", pageJSON.value);
-
-    // 如果广度优先遍历没有找到，则进行深度优先遍历
-    if (!isDeleted) {
-      isDeleted = depthFirstSearchAndDelete(
-        pageJSON.value,
-        currentOperatingObject.value.key
-      );
+    if (!currentOperatingObject.value) {
+      console.error("当前操作对象为空，无法删除");
+      return;
     }
 
-    if (isDeleted) {
-      console.log("删除成功");
-    } else {
-      console.log("未找到要删除的对象");
+    for (let i = 0; i < pageJSON.value.children.length; i++) {
+      if (pageJSON.value.children[i].key == currentOperatingObject.value.key) {
+        pageJSON.value.children.splice(i, 1);
+        currentOperatingObject.value = null
+        break;
+      }
+      depthFirstSearchAndDelete(pageJSON.value.children[i], currentOperatingObject.value.key) // 深层查找
     }
   };
 

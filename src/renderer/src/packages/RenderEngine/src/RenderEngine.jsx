@@ -57,7 +57,6 @@ const RenderEngine = defineComponent({
     }
     const nodeClone = (e) => {
       console.log(e)
-      debugger
     }
     /**
      * 渲染根虚拟节点
