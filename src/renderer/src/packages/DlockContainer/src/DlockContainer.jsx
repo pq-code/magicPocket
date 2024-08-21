@@ -42,7 +42,7 @@ const DlockContainer = defineComponent({
     const clickContainer = (e) => {
       console.log(props.item, e, pageJSON.value)
       // 如果选中的对象不为空，则清除选中对象的高亮标记
-      if (currentOperatingObject.value) {
+      if (currentOperatingObject.value && JSON.stringify(currentOperatingObject.value) !== '{}') {
         document.getElementById(currentOperatingObject.value.key).classList.remove('selected-highlighted');
       }
       currentOperatingObject.value = props.item
@@ -80,6 +80,9 @@ const DlockContainer = defineComponent({
           onMouseenter={handleMouseEnter}
           onMouseleave={handleMouseLeave}
         >
+          {
+            props.item.title ? <div style={{'font-size': '23px','font-weight': 500,'margin-bottom': '10px'}}>{ props.item.title }</div> : null
+          }
           <PageContainer pageJSON={props.item} children={props.children}></PageContainer>
         </div>
       )

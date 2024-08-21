@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch, onMounted } from "vue";
 import "./style/index.less";
 import CodeHighlight from "@renderer/packages/CodeHighlight/src/CodeHighlight.jsx";
-
+import { humpToUnderline } from '@renderer/utils/index'
 import {
   ElMenu,
   ElMenuItem,
@@ -12,18 +12,19 @@ import {
   ElButton,
   ElSegmented,
   ElOption,
+  ElSelect,
 } from "element-plus";
-import { options } from "less";
+
 
 const DlockContainerOperatorPanel = defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     item: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
   },
   model: {
@@ -31,6 +32,11 @@ const DlockContainerOperatorPanel = defineComponent({
     event: "update:modelValue",
   },
   setup(props, { emit }) {
+    const styleOptions = ref({
+      // backgroundColor: '', // 背景颜色
+      // borderColor: '',
+      // borderStyle: ''
+    });// 样式
     const CodeHighlightRef = ref();
     const draggingDraggingRRef = ref();
 
@@ -55,38 +61,25 @@ const DlockContainerOperatorPanel = defineComponent({
     ]);
 
     const cssCode = ref([
-      "position: absolute;",
-      "left: 209px;",
-      "top: 154px;",
-      "width: 161px;",
-      "height: 146px;",
-      "transform: rotate(0deg);",
-      "border-radius: 18px;",
-      "opacity: 1;",
-      "background: #D8D8D8;",
+      // "position: absolute;",
+      // "left: 209px;",
+      // "top: 154px;",
+      // "width: 161px;",
+      // "height: 146px;",
+      // "transform: rotate(0deg);",
+      // "border-radius: 18px;",
+      // "opacity: 1;",
+      // "background: #D8D8D8;",
     ]);
 
-    // 当前操作对象
-    // const currentObject = computed(() => {
-    //   debugger
-    //   return props.item
-    // });
-
-    watch(
-      () => props.item,
-      (newValue, oldValue) => {
-        console.log(newValue, oldValue);
-      }
-    );
-
-    const handleChange = () => {};
+    const handleChange = () => { };
     const handleSelect = (e) => {
-      console.log(e)
-      activeIndex.value = e
+      console.log(e);
+      activeIndex.value = e;
     };
 
-    const RenderEngine = () => {};
-    const init = () => {};
+    const RenderEngine = () => { };
+    const init = () => { };
 
     onMounted(() => {
       // 开启鼠标移动监听
@@ -95,6 +88,348 @@ const DlockContainerOperatorPanel = defineComponent({
         CodeHighlightRef.value.uncheck();
       });
     });
+
+    /**
+     * 样式面板变化事件处理函数
+     *
+     * @returns 无返回值
+     */
+    const stylePanelChange = (key, e) => {
+      let cssArray = []
+      Object.keys(styleOptions.value).forEach(key => {
+        if (styleOptions.value[key]) {
+          cssArray.push(`${humpToUnderline(key)}: ${styleOptions.value[key]}`)
+        }
+      })
+      cssCode.value = cssArray
+    }
+
+    const borderStyleList = ref([
+      {
+        borderDirection: 'all',
+        borderStyle: '',
+        borderWidth: '',
+        borderColor: '',
+      }
+    ])
+
+    const addBorder = () => {
+      borderStyleList.value.push({
+        borderDirection: '',
+        borderStyle: '',
+        borderWidth: '',
+        borderColor: '',
+      })
+    }
+
+    /**
+     * 边框样式面板变化时触发的方法
+     *
+     * @returns 无返回值
+     */
+    const borderStylePanelChange = () => {
+      let all = borderStyleList.value.find(item => item.borderDirection === 'all')
+      if (all) {
+        let border = `${all.borderStype} ${all.borderWidth} ${all.borderColor}`
+        if (border.length > 10) {
+          styleOptions.value.border = `${all.borderStype} ${all.borderWidth}px ${all.borderColor}`
+        }
+      } else {
+        borderStyleList.value.forEach(item => {
+          let border = `${item.borderStype} ${item.borderWidth} ${item.borderColor}`
+          if (border.length > 10) {
+            styleOptions.value[`border-${item.borderDirection}`] = `${item.borderStype} ${item.borderWidth}px ${item.borderColor}`
+          }
+        })
+      }
+      stylePanelChange()
+    }
+
+    const modulePanel = () => {
+      return (
+        <div>
+          <ElCollapseItem title="布局">
+            <div className="layout">
+              <div className="layoutItem">
+                <span className="layoutItem-title">水平</span>
+                <ElSegmented
+                  vModel={props.item.props.levelLayout}
+                  size="small"
+                  options={["左", "中", "右", "两端"]}
+                />
+              </div>
+              <div className="layoutItem">
+                <span className="layoutItem-title">垂直</span>
+                <ElSegmented
+                  vModel={props.item.props.verticalLayout}
+                  size="small"
+                  options={["左", "中", "右", "两端"]}
+                />
+              </div>
+              <div className="layoutItem">
+                <span className="layoutItem-title">内间距</span>
+                <ElInput
+                  vModel={props.item.props.style["padding"]}
+                  size="small"
+                />
+              </div>
+            </div>
+          </ElCollapseItem>
+
+          <ElCollapseItem title="宽高">
+            <div className="layout">
+              <div className="layoutItem">
+                <span className="layoutItem-title">宽度</span>
+                <div style={{ display: "flex" }}>
+                  <ElInput
+                    disabled
+                    vModel={props.item.props.width}
+                    size="small"
+                  />
+                  <ElSegmented
+                    style={{ "margin-left": "10px" }}
+                    vModel={props.item.props.width}
+                    size="small"
+                    options={["自适应"]}
+                  />
+                </div>
+              </div>
+              <div className="layoutItem">
+                <span className="layoutItem-title">高度</span>
+                <div style={{ display: "flex" }}>
+                  <ElInput vModel={props.item.props.height} size="small" />
+                  <ElSegmented
+                    style={{ "margin-left": "10px" }}
+                    vModel={props.item.props.height}
+                    size="small"
+                    options={["自适应"]}
+                  />
+                </div>
+              </div>
+            </div>
+          </ElCollapseItem>
+
+          <ElCollapseItem title="样式">
+            <div className="layout">
+              <div
+                className="layoutItem"
+                style={{
+                  display: "flex",
+                  "align-items": "flex-start",
+                  "flex-direction": "column",
+                }}
+              >
+                <span className="layoutItem-title">标题</span>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "grid",
+                    "grid-template-columns": "1fr",
+                    "grid-row-gap": "10px",
+                  }}
+                >
+                  <ElInput vModel={props.item.title} size="small" />
+                  <ElSelect
+                    vModel={props.item.props.spacing}
+                    placeholder="Select"
+                    size="small"
+                  >
+                    {[{}, {}].map((e) => [<ElOption></ElOption>])}
+                  </ElSelect>
+                  <div
+                    style={{
+                      display: "grid",
+                      "grid-template-columns": "1fr 1fr",
+                      "grid-column-gap": "10px",
+                      "grid-row-gap": "10px",
+                    }}
+                  >
+                    <ElInput vModel={props.item.props.spacing} size="small" />
+                    <ElInput vModel={props.item.props.spacing} size="small" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ElCollapseItem>
+        </div>
+      );
+    };
+
+    const stylePanel = () => {
+      return (
+        <div>
+          <ElCollapseItem title="样式">
+            <div className="layout">
+              <div
+                className="layoutItem"
+                style={{
+                  display: "flex",
+                  "align-items": "flex-start",
+                  "flex-direction": "column",
+                }}
+              >
+                <span className="layoutItem-title">填充</span>
+                <ElInput
+                  vModel={styleOptions.value.backgroundColor}
+                  class="w-50 m-2"
+                  placeholder=""
+                  size="small"
+                  disabled
+                  v-slots={{
+                    prepend: () => (
+                      <ElColorPicker
+                        vModel={styleOptions.value.backgroundColor}
+                        onChange={stylePanelChange}
+                        size="small"
+                        show-alpha
+                        predefine={predefineColors.value}
+                      />
+                    ),
+                  }}
+                />
+
+              </div>
+
+              <div
+                className="layoutItem"
+                style={{
+                  display: "flex",
+                  "align-items": "flex-start",
+                  "flex-direction": "column",
+                }}
+              >
+                <span className="layoutItem-title">图片填充</span>
+                <ElInput
+                  vModel={styleOptions.value.backgroundImage}
+                  class="w-50 m-2"
+                  placeholder=""
+                  size="small"
+                  onChange={stylePanelChange}
+                  v-slots={{
+                    prepend: () => (
+                      <span style={{ margin: '0 5px' }}>url</span>
+                    )
+                  }}
+                />
+              </div>
+
+              <div
+                className="layoutItem"
+                style={{
+                  display: "flex",
+                  "align-items": "flex-start",
+                  "flex-direction": "column",
+                }}
+              >
+                <div className="layoutItem-title">
+                  <span>描边</span>
+                  <ElButton text='primary' size="small">
+                    <i className="iconfont icon-tianjia" onClick={addBorder}></i>
+                  </ElButton>
+                </div>
+                {
+                  borderStyleList.value.map(item => {
+                    return (
+                      <div className="layoutItem-row">
+                        <ElSelect
+                          style={{ width: "70px" }}
+                          vModel={item.borderDirection}
+                          placeholder="方向"
+                          size="small"
+                          onChange={borderStylePanelChange}
+                        >
+                          {[{
+                            value: 'all',
+                            label: '四边'
+                          }, {
+                            value: 'top',
+                            label: '上边'
+                          }, {
+                            value: 'right',
+                            label: '右边'
+                          }, {
+                            value: 'bottom',
+                            label: '下边'
+                          }, {
+                            value: 'left',
+                            label: '左边'
+                          }].map(option => (
+                            <ElOption
+                              key={option.value}
+                              label={option.label}
+                              value={option.value}
+                            />
+                          ))}
+                        </ElSelect>
+                        <ElSelect
+                          style={{ width: "60px" }}
+                          vModel={item.borderStype}
+                          placeholder="类型"
+                          size="small"
+                          onChange={borderStylePanelChange}
+                        >
+                          {[{
+                            value: 'dotted',
+                            label: '点线'
+                          }, {
+                            value: 'dashed',
+                            label: '虚线'
+                          }, {
+                            value: 'solid',
+                            label: '实线'
+                          }, {
+                            value: 'double',
+                            label: '双实线'
+                          }].map(option => (
+                            <ElOption
+                              key={option.value}
+                              label={option.label}
+                              value={option.value}
+                            />
+                          ))}
+                        </ElSelect>
+                        <ElInput style={{ width: "50px" }}
+                          class="w-50 m-2"
+                          placeholder="线宽"
+                          size="small" vModel={item.borderWidth} ></ElInput>
+                        <ElColorPicker
+                          vModel={item.borderColor}
+                          onChange={borderStylePanelChange}
+                          size="small"
+                          show-alpha
+                          predefine={predefineColors.value}
+                        />
+                        <i className="iconfont icon-lajitong"></i>
+                      </div>
+                    )
+                  })
+                }
+              </div>
+
+              <div
+                className="layoutItem"
+                style={{
+                  display: "flex",
+                  "align-items": "flex-start",
+                  "flex-direction": "column",
+                }}
+              >
+                <span className="layoutItem-title">代码</span>
+                <CodeHighlight
+                  ref={CodeHighlightRef}
+                  language="javascript"
+                  code={cssCode.value}
+                ></CodeHighlight>
+              </div>
+            </div>
+          </ElCollapseItem>
+        </div>
+      );
+    };
+
+    const seniorPanel = () => {
+      
+    }
 
     return () => (
       <div className="draggingDraggingR">
@@ -118,212 +453,9 @@ const DlockContainerOperatorPanel = defineComponent({
             ref={draggingDraggingRRef}
             className="draggingDraggingR-content-list"
           >
-            {activeIndex.value == "1" ? (
-              <ElCollapse vModel={activeNames.value} onChange={handleChange}>
-                <ElCollapseItem title="布局">
-                  <div className="layout">
-                    <div className="layoutItem">
-                      <span className="layoutItem-title">水平</span>
-                      <ElSegmented
-                        vModel={props.item.props.levelLayout}
-                        size="small"
-                        options={["左", "中", "右", "两端"]}
-                      />
-                    </div>
-                    <div className="layoutItem">
-                      <span className="layoutItem-title">垂直</span>
-                      <ElSegmented
-                        vModel={props.item.props.verticalLayout}
-                        size="small"
-                        options={["左", "中", "右", "两端"]}
-                      />
-                    </div>
-                    <div className="layoutItem">
-                      <span className="layoutItem-title">间距</span>
-                      <ElInput vModel={props.item.props.spacing} size="small" />
-                    </div>
-                  </div>
-                </ElCollapseItem>
-
-                <ElCollapseItem title="宽高">
-                  <div className="layout">
-                    <div className="layoutItem">
-                      <span className="layoutItem-title">宽度</span>
-                      <div style={{ display: "flex" }}>
-                        <ElInput vModel={props.item.props.width} size="small" />
-                        <ElSegmented
-                          style={{ "margin-left": "10px" }}
-                          vModel={props.item.props.width}
-                          size="small"
-                          options={["自适应"]}
-                        />
-                      </div>
-                    </div>
-                    <div className="layoutItem">
-                      <span className="layoutItem-title">高度</span>
-                      <div style={{ display: "flex" }}>
-                        <ElInput
-                          vModel={props.item.props.height}
-                          size="small"
-                        />
-                        <ElSegmented
-                          style={{ "margin-left": "10px" }}
-                          vModel={props.item.props.height}
-                          size="small"
-                          options={["自适应"]}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </ElCollapseItem>
-
-                <ElCollapseItem title="样式">
-                  <div className="layout">
-                    <div
-                      className="layoutItem"
-                      style={{
-                        display: "flex",
-                        "align-items": "flex-start",
-                        "flex-direction": "column",
-                      }}
-                    >
-                      <span className="layoutItem-title">标题</span>
-                      <div
-                        style={{
-                          width: "100%",
-                          display: "grid",
-                          "grid-template-columns": "1fr",
-                          "grid-row-gap": "10px",
-                        }}
-                      >
-                        <ElInput vModel={props.item.props.title} size="small" />
-                        <ElSelect
-                          vModel={props.item.props.spacing}
-                          placeholder="Select"
-                          size="small"
-                        >
-                          {[{}, {}].map((e) => [<ElOption></ElOption>])}
-                        </ElSelect>
-                        <div
-                          style={{
-                            display: "grid",
-                            "grid-template-columns": "1fr 1fr",
-                            "grid-column-gap": "10px",
-                            "grid-row-gap": "10px",
-                          }}
-                        >
-                          <ElInput
-                            vModel={props.item.props.spacing}
-                            size="small"
-                          />
-                          <ElInput
-                            vModel={props.item.props.spacing}
-                            size="small"
-                          />
-                          <ElInput
-                            vModel={props.item.props.spacing}
-                            size="small"
-                          />
-                          <ElInput
-                            vModel={props.item.props.spacing}
-                            size="small"
-                          />
-                          <ElInput
-                            vModel={props.item.props.spacing}
-                            size="small"
-                          />
-                          <ElInput
-                            vModel={props.item.props.spacing}
-                            size="small"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div
-                      className="layoutItem"
-                      style={{
-                        display: "flex",
-                        "align-items": "flex-start",
-                        "flex-direction": "column",
-                      }}
-                    >
-                      <span className="layoutItem-title">填充</span>
-                      <ElInput
-                        vModel={props.item.props.spacing}
-                        class="w-50 m-2"
-                        placeholder=""
-                        size="small"
-                        v-slots={{
-                          prepend: () => (
-                            <ElColorPicker
-                              vModel={props.item.props.spacing}
-                              size="small"
-                              show-alpha
-                              predefine={predefineColors.value}
-                            />
-                          ),
-                        }}
-                      ></ElInput>
-                    </div>
-
-                    <div
-                      className="layoutItem"
-                      style={{
-                        display: "flex",
-                        "align-items": "flex-start",
-                        "flex-direction": "column",
-                      }}
-                    >
-                      <span className="layoutItem-title">描边</span>
-                      <div
-                        style={{
-                          width: "100%",
-                          display: "grid",
-                          "grid-template-columns": "1fr 1fr",
-                          gap: "10px",
-                        }}
-                      >
-                        <ElSelect
-                          vModel={props.item.props.spacing}
-                          placeholder="Select"
-                          size="small"
-                        >
-                          {[{}, {}].map((e) => [<ElOption></ElOption>])}
-                        </ElSelect>
-                        <ElInput
-                          vModel={props.item.props.spacing}
-                          size="small"
-                        />
-                      </div>
-                      <ElInput
-                        style={{ "margin-top": "10px" }}
-                        vModel={props.item.props.spacing}
-                        size="small"
-                      />
-                    </div>
-
-                    <div
-                      className="layoutItem"
-                      style={{
-                        display: "flex",
-                        "align-items": "flex-start",
-                        "flex-direction": "column",
-                      }}
-                    >
-                      <span className="layoutItem-title">代码</span>
-                      <CodeHighlight
-                        ref={CodeHighlightRef}
-                        language="javascript"
-                        code={cssCode.value}
-                      ></CodeHighlight>
-                    </div>
-                  </div>
-                </ElCollapseItem>
-              </ElCollapse>
-            ) : (
-              <div></div>
-            )}
+            <ElCollapse vModel={activeNames.value} onChange={handleChange}>
+              {activeIndex.value == "1" ? modulePanel() : activeIndex.value == "2" ? stylePanel() : seniorPanel()}
+            </ElCollapse>
           </div>
         </div>
       </div>

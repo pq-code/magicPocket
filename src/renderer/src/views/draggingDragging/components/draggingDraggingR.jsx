@@ -19,13 +19,17 @@ const draggingDraggingL = defineComponent({
   },
   setup(props, { emit }) {
     const store = useDraggingDraggingStore();
-    const { currentOperatingObject } = storeToRefs(store);
+    const { pageJSON,currentOperatingObject } = storeToRefs(store);
 
     // 当前操作对象
-    const currentObject = currentOperatingObject
+    // const currentObject = currentOperatingObject
     // computed(() => {
     //   return currentOperatingObject.value
     // });
+    watch(() => pageJSON.value, (n, o) => {
+      console.log(n)
+      debugger
+    },{deep:true})
 
     const init = () => {
 
@@ -87,7 +91,7 @@ const draggingDraggingL = defineComponent({
       }
     }
     return () => (
-      RenderEngine(currentObject.value)
+      RenderEngine(currentOperatingObject.value)
     );
   },
 });
