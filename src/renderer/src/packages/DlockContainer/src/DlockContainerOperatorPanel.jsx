@@ -144,7 +144,7 @@ const DlockContainerOperatorPanel = defineComponent({
       }
       stylePanelChange()
     }
-
+    // 组件面板
     const modulePanel = () => {
       return (
         <div>
@@ -228,13 +228,29 @@ const DlockContainerOperatorPanel = defineComponent({
                     "grid-row-gap": "10px",
                   }}
                 >
-                  <ElInput vModel={props.item.title} size="small" />
+                  <ElInput vModel={props.item.props.title} size="small" />
+                  <span className="layoutItem-title">标题位置</span>
                   <ElSelect
                     vModel={props.item.props.spacing}
-                    placeholder="Select"
+                    placeholder="请选择"
                     size="small"
                   >
-                    {[{}, {}].map((e) => [<ElOption></ElOption>])}
+                     {[{
+                        value: 'left',
+                        label: '靠左'
+                      }, {
+                        value: 'center',
+                        label: '居中'
+                      }, {
+                        value: 'right',
+                        label: '靠右'
+                      }].map(option => (
+                        <ElOption
+                          key={option.value}
+                          label={option.label}
+                          value={option.value}
+                        />
+                      ))}
                   </ElSelect>
                   <div
                     style={{
@@ -244,8 +260,10 @@ const DlockContainerOperatorPanel = defineComponent({
                       "grid-row-gap": "10px",
                     }}
                   >
-                    <ElInput vModel={props.item.props.spacing} size="small" />
-                    <ElInput vModel={props.item.props.spacing} size="small" />
+                     <span className="layoutItem-title">标题大小</span>
+                    <ElInput vModel={props.item.props.titleSize} size="small" />
+                    <span className="layoutItem-title">标题粗细</span>
+                    <ElInput vModel={props.item.props.titleWeight} size="small" />
                   </div>
                 </div>
               </div>
@@ -254,7 +272,7 @@ const DlockContainerOperatorPanel = defineComponent({
         </div>
       );
     };
-
+    // 样式面板
     const stylePanel = () => {
       return (
         <div>
@@ -426,9 +444,9 @@ const DlockContainerOperatorPanel = defineComponent({
         </div>
       );
     };
-
+    // 高级面板
     const seniorPanel = () => {
-      
+
     }
 
     return () => (

@@ -57,14 +57,13 @@ const FormOperatorPanel = defineComponent({
           <ElCollapseItem title="属性">
         <div className="layout">
           <div className="layoutItem">
-            <span className="layoutItem-title">状态</span>
+            <span className="layoutItem-title">只读状态</span>
             <ElSegmented
-              vModel={props.item.props.levelLayout}
+              vModel={props.item.props.readOnly}
               size="small"
-              options={["只读", "可编辑"]}
+              options={[true, false]}
             />
             </div>
-            
             <div className="layoutItem">
             <span className="layoutItem-title">列布局</span>
             <ElInput
@@ -97,7 +96,6 @@ const FormOperatorPanel = defineComponent({
               options={["large", "default","small"]}
             />
             </div>
-            
         </div>
           </ElCollapseItem>
 
@@ -105,27 +103,27 @@ const FormOperatorPanel = defineComponent({
         <div className="layout">
           <div className="layoutItem">
             <span className="layoutItem-title">表单项</span>
-              <div>
-                {
-                  props.item.children.map((e, i) => {
-                    return (
-                      <div key={i}>
-                        <ElInput
-                          size="small"
-                          v-model={e.props.label}
-                          placeholder="请输入标签"
-                        />
-                        <ElInput
-                          size="small"
-                          v-model={e.props.label}
-                          placeholder="请输入标签"
-                        />
-                      </div>
-                    );
-                  })
-                }
-              </div>
+            <div className="layoutItem-colm">
+              {
+                props.item.children.map((e, i) => {
+                  return (
+                    <div key={i}>
+                      <ElInput
+                        size="small"
+                        v-model={e.props.label}
+                        placeholder="请输入标签"
+                      />
+                      <ElInput
+                        size="small"
+                        v-model={e.props.label}
+                        placeholder="请输入标签"
+                      />
+                    </div>
+                  );
+                })
+              }
             </div>
+          </div>
         </div>
       </ElCollapseItem>
         </div>

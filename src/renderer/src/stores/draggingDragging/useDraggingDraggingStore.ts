@@ -2,137 +2,138 @@ import { ref,onMounted,onBeforeUnmount } from 'vue'
 import { defineStore } from 'pinia'
 import { deepClone } from '@renderer/utils/index'
 
+
 export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () => {
 
-  // 页面JSON
-  const pageJSON = ref({
-    type: 'page',
-    title: '页面',
-    whetherYouCanDrag: true,
-    props: {
-      className: 'PageContainer',
-      style: '',
-    },
-    children: [
-      {
-        "componentName": "div容器",
-        "type": "container",
-        "icon": "",
-        "group": "基础组件",
-        "props": {
-            "name": "title",
-            "className": "container",
-            "style": ""
-        },
-      "children": [
-        {
-          "componentName": "表单",
-          "type": "Form",
-          "icon": "",
-          "group": "基础组件",
-          "npm": {
-              "exportName": "Form",
-              "package": "@renderer/packages",
-              "destructuring": true
-          },
-          "props": {
-              "name": "title",
-              "propType": "string",
-              "description": "标题",
-              "defaultValue": "标题"
-          },
-          "children": [
-              {
-                  "componentName": "输入框",
-                  "type": "input",
-                  "icon": "",
-                  "group": "基础组件",
-                  "npm": {
-                      "exportName": "ElInput",
-                      "package": "element-plus",
-                      "destructuring": true
-                  },
-                  "props": {
-                      "formItemProps": {
-                          "primaryKey": "760",
-                          "label": "表单项",
-                          "size": "medium",
-                          "device": "desktop",
-                          "fullWidth": true
-                      },
-                      "placeholder": "请输入"
-                  }
-              },
-              {
-                  "componentName": "输入框",
-                  "type": "input",
-                  "icon": "",
-                  "group": "基础组件",
-                  "npm": {
-                      "exportName": "ElInput",
-                      "package": "element-plus",
-                      "destructuring": true
-                  },
-                  "props": {
-                      "formItemProps": {
-                          "primaryKey": "760",
-                          "label": "表单项",
-                          "size": "medium",
-                          "device": "desktop",
-                          "fullWidth": true
-                      },
-                      "placeholder": "请输入"
-                  }
-              },
-              {
-                  "componentName": "输入框",
-                  "type": "input",
-                  "icon": "",
-                  "group": "基础组件",
-                  "npm": {
-                      "exportName": "ElInput",
-                      "package": "element-plus",
-                      "destructuring": true
-                  },
-                  "props": {
-                      "formItemProps": {
-                          "primaryKey": "760",
-                          "label": "表单项",
-                          "size": "medium",
-                          "device": "desktop",
-                          "fullWidth": true
-                      },
-                      "placeholder": "请输入"
-                  }
-              }
-          ],
-          "key": "e6eed8c8-708a-b22b-a068-c979006ff0fa"
-        },
-        {
-          "componentName": "输入框",
-          "type": "input",
-          "icon": "",
-          "group": "基础组件",
-          "npm": {
-              "exportName": "El-Input",
-              "package": "element-plus",
-              "destructuring": true
-          },
-          "props": {
-              "name": "title",
-              "propType": "string",
-              "description": "标题",
-              "defaultValue": "标题"
-          },
-          "key": "8aaa3b0d-bf59-fc6a-bbda-d2c427d58bd1"
-      }
-        ],
-        "key": "48d881f1-4a36-dc3a-26f0-3448f4cb902e"
-    },
-    ]
-  })
+    // 页面JSON
+//   const pageJSON = ref({
+//     type: 'page',
+//     title: '页面',
+//     whetherYouCanDrag: true,
+//     props: {
+//       className: 'PageContainer',
+//       style: '',
+//     },
+//     children: [
+//       {
+//         "componentName": "div容器",
+//         "type": "container",
+//         "icon": "",
+//         "group": "基础组件",
+//         "props": {
+//             "title": "",
+//             "className": "container",
+//             "style": ""
+//         },
+//       "children": [
+//         {
+//           "componentName": "表单",
+//           "type": "Form",
+//           "icon": "",
+//           "group": "基础组件",
+//           "npm": {
+//               "exportName": "Form",
+//               "package": "@renderer/packages",
+//               "destructuring": true
+//           },
+//           "props": {
+//               "name": "title",
+//               "propType": "string",
+//               "description": "标题",
+//               "defaultValue": "标题"
+//           },
+//           "children": [
+//               {
+//                   "componentName": "输入框",
+//                   "type": "input",
+//                   "icon": "",
+//                   "group": "基础组件",
+//                   "npm": {
+//                       "exportName": "ElInput",
+//                       "package": "element-plus",
+//                       "destructuring": true
+//                   },
+//                   "props": {
+//                       "formItemProps": {
+//                           "primaryKey": "760",
+//                           "label": "表单项",
+//                           "size": "medium",
+//                           "device": "desktop",
+//                           "fullWidth": true
+//                       },
+//                       "placeholder": "请输入"
+//                   }
+//               },
+//               {
+//                   "componentName": "输入框",
+//                   "type": "input",
+//                   "icon": "",
+//                   "group": "基础组件",
+//                   "npm": {
+//                       "exportName": "ElInput",
+//                       "package": "element-plus",
+//                       "destructuring": true
+//                   },
+//                   "props": {
+//                       "formItemProps": {
+//                           "primaryKey": "760",
+//                           "label": "表单项",
+//                           "size": "medium",
+//                           "device": "desktop",
+//                           "fullWidth": true
+//                       },
+//                       "placeholder": "请输入"
+//                   }
+//               },
+//               {
+//                   "componentName": "输入框",
+//                   "type": "input",
+//                   "icon": "",
+//                   "group": "基础组件",
+//                   "npm": {
+//                       "exportName": "ElInput",
+//                       "package": "element-plus",
+//                       "destructuring": true
+//                   },
+//                   "props": {
+//                       "formItemProps": {
+//                           "primaryKey": "760",
+//                           "label": "表单项",
+//                           "size": "medium",
+//                           "device": "desktop",
+//                           "fullWidth": true
+//                       },
+//                       "placeholder": "请输入"
+//                   }
+//               }
+//           ],
+//           "key": "e6eed8c8-708a-b22b-a068-c979006ff0fa"
+//         },
+//         {
+//           "componentName": "输入框",
+//           "type": "input",
+//           "icon": "",
+//           "group": "基础组件",
+//           "npm": {
+//               "exportName": "El-Input",
+//               "package": "element-plus",
+//               "destructuring": true
+//           },
+//           "props": {
+//               "name": "title",
+//               "propType": "string",
+//               "description": "标题",
+//               "defaultValue": "标题"
+//           },
+//           "key": "8aaa3b0d-bf59-fc6a-bbda-d2c427d58bd1"
+//       }
+//         ],
+//         "key": "48d881f1-4a36-dc3a-26f0-3448f4cb902e"
+//     },
+//     ]
+//   })
 
-  // const pageJSON = ref([])
+const pageJSON = ref([])
   const currentDragObject = ref({}) // 当前拖拽对象
 
   const currentEnvironment = ref(true) // 当前环境

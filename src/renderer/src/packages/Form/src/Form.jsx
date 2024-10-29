@@ -22,7 +22,7 @@ const From = defineComponent({
     event: 'update:modelValue',
   },
   setup(props, { emit }) {
-    const inputValue = ref(props.modelValue);
+    const inputValue = ref({});
     const handleChange = () => {
 
     }
@@ -31,28 +31,66 @@ const From = defineComponent({
       if (item.cols) {
       }
     }
-    return () => (
-      <DlockContainer item={props.pageJSON} children={
-        <ElForm vModel={props.modelValue}
+
+    const renderComponent = () => {
+      const Dom = []
+      // 是否只读
+      if (props.pageJSON.props?.readOnly) {
+        Dom.push(<ElForm vModel={inputValue.value}
+          ref="formRef"
+          {...props.pageJSON}
+        >
+          <ElRow>
+          {
+            props.pageJSON.children.map(e => {
+            let pageJSON = e.props.formItemProps
+            return (
+              <ElCol span={pageJSON.span || 8}>
+                <ElFormItem label={pageJSON.label}>
+                  <div>
+                    {inputValue.value[pageJSON.primaryKey]}
+                  </div>
+                </ElFormItem>
+              </ElCol>
+            )
+          })
+          }
+          </ElRow>
+        </ElForm>)
+      } else {
+        Dom.push(
+          <ElForm vModel={inputValue.value}
             ref="formRef"
             {...props.pageJSON}
           >
-            <ElRow>
-            {
-                props.children.map(e => {
-                let pageJSON = e.props
-                return (
-                  <ElCol span={pageJSON.span || 8}>
-                  <ElFormItem label={pageJSON.label}>
-                    {e}
-                  </ElFormItem>
-                </ElCol>
-                )
-              })
-            }
-            </ElRow>
-          </ElForm>
-      } />
+          <ElRow>
+          {
+            props.children.map(e => {
+              let pageJSON = e.props
+              return (
+                <ElCol span={pageJSON.span || 8}>
+                <ElFormItem label={pageJSON.label}>
+                  {e}
+                </ElFormItem>
+              </ElCol>
+              )
+            })
+          }
+          </ElRow>
+        </ElForm>)
+      }
+
+      return ( <DlockContainer item={props.pageJSON} children= {
+        Dom.filter(Boolean)
+      } />)
+    }
+
+    const vnode = computed(() => {
+      return renderComponent()
+    })
+
+    return () => (
+      vnode.value
     );
   },
 });

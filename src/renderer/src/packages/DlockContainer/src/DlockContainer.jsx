@@ -69,7 +69,45 @@ const DlockContainer = defineComponent({
       e.currentTarget?.classList.remove('hover-highlighted');
     }
 
+    // 标题文字大小
+    const titleSize = computed(() => {
+      if (props.item.props.titleSize) {
+        if (/(px|rem|%|em)/.test(props.item.props.titleSiz)) {
+          return props.item.props.titleSize
+        } else {
+          return props.item.props.titleSize + 'px'
+        }
+      }
+      return '23px'
+    })
+
+    /**
+     * 渲染节点
+     *
+     * @param e 事件对象
+     */
+
     const renderComponent = () => {
+      // 子级内容
+      const Dom = [
+        <PageContainer pageJSON={props.item} children={props.children} />
+      ];
+      // 标题
+      if (props.item.props.title) {
+        let titleDom = (
+          <div
+            style={{
+              'text-align': props.item.props.spacing,
+              'font-size': titleSize.value,
+              'font-weight': props.item.props.titleWeight,
+              'margin-bottom': '10px'
+            }}
+          >
+            {props.item.props.title}
+          </div>
+        );
+        Dom.unshift(titleDom)
+      }
       return (
         <div
           id={props.item.key}
@@ -80,13 +118,11 @@ const DlockContainer = defineComponent({
           onMouseenter={handleMouseEnter}
           onMouseleave={handleMouseLeave}
         >
-          {
-            props.item.title ? <div style={{'font-size': '23px','font-weight': 500,'margin-bottom': '10px'}}>{ props.item.title }</div> : null
-          }
-          <PageContainer pageJSON={props.item} children={props.children}></PageContainer>
+          { Dom.filter(Boolean) }
         </div>
       )
     }
+
     const vnode = computed(() => {
       return renderComponent()
     })
