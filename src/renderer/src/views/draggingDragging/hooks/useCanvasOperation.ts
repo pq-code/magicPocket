@@ -204,9 +204,9 @@ export default function useCanvasOperation() {
           saveHistoryOperatingObject();
           break;
         case "Backspace":
-          event.preventDefault(); // 阻止浏览器默认行为
+          // event.preventDefault(); // 阻止浏览器默认行为
           // 实现删除逻辑
-          deleteObject();
+          // deleteObject();
           break;
         case "a":
           // 实现全选逻辑
@@ -215,9 +215,9 @@ export default function useCanvasOperation() {
     } else {
       switch (event.key) {
         case "Backspace":
-          event.preventDefault(); // 阻止浏览器默认行为
-          // 实现删除逻辑
-          deleteObject();
+          // event.preventDefault(); // 阻止浏览器默认行为
+          // // 实现删除逻辑
+          // deleteObject();
           break;
         case "a":
           // 实现全选逻辑

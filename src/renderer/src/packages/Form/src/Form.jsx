@@ -33,55 +33,37 @@ const From = defineComponent({
     }
 
     const renderComponent = () => {
-      const Dom = []
-      // 是否只读
-      if (props.pageJSON.props?.readOnly) {
-        Dom.push(<ElForm vModel={inputValue.value}
-          ref="formRef"
-          {...props.pageJSON}
-        >
-          <ElRow>
-          {
-            props.pageJSON.children.map(e => {
-            let pageJSON = e.props.formItemProps
+      const isReadOnly = props.pageJSON.props?.readOnly;
+      const formChildren = isReadOnly
+        ? props.pageJSON.children.map((e, index) => {
+            const pageJSON = e.props.formItemProps;
             return (
-              <ElCol span={pageJSON.span || 8}>
+              <ElCol key={index} span={Number(props.pageJSON.props.span) || 8}>
                 <ElFormItem label={pageJSON.label}>
-                  <div>
-                    {inputValue.value[pageJSON.primaryKey]}
-                  </div>
+                  <div>{e.props.formItemProps.value}</div>
                 </ElFormItem>
               </ElCol>
-            )
+            );
           })
-          }
-          </ElRow>
-        </ElForm>)
-      } else {
-        Dom.push(
-          <ElForm vModel={inputValue.value}
-            ref="formRef"
-            {...props.pageJSON}
-          >
-          <ElRow>
-          {
-            props.children.map(e => {
-              let pageJSON = e.props
-              return (
-                <ElCol span={pageJSON.span || 8}>
+        : props.children.map((e, index) => {
+            const pageJSON = e.props;
+            return (
+              <ElCol key={index} span={Number(props.pageJSON.props.span) || 8}>
                 <ElFormItem label={pageJSON.label}>
                   {e}
                 </ElFormItem>
               </ElCol>
-              )
-            })
-          }
-          </ElRow>
-        </ElForm>)
-      }
+            );
+        });
 
-      return ( <DlockContainer item={props.pageJSON} children= {
-        Dom.filter(Boolean)
+      const form = (
+        <ElForm vModel={inputValue.value} ref="formRef" >
+          <ElRow gutter={Number(props.pageJSON.props.gutter) || 20}>{formChildren}</ElRow>
+        </ElForm>
+      );
+      console.log(props.pageJSON,form)
+      return (<DlockContainer item={props.pageJSON} children= {
+        [form].filter(Boolean)
       } />)
     }
 

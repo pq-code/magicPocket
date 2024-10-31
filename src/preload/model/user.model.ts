@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 import { seq } from '../db/sqlite'
 
 //创建模型
-export const gpUser = seq.define(
+export const User = seq.define(
   'sys_user',
   {
     //id会被sequelize自动创建
@@ -18,31 +18,20 @@ export const gpUser = seq.define(
       unique: true, // 唯一
       comment: '唯一用户名'
     },
-    externalToken: {
-      type: DataTypes.STRING,
-      allowNull: false, //是否可以为空
-      comment: '第三方系统token'
-    },
-    metaphysics: {
-      type: DataTypes.CHAR(64),
-      allowNull: false, //是否可以为空
-      comment: '道'
-    },
     userPassword: {
       type: DataTypes.CHAR(64),
       allowNull: false, //是否可以为空
       comment: '密码'
     },
+    externalToken: {
+      type: DataTypes.STRING,
+      allowNull: false, //是否可以为空
+      comment: '第三方系统token'
+    },
     secretKey: {
       type: DataTypes.CHAR(64),
       allowNull: true, //是否可以为空
       comment: '登录密钥'
-    },
-    isAdmins: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true, //是否可以为空
-      defaultValue: 0, // 默认
-      comment: '是否为管理员,0否,1是'
     },
     userEmail: {
       type: DataTypes.STRING,
@@ -107,7 +96,7 @@ export const gpUser = seq.define(
 //  强制创建数据表
 // 如果表存在不会删除重新生成
 //   .sync({ alter: true })
-gpUser
+User
   .sync()
   .then((res) => {
     console.log(`sys_user·创建表成功`, res)

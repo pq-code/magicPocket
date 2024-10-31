@@ -1,4 +1,4 @@
-import { gpUser } from '../model/user.model'
+import { User } from '../model/user.model'
 import { guid } from '../utils/index'
 
 interface userType {
@@ -38,7 +38,7 @@ export const UserServiceCreateUser = async ({
   secretKey = secretKey ? secretKey : guid()
   userId = userId ? userId : guid()
   isAdmins = isAdmins ? isAdmins : false
-  const res = await gpUser.create({
+  const res = await User.create({
     secretKey,
     userName,
     metaphysics,
@@ -80,7 +80,7 @@ export const userServiceGetUerInfo = async ({
   secretKey && Object.assign(whereOpt, { secretKey })
   externalToken && Object.assign(whereOpt, { externalToken })
 
-  const res = await gpUser.findOne({
+  const res = await User.findOne({
     attributes: [
       'userId',
       'userInfo',
@@ -124,6 +124,6 @@ export const userServiceUpdateById = async ({
   userLoginTime && Object.assign(newUser, { userLoginTime })
   userProfilePhoto && Object.assign(whereOpt, { userProfilePhoto })
   userInfo && Object.assign(whereOpt, { userInfo })
-  const res = await gpUser.update(newUser, { where: whereOpt })
+  const res = await User.update(newUser, { where: whereOpt })
   return res[0] > 0 ? true : false
 }

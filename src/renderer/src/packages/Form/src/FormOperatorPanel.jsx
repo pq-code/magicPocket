@@ -51,10 +51,37 @@ const FormOperatorPanel = defineComponent({
     onMounted(() => {
     });
 
+    const addFormItem = () => {
+      console.log(props.item.children)
+      props.item.children.push(
+        {
+            "componentName": "输入框",
+            "type": "input",
+            "icon": "",
+            "group": "基础组件",
+            "npm": {
+                "exportName": "ElInput",
+                "package": "element-plus",
+                "destructuring": true
+            },
+            "props": {
+                "formItemProps": {
+                    "primaryKey": "760",
+                    "label": "表单项",
+                    "size": "medium",
+                    "device": "desktop",
+                    "fullWidth": true
+                },
+                "placeholder": "请输入"
+            }
+        }
+       )
+    };
+
     const modulePanel = () => {
       return (
         <div>
-          <ElCollapseItem title="属性">
+          <ElCollapseItem title="表单属性">
         <div className="layout">
           <div className="layoutItem">
             <span className="layoutItem-title">只读状态</span>
@@ -65,27 +92,41 @@ const FormOperatorPanel = defineComponent({
             />
             </div>
             <div className="layoutItem">
-            <span className="layoutItem-title">列布局</span>
-            <ElInput
-              size="small"
-              v-slots={{
-                append: () => (
-                  <span>列</span>
-                )
-              }}
-            />
+              <span className="layoutItem-title">列布局</span>
+              <ElInput
+                size="small"
+                vModel={props.item.props.span}
+                v-slots={{
+                  append: () => (
+                    <span>列</span>
+                  )
+                }}
+              />
+              </div>
+
+            <div className="layoutItem">
+              <span className="layoutItem-title">间距</span>
+              <ElInput
+                size="small"
+                vModel={props.item.props.gutter}
+                v-slots={{
+                  append: () => (
+                    <span>间距</span>
+                  )
+                }}
+              />
             </div>
 
             <div className="layoutItem">
-            <span className="layoutItem-title">标签长度</span>
-            <ElInput
-                size="small"
-                v-slots={{
-                  append: () => (
-                    <span>px</span>
-                  )
-                }}
-            />
+              <span className="layoutItem-title">标签长度</span>
+              <ElInput
+                  size="small"
+                  v-slots={{
+                    append: () => (
+                      <span>px</span>
+                    )
+                  }}
+              />
             </div>
 
             <div className="layoutItem">
@@ -99,29 +140,33 @@ const FormOperatorPanel = defineComponent({
         </div>
           </ElCollapseItem>
 
-      <ElCollapseItem title="表单项">
+          <ElCollapseItem title="表单项">
+            <div style={{ 'display': 'flex', 'justify-content': 'space-around'}}>
+              <span className="layoutItem-title">lebel</span>
+              <span className="layoutItem-title">value</span>
+           </div>
         <div className="layout">
           <div className="layoutItem">
-            <span className="layoutItem-title">表单项</span>
-            <div className="layoutItem-colm">
+            <div className="layoutItem-colm" >
               {
                 props.item.children.map((e, i) => {
                   return (
-                    <div key={i}>
+                    <div key={i} style={{ 'display': 'flex', marginBottom: '5px' }}>
                       <ElInput
                         size="small"
-                        v-model={e.props.label}
-                        placeholder="请输入标签"
+                        vModel={e.props.formItemProps.label}
+                        placeholder="lebel"
                       />
                       <ElInput
                         size="small"
-                        v-model={e.props.label}
-                        placeholder="请输入标签"
+                        vModel={e.props.formItemProps.value}
+                        placeholder="value"
                       />
                     </div>
                   );
                 })
-              }
+                  }
+                  <ElButton type="text"  size="small" onClick={addFormItem}>添加</ElButton>
             </div>
           </div>
         </div>
