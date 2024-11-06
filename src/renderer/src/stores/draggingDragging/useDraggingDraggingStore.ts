@@ -5,7 +5,7 @@ import { deepClone } from '@renderer/utils/index'
 
 export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () => {
 
-    // 页面JSON
+// 页面JSON
 //   const pageJSON = ref({
 //     type: 'page',
 //     title: '页面',
@@ -131,9 +131,216 @@ export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () 
 //         "key": "48d881f1-4a36-dc3a-26f0-3448f4cb902e"
 //     },
 //     ]
-//   })
+  //   })
 
-const pageJSON = ref([])
+  const pageJSON = ref({
+    type: 'page',
+    title: '页面',
+    whetherYouCanDrag: true,
+    props: {
+      className: 'PageContainer',
+      style: '',
+    },
+    children: [
+      {
+        "componentName": "div容器",
+        "type": "container",
+        "icon": "",
+        "group": "基础组件",
+        "props": {
+            "name": "title",
+            "className": "container",
+            "style": "",
+            "title": "标题"
+        },
+        "children": [
+          {
+            "componentName": "表单",
+            "type": "Form",
+            "icon": "",
+            "group": "基础组件",
+            "npm": {
+                "exportName": "Form",
+                "package": "@renderer/packages",
+                "destructuring": true
+            },
+            "props": {
+                "name": "title",
+                "propType": "string",
+                "description": "标题",
+                "defaultValue": "标题"
+            },
+            "children": [
+                {
+                    "componentName": "输入框",
+                    "type": "input",
+                    "icon": "",
+                    "group": "基础组件",
+                    "npm": {
+                        "exportName": "ElInput",
+                        "package": "element-plus",
+                        "destructuring": true
+                    },
+                    "props": {
+                        "formItemProps": {
+                            "primaryKey": "760",
+                            "label": "表单项",
+                            "size": "medium",
+                            "device": "desktop",
+                            "fullWidth": true,
+                            "value": "123"
+                        },
+                        "placeholder": "请输入"
+                    },
+                    "key": "input-539"
+                },
+                {
+                    "componentName": "输入框",
+                    "type": "input",
+                    "icon": "",
+                    "group": "基础组件",
+                    "npm": {
+                        "exportName": "ElInput",
+                        "package": "element-plus",
+                        "destructuring": true
+                    },
+                    "props": {
+                        "formItemProps": {
+                            "primaryKey": "760",
+                            "label": "表单项",
+                            "size": "medium",
+                            "device": "desktop",
+                            "fullWidth": true,
+                            "value": "232"
+                        },
+                        "placeholder": "请输入"
+                    },
+                    "key": "input-8140"
+                },
+                {
+                    "componentName": "输入框",
+                    "type": "input",
+                    "icon": "",
+                    "group": "基础组件",
+                    "npm": {
+                        "exportName": "ElInput",
+                        "package": "element-plus",
+                        "destructuring": true
+                    },
+                    "props": {
+                        "formItemProps": {
+                            "primaryKey": "760",
+                            "label": "表单项",
+                            "size": "medium",
+                            "device": "desktop",
+                            "fullWidth": true,
+                            "value": "32131"
+                        },
+                        "placeholder": "请输入"
+                    },
+                    "key": "input-6731"
+                },
+                {
+                    "componentName": "输入框",
+                    "type": "input",
+                    "icon": "",
+                    "group": "基础组件",
+                    "npm": {
+                        "exportName": "ElInput",
+                        "package": "element-plus",
+                        "destructuring": true
+                    },
+                    "props": {
+                        "formItemProps": {
+                            "primaryKey": "760",
+                            "label": "表单项",
+                            "size": "medium",
+                            "device": "desktop",
+                            "fullWidth": true,
+                            "value": "21313"
+                        },
+                        "placeholder": "请输入"
+                    },
+                    "key": "input-6337"
+                },
+                {
+                    "componentName": "输入框",
+                    "type": "input",
+                    "icon": "",
+                    "group": "基础组件",
+                    "npm": {
+                        "exportName": "ElInput",
+                        "package": "element-plus",
+                        "destructuring": true
+                    },
+                    "props": {
+                        "formItemProps": {
+                            "primaryKey": "760",
+                            "label": "表单项",
+                            "size": "medium",
+                            "device": "desktop",
+                            "fullWidth": true,
+                            "value": "3113"
+                        },
+                        "placeholder": "请输入"
+                    },
+                    "key": "input-5646"
+                },
+                {
+                    "componentName": "输入框",
+                    "type": "input",
+                    "icon": "",
+                    "group": "基础组件",
+                    "npm": {
+                        "exportName": "ElInput",
+                        "package": "element-plus",
+                        "destructuring": true
+                    },
+                    "props": {
+                        "formItemProps": {
+                            "primaryKey": "760",
+                            "label": "表单项",
+                            "size": "medium",
+                            "device": "desktop",
+                            "fullWidth": true,
+                            "value": "3123"
+                        },
+                        "placeholder": "请输入"
+                    },
+                    "key": "input-4687"
+                },
+                {
+                    "componentName": "输入框",
+                    "type": "input",
+                    "icon": "",
+                    "group": "基础组件",
+                    "npm": {
+                        "exportName": "ElInput",
+                        "package": "element-plus",
+                        "destructuring": true
+                    },
+                    "props": {
+                        "formItemProps": {
+                            "primaryKey": "760",
+                            "label": "表单项",
+                            "size": "medium",
+                            "device": "desktop",
+                            "fullWidth": true,
+                            "value": "3123"
+                        },
+                        "placeholder": "请输入"
+                    },
+                    "key": "input-3211"
+                }
+            ],
+            "key": "Form-5692"
+        }
+        ],
+        "key": "container-9461"
+    }
+    ]
+  }
+  )
   const currentDragObject = ref({}) // 当前拖拽对象
 
   const currentEnvironment = ref(true) // 当前环境

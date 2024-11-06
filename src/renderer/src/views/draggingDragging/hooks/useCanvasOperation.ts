@@ -3,7 +3,7 @@ import { useDraggingDraggingStore } from "@renderer/stores/draggingDragging/useD
 import { deepClone } from "@renderer/utils/index";
 import { ElMessage } from "element-plus";
 import { storeToRefs } from "pinia";
-
+import { editCodeConfig } from "@renderer/api/apis/lowCode/lowCode";
 export default function useCanvasOperation() {
   let {
     pageJSON, // 页面所有数据
@@ -113,11 +113,17 @@ export default function useCanvasOperation() {
    */
   const saveHistoryOperatingObject = () => {
     try {
-      addHistoryOperatingObject();
-      setTimeout(() => {
+      addHistoryOperatingObject(); // 记录历史记录
+      // 保存成功后，延迟一秒提示
+      console.log("保存成功",pageJSON.value);
+      editCodeConfig({
+        codeConfigName: 'test',
+        codeConfig: pageJSON.value,
+        codeConfigId:'231f703a-5acf-462d-8257-2cb2e56b4baf',
+      }).then(res => {
         ElMessage({ message: "保存成功", type: "success" });
-        console.log(historyOperatingObject.value);
-      }, 100);
+        console.log(res);
+      })
     } catch (err) {
       console.error("保存失败----" + err);
     }

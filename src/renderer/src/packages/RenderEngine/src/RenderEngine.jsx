@@ -28,9 +28,9 @@ const RenderEngine = defineComponent({
     const { addHistoryOperatingObject } = useCanvasOperation()
 
     const store = useDraggingDraggingStore();
-    const { pageJSON } = storeToRefs(store);
-    const whetherYouCanDrag = computed(() => pageJSON.value.whetherYouCanDrag);
-    const componentList = ref(pageJSON.value?.children || [])
+    const { pageJSON } = storeToRefs(store); // 页面数据
+    const whetherYouCanDrag = computed(() => pageJSON.value.whetherYouCanDrag); //
+    const componentList = ref(pageJSON.value?.children || []) // 组件列表
 
     watch(
       () => pageJSON.value,

@@ -5,8 +5,13 @@ import draggingDraggingMain from '@renderer/views/draggingDragging/components/dr
 import draggingDraggingR from '@renderer/views/draggingDragging/components/draggingDraggingR.jsx'
 import draggingDraggingHead from '@renderer/views/draggingDragging/components/draggingDraggingHead.jsx'
 import  useCanvasOperation from './hooks/useCanvasOperation';
-
+import { getCodeConfig } from "@renderer/api/apis/lowCode/lowCode";
 import './style/draggingDraggingL.less'
+import { storeToRefs } from "pinia";
+import { useDraggingDraggingStore } from "@renderer/stores/draggingDragging/useDraggingDraggingStore";
+
+  const store = useDraggingDraggingStore();
+  const { pageJSON } = storeToRefs(store);
 
 const lengthWidth = ref(true);
 const { init } = useCanvasOperation();
@@ -14,8 +19,16 @@ const { init } = useCanvasOperation();
 const mousedown = (e) => {
   console.log('鼠标右键',e)
 }
-onMounted(()=>{
+onMounted(()=> {
   init()
+  getCodeConfig(
+    {
+      codeConfigId: '231f703a-5acf-462d-8257-2cb2e56b4baf',
+    }
+  ).then((res)=>{
+    pageJSON.value = res.result.codeConfig
+    console.log('获取到保存数据res',pageJSON.value)
+  })
 })
 </script>
 <template>

@@ -71,17 +71,15 @@ export default defineConfig({
       proxy: { //配置多个代理
         '/api': {
           // target: "http://192.168.6.43:8300/",
-          target: "http://121.40.249.116:8300/",
+          target: "http://localhost:3005",
           changeOrigin: true, ///设置访问目标地址允许跨域
           rewrite: (p) => p.replace(/^\/api/, '')
         },
-        '/region': {
-          target: "http://47.99.91.120:8040/",
-          changeOrigin: true, ///设置访问目标地址允许跨域
-          rewrite: (p) => p.replace(/^\/region/, '')
-        },
-
-
+        // '/region': {
+        //   target: "http://47.99.91.120:8040/",
+        //   changeOrigin: true, ///设置访问目标地址允许跨域
+        //   rewrite: (p) => p.replace(/^\/region/, '')
+        // },
       }
     },
   },

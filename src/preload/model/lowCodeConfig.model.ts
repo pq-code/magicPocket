@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize'
 import { seq } from '../db/sqlite'
-import { config } from 'process'
 
 //创建模型
 export const lowCodeConfig = seq.define(

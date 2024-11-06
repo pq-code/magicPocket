@@ -61,7 +61,6 @@ const From = defineComponent({
           <ElRow gutter={Number(props.pageJSON.props.gutter) || 20}>{formChildren}</ElRow>
         </ElForm>
       );
-      console.log(props.pageJSON,form)
       return (<DlockContainer item={props.pageJSON} children= {
         [form].filter(Boolean)
       } />)
