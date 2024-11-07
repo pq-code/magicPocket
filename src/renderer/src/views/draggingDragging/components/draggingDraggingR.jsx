@@ -4,6 +4,7 @@ import FormvOperatorPanel from '@renderer/packages/Form/src/FormOperatorPanel.js
 import { ElInput, ElSwitch } from 'element-plus';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { storeToRefs } from 'pinia'
+import ControlPanel from '@renderer/packages/ControlPanel/src/ControlPanel'
 
 const draggingDraggingL = defineComponent({
   props: {
@@ -36,40 +37,46 @@ const draggingDraggingL = defineComponent({
       init()
     });
 
+    // const TypeRender = (item) => {
+    //   switch (item.type) {
+    //     case 'container':
+    //       return (
+    //         <DlockContainerOperatorPanel item={item}></DlockContainerOperatorPanel>
+    //       )
+    //     case 'Form':
+    //       return (
+    //        <FormvOperatorPanel item={item}></FormvOperatorPanel>
+    //       )
+    //     case 'switch':
+    //       return (
+    //         <div className='RadioLabel'>
+    //           <div className='RadioLabel-titel'> {item.label}</div>
+    //           <ElSwitch
+    //             modelValue={item.value}
+    //             size="small"
+    //             active-text="编辑"
+    //             inactive-text="只读"
+    //           />
+    //         </div>
+    //       )
+    //     default:
+    //       return (
+    //         <div className='form-item'>
+    //           <div>{item.label}</div>
+    //           <ElInput size="small" {...item} > </ElInput>
+    //         </div>
+    //       )
+    //   }
+    // }
+
     const TypeRender = (item) => {
-      switch (item.type) {
-        case 'container':
-          return (
-            <DlockContainerOperatorPanel item={item}></DlockContainerOperatorPanel>
-          )
-        case 'Form':
-          return (
-           <FormvOperatorPanel item={item}></FormvOperatorPanel>
-          )
-        case 'switch':
-          return (
-            <div className='RadioLabel'>
-              <div className='RadioLabel-titel'> {item.label}</div>
-              <ElSwitch
-                modelValue={item.value}
-                size="small"
-                active-text="编辑"
-                inactive-text="只读"
-              />
-            </div>
-          )
-        default:
-          return (
-            <div className='form-item'>
-              <div>{item.label}</div>
-              <ElInput size="small" {...item} > </ElInput>
-            </div>
-          )
-      }
+      return (
+        <ControlPanel item={item}></ControlPanel>
+      )
     }
 
     const RenderEngine = (item) => {
-      if (!item || JSON.stringify(item) == '{}') return (
+      if (!item || JSON.stringify(item) == '{}') (
         <div style={
           {'text-align': 'center',
             'line-height': '500px',

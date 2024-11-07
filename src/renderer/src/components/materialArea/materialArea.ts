@@ -1,188 +1,20 @@
-
-// export const componentList = [
-//   {
-//     componentName: "div容器",
-//     type: "container",
-//     icon: "",
-//     group: "基础组件",
-//     props: {
-//       name: "title",
-//       className: 'container',
-//       style: ''
-//     },
-//     children:[]
-//   },
-//   {
-//     componentName: "表单",
-//     type: "from",
-//     icon: "",
-//     group: "基础组件",
-//     npm: { // import { Message } from @alifd/next 的意思
-//       exportName: "From",
-//       package: '@renderer/packages',
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     },
-//     children:[]
-//   },
-//   {
-//     componentName: "输入框",
-//     type: "input",
-//     icon: "",
-//     group: "基础组件",
-//     npm: {
-//       exportName: "ElInput",
-//       package: "element-plus",
-//       // version: "1.19.18",
-//       // package: "src/index.js",
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     }
-//   },
-//   {
-//     componentName: "下拉框",
-//     type: "select",
-//     icon: "",
-//     group: "基础组件",
-//     npm: { // import { Message } from @alifd/next 的意思
-//       exportName: "ElSelect",
-//       package: "element-plus",
-//       // version: "1.19.18",
-//       // package: "src/index.js",
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     }
-//   },
-//   {
-//     componentName: "tabel表格",
-//     type: "tabel",
-//     icon: "",
-//     group: "基础组件",
-//     npm: { // import { Message } from @alifd/next 的意思
-//       exportName: "Ptabel",
-//       package: "@renderer/packages",
-//       // version: "1.19.18",
-//       // package: "src/index.js",
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     }
-//   },
-// ]
-
-// export const componentMap = {
-//   container:   {
-//     componentName: "div容器",
-//     type: "container",
-//     icon: "",
-//     group: "基础组件",
-//     props: {
-//       name: "title",
-//       className: 'container1',
-//       style: ''
-//     },
-//     children:[]
-//   },
-//   from:  {
-//     componentName: "表单",
-//     type: "from",
-//     icon: "",
-//     group: "基础组件",
-//     npm: { // import { Message } from @alifd/next 的意思
-//       exportName: "From",
-//       package: '@renderer/packages',
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     },
-//     children:[]
-//   },
-//   input: {
-//     componentName: "输入框",
-//     type: "input",
-//     icon: "",
-//     group: "基础组件",
-//     npm: {
-//       exportName: "ElFrom",
-//       package: "element-plus",
-//       // version: "1.19.18",
-//       // package: "src/index.js",
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     }
-//   },
-//   select: {
-//     componentName: "下拉框",
-//     type: "select",
-//     icon: "",
-//     group: "基础组件",
-//     npm: { // import { Message } from @alifd/next 的意思
-//       exportName: "el-select",
-//       package: "element-plus",
-//       // version: "1.19.18",
-//       // package: "src/index.js",
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     }
-//   },
-//   tabel:  {
-//     componentName: "tabel表格",
-//     type: "tabel",
-//     icon: "",
-//     group: "基础组件",
-//     npm: { // import { Message } from @alifd/next 的意思
-//       exportName: "Ptabel",
-//       package: "@renderer/packages",
-//       // version: "1.19.18",
-//       // package: "src/index.js",
-//       destructuring: true,
-//     },
-//     props: {
-//       name: "title",
-//       propType: "string",
-//       description: "标题",
-//       defaultValue: "标题"
-//     }
-//   },
-// }
-
 import { createApp } from "vue";
+import { Form } from "./components/Form";
+import { Container } from "./components/Container";
 
 const app = createApp({});
 
+const components = [
+  Container,
+  Form
+]
+
+function arrayToObject(arr) {
+  return arr.reduce((obj, item, index) => {
+    obj[item.type] = item;
+    return obj;
+  }, {});
+}
 
 const componentList = []
 
@@ -193,11 +25,6 @@ const setComponentList = () => {
       npm.component().then(res => {
         if (res) {
           if (!window[componentMap[e].npm.exportName]) {
-            // if (npm.destructuring) {
-            //   window[componentMap[e].npm.exportName] = res
-            // } else {
-            //   window[componentMap[e].npm.exportName] = res
-            // }
             window[componentMap[e].npm.exportName] = res
             app.component(npm.exportName, res);
           }
@@ -209,15 +36,62 @@ const setComponentList = () => {
   return componentList
 }
 
-
-export const componentMap = {
+export let componentMap = {
   container: {
     componentName: "div容器",
     type: "container",
     icon: "",
     group: "基础组件",
     props: {
-      name: "title",
+      titleProps: {
+        title: '标题',
+        children: [
+          {
+            label: '标题',
+            type: 'input',
+            value: '',
+          },
+          {
+            label: '文字大小',
+            type: 'input',
+            value: '',
+          },
+          {
+            label: '粗细',
+            type: 'input',
+            value: '',
+          },
+          {
+            label: '内间距',
+            type: 'input',
+            value: '',
+          },
+          {
+            label: '外间距',
+            type: 'input',
+            value: '',
+          },
+          {
+            label: '标题位置',
+            type: 'segmented',
+            value: '',
+            options: [
+              {
+                label: '左',
+                value: 'left'
+              },
+              {
+                label: '右',
+                value: 'right'
+              },
+              {
+                label: '中',
+                value: 'center'
+              },
+            ]
+          },
+        ]
+      },
       className: 'container',
       style: ''
     },
@@ -239,10 +113,96 @@ export const componentMap = {
       }
     },
     props: {
-      name: "title",
-      propType: "string",
-      description: "标题",
-      defaultValue: "标题",
+      className: '',
+      style: '',
+      formProps: {
+        title: '表单属性',
+        children: [
+          {
+            label: '是否只读',
+            type: 'segmented',
+            value: '',
+            options: [ {
+              label: '是',
+              value: true
+            },
+            {
+              label: '否',
+              value: false
+            },]
+          },
+          {
+            label: '几列',
+            type: 'segmented',
+            value: '',
+            options: [
+              {
+                label: '1列',
+                value: 24
+              },
+              {
+                label: '2列',
+                value: 12
+              },
+              {
+                label: '3列',
+                value: 8
+              },
+              {
+                label: '4列',
+                value: 6
+              },
+              {
+                label: '5列',
+                value: 4
+              },
+            ]
+          },
+          {
+            label: '列间距',
+            type: 'input',
+            value: '',
+            rightText: 'px',
+          },
+          {
+            label: '是否查询交按钮',
+            type: 'segmented',
+            value: '',
+            options: [ {
+              label: '是',
+              value: true
+            },
+            {
+              label: '否',
+              value: false
+            },]
+          },
+          {
+            label: '是否有重置',
+            type: 'segmented',
+            value: '',
+            options: [ {
+              label: '是',
+              value: true
+            },
+            {
+              label: '否',
+              value: false
+            },]
+          },
+          {
+            label: 'Api',
+            type: 'input',
+            value: '',
+            longInput: true,
+            rightText: 'url'
+          }
+        ]
+      },
+      formItemProps: {
+        title: '表单项',
+        vnode: ''
+      }
     },
     children: [
       {
@@ -372,10 +332,10 @@ export const componentMap = {
       description: "标题",
       defaultValue: "标题"
     }
-  },
+  }
 }
 
-
+componentMap = arrayToObject(components)
 setComponentList()
 
-export { componentList,setComponentList }
+export { componentList, setComponentList }
