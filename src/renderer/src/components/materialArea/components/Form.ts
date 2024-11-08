@@ -1,5 +1,5 @@
 
-import { defineAsyncComponent } from 'vue'
+
 export const Form = {
   componentName: "表单",
   type: "Form",
@@ -110,14 +110,6 @@ export const Form = {
     },
     formItemProps: {
       title: '表单项',
-      vnode: '',
-      component: 'packages/Form/components/FormItemConfig.jsx',
-      children: [
-      ]
-    },
-    aaaProps: {
-      title: '测试',
-      vnode: '',
       component: 'packages/Form/components/FormItemConfig.jsx',
       children: [
       ]

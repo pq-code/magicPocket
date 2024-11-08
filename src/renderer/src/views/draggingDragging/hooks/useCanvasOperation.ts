@@ -102,7 +102,16 @@ export default function useCanvasOperation() {
    * @returns 无返回值
    */
   const clearHistoryOperatingObject = () => {
-    pageJSON.value = {}; // 清空
+    pageJSON.value = {
+      type: "",
+      title: "",
+      whetherYouCanDrag: false,
+      props: {
+        className: "",
+        style: ""
+      },
+      children: []
+    }; // 清空
     currentDragObject.value = {};
     currentOperatingObject.value = {};
     addHistoryOperatingObject();
@@ -164,21 +173,21 @@ export default function useCanvasOperation() {
    *
    * @returns 无返回值
    */
-  const deleteObject = () => {
-    if (!currentOperatingObject.value) {
-      console.error("当前操作对象为空，无法删除");
-      return;
-    }
+  // const deleteObject = () => {
+  //   if (!currentOperatingObject.value) {
+  //     console.error("当前操作对象为空，无法删除");
+  //     return;
+  //   }
 
-    for (let i = 0; i < pageJSON.value.children.length; i++) {
-      if (pageJSON.value.children[i].key == currentOperatingObject.value.key) {
-        pageJSON.value.children.splice(i, 1);
-        currentOperatingObject.value = null
-        break;
-      }
-      depthFirstSearchAndDelete(pageJSON.value.children[i], currentOperatingObject.value.key) // 深层查找
-    }
-  };
+  //   for (let i = 0; i < pageJSON.value.children.length; i++) {
+  //     if (pageJSON.value.children[i]?.key == currentOperatingObject.value.key) {
+  //       pageJSON.value.children.splice(i, 1);
+  //       currentOperatingObject.value = null
+  //       break;
+  //     }
+  //     depthFirstSearchAndDelete(pageJSON.value.children[i], currentOperatingObject.value.key) // 深层查找
+  //   }
+  // };
 
   // 快捷键绑定
   // ctrl+z 撤销

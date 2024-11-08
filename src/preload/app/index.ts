@@ -12,7 +12,7 @@ import { join } from 'path'
 
 import { is } from '@electron-toolkit/utils'
 
-import {router } from '../router'
+
 
 let httpHost = httpPort
 let app = express();
@@ -23,7 +23,7 @@ if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
   app.use(express.static(join(__dirname, '../renderer/index.html')))// 获取页面
 }
 
-app.use(router.routes()).use(router.allowedMethods())// 判断请求是否支持
+// app.use(router.routes()).use(router.allowedMethods())// 判断请求是否支持
 
 // 开启http
 export const linkStartHttp = () => {

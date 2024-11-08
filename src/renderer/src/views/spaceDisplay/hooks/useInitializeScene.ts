@@ -1,9 +1,9 @@
-import { onUnmounted, ref, onMounted, nextTick, computed } from 'vue';
+import { onUnmounted } from 'vue';
 
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper";
-import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib";
+// import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper";
+// import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib";
 
 
 
@@ -18,7 +18,7 @@ export default function useInitializeScene() {
   // 窗口数据
   let width = window.innerWidth; //窗口宽度
   let height = window.innerHeight; //窗口高度
-  let k = width / height; //窗口宽高比
+  // let k = width / height; //窗口宽高比
   let s = 100; //三维场景显示范围控制系数，系数越大，显示的范围越大
 
   // 默认设置
@@ -37,11 +37,11 @@ export default function useInitializeScene() {
     height = window.innerHeight
   }
   const initialization = (options) => {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
     // 创建渲染器对象
     renderer = new THREE.WebGLRenderer(options || defaultSetting);
 
-    function animation(time) {
+    function animation() {
         // const mesh = scene.getObjectByName( 'meshKnot' );
         // mesh.rotation.y = time / 1000;
         renderer.render(scene, camera);// 使用渲染器将相机视野内的场景渲染到画布上

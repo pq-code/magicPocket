@@ -1,7 +1,3 @@
-const component = async () => {
-  const component = await import('@renderer/packages')
-  return component
-}
 
 export const Container = {
   componentName: "div容器",

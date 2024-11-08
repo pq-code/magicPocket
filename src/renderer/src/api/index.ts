@@ -19,7 +19,7 @@ const service: AxiosInstance = axios.create({
 
 /* 请求拦截器 */
 service.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
+    (config) => {
         // cancelRequest=true 取消重复请求
         if (config.data.cancelRequest) {
             cancelRequest = setInterval(() => {
@@ -116,4 +116,4 @@ export const http = {
 };
 
 // 刷新Token
-const refreshToken = () => { };
+// const refreshToken = () => { };

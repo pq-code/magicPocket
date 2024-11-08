@@ -46,7 +46,7 @@ const DlockContainerOperatorPanel = defineComponent({
               {itemProps[key].children ? <PropsItem item={itemProps[key].children}></PropsItem> : null}
               {itemProps[key].component ?
                 <Suspense>
-                  <AsyncComp></AsyncComp>
+                  <AsyncComp item={props.item}></AsyncComp>
                 </Suspense>
                 : null}
             </ElCollapseItem>

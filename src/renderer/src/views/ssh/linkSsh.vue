@@ -1,7 +1,7 @@
 <script setup lang='ts'>
-import { reactive, ref, onMounted } from "vue"
+import { reactive } from "vue"
 
-let isPassword = ref(true)
+// let isPassword = ref(true)
 let from = reactive({
   password:'',
   keyPassword: '',
@@ -9,8 +9,8 @@ let from = reactive({
   keyUrl:''
 })
 
-const handleGetPath = (e) =>{
-
+const handleGetPath = (key) =>{
+  console.log(key)
 }
 
 const working = () => {
