@@ -1,8 +1,5 @@
-const component = async () => {
-  const component = await import('@renderer/packages')
-  return component
-}
 
+import { defineAsyncComponent } from 'vue'
 export const Form = {
   componentName: "表单",
   type: "Form",
@@ -35,12 +32,14 @@ export const Form = {
           {
             label: '否',
             value: false
-          },]
+            },],
+          key: 'isReadOnly'
         },
         {
           label: '几列',
           type: 'segmented',
           value: '',
+          key: 'span',
           options: [
             {
               label: '1列',
@@ -69,11 +68,13 @@ export const Form = {
           type: 'input',
           value: '',
           rightText: 'px',
+          key: 'gutter'
         },
         {
-          label: '是否查询交按钮',
+          label: '是否有查询按钮',
           type: 'segmented',
           value: '',
+          key: 'isSubmit',
           options: [{
             label: '是',
             value: true
@@ -87,6 +88,7 @@ export const Form = {
           label: '是否有重置',
           type: 'segmented',
           value: '',
+          key: 'isReset',
           options: [{
             label: '是',
             value: true
@@ -101,13 +103,24 @@ export const Form = {
           type: 'input',
           value: '',
           longInput: true,
-          rightText: 'url'
+          rightText: 'url',
+          key: 'api'
         }
       ]
     },
     formItemProps: {
       title: '表单项',
-      vnode: ''
+      vnode: '',
+      component: 'packages/Form/components/FormItemConfig.jsx',
+      children: [
+      ]
+    },
+    aaaProps: {
+      title: '测试',
+      vnode: '',
+      component: 'packages/Form/components/FormItemConfig.jsx',
+      children: [
+      ]
     }
   },
   children: [

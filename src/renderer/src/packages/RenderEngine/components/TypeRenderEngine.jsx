@@ -49,7 +49,7 @@ const generateContainer = (item, children) => {
 
 const generateForm = (item, children) => {
   return (
-    <Form key={item.key} pageJSON={item} children={children} />
+    <Form key={item.key} item={item} children={children} />
   )
 }
 

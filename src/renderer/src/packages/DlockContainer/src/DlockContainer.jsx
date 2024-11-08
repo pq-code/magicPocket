@@ -7,11 +7,11 @@ const DlockContainer = defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     item: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => { }
     },
     children: {
       type: Array,
@@ -22,16 +22,9 @@ const DlockContainer = defineComponent({
     prop: 'modelValue',
     event: 'update:modelValue',
   },
-  /**
-   * 设置组件
-   *
-   * @param props 组件属性
-   * @param emit 触发事件函数
-   * @returns 返回渲染函数
-   */
-  setup(props, { emit }) {
+  setup(props, { emit ,slots}) {
     const store = useDraggingDraggingStore();
-    const { pageJSON,currentOperatingObject } = storeToRefs(store);
+    const { pageJSON, currentOperatingObject } = storeToRefs(store);
 
     /**
      * 点击容器函数
@@ -40,7 +33,6 @@ const DlockContainer = defineComponent({
      * @returns 无返回值
      */
     const clickContainer = (e) => {
-      console.log(props.item, e, pageJSON.value)
       // 如果选中的对象不为空，则清除选中对象的高亮标记
       if (currentOperatingObject.value && JSON.stringify(currentOperatingObject.value) !== '{}') {
         document.getElementById(currentOperatingObject.value.key).classList.remove('selected-highlighted');
@@ -60,52 +52,6 @@ const DlockContainer = defineComponent({
       }
     }
 
-    /**
-     * 处理鼠标离开事件
-     *
-     * @param e 事件对象
-     */
-    function handleMouseLeave(e) {
-      e.currentTarget?.classList.remove('hover-highlighted');
-    }
-
-    const divProps = computed(() => {
-      let value = {}
-      props.item.props?.divProps?.children.forEach(item => {
-        value[item.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()] = item.value
-      })
-      if (props.item.props.divProps) {
-        props.item.props.divProps['style'] = {
-          'text-align': value['text-align'],
-          'font-size': processStringAddPx.value(value['font-size']),
-          'font-weight': value['font-weight'],
-          'margin': processStringAddPx.value(value['margin']) || '10px 0px',
-          'padding': processStringAddPx.value(value['padding']) || '0px',
-          'display': value['display'] || 'block'
-        }
-      }
-      
-      return value
-    })
-
-    // 标题属性
-    const titleProps = computed(() => {
-      let value = {}
-      props.item.props?.titleProps?.children.forEach(item => {
-        value[item.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()] = item.value
-      })
-     if( value.title) {
-        props.item.props.titleProps['style'] = {
-          'text-align': value['text-align'],
-          'font-size': processStringAddPx.value(value['font-size'] || '23px'),
-          'font-weight': value['font-weight'],
-          'margin': processStringAddPx.value(value['margin']) || '10px 0px',
-          'padding': processStringAddPx.value(value['padding']) || '0px',
-        }
-      }
-      return value
-    })
-
     // 字符串处理函数 + px
     const processStringAddPx = computed(() => {
       return (str) => {
@@ -124,6 +70,52 @@ const DlockContainer = defineComponent({
         return /(px|rem|%|em)$/.test(str) ? str : `${str}px`
       }
     })
+
+    /**
+     * 处理鼠标离开事件
+     *
+     * @param e 事件对象
+     */
+    function handleMouseLeave(e) {
+      e.currentTarget?.classList.remove('hover-highlighted');
+    }
+
+    const divProps = computed(() => {
+      let value = {}
+      props.item.props?.divProps?.children.forEach(item => {
+        value[item.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()] = item.value
+      })
+      if (props.item.props?.divProps) {
+        props.item.props.divProps['style'] = {
+          'text-align': value['text-align'],
+          'font-size': processStringAddPx.value(value['font-size']),
+          'font-weight': value['font-weight'],
+          'margin': processStringAddPx.value(value['margin']) || '10px 0px',
+          'padding': processStringAddPx.value(value['padding']) || '0px',
+          'display': value['display']
+        }
+      }
+      return value
+    })
+
+    // 标题属性
+    const titleProps = computed(() => {
+      let value = {}
+      props.item.props?.titleProps?.children.forEach(item => {
+        value[item.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()] = item.value
+      })
+      if (value.title) {
+        props.item.props.titleProps['style'] = {
+          'text-align': value['text-align'],
+          'font-size': processStringAddPx.value(value['font-size'] || '23px'),
+          'font-weight': value['font-weight'],
+          'margin': processStringAddPx.value(value['margin']) || '10px 0px',
+          'padding': processStringAddPx.value(value['padding']) || '0px',
+        }
+      }
+      return value
+    })
+
     /**
      * 渲染节点
      *
@@ -134,7 +126,9 @@ const DlockContainer = defineComponent({
       const Dom = [
         <PageContainer pageJSON={props.item} children={props.children}
           className={divProps.value['class-name']}
-          style={props.item.props?.divProps?.style || {}}/>
+          style={props.item.props?.divProps?.style || {}}>
+            { slots }
+          </PageContainer>
       ];
       // 标题
       if (titleProps.value.title) {
@@ -149,12 +143,13 @@ const DlockContainer = defineComponent({
         <div
           id={props.item.key}
           key={props.item.key}
-          className='container'
+          className={props.item.props?.className}
+          style={props.item.props?.style}
           onClick={clickContainer}
           onMouseenter={handleMouseEnter}
           onMouseleave={handleMouseLeave}
         >
-          { Dom.filter(Boolean) }
+          {Dom.filter(Boolean)}
         </div>
       )
     }

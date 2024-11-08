@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch, onMounted } from "vue";
+import { defineComponent, ref, watch, onMounted, defineAsyncComponent, Suspense } from "vue";
 import "../style/index.module.less";
 import {
   ElCollapseItem,
@@ -27,15 +27,29 @@ const DlockContainerOperatorPanel = defineComponent({
     const activeNames = ref()
     const handleSelect = () => {
     }
+
+
+    const component = (url) => {
+      return defineAsyncComponent({
+        loader: () => import(/* @vite-ignore */'../../../' + url),
+        delay: 200,
+      })
+    }
     const modulePanel = (item) => {
       let itemProps = item?.props || {}
       let propsChildren = []
       Object.keys(itemProps).map((key) => {
         if (key.includes('Props')) {
+          let AsyncComp = itemProps[key].component ? component(itemProps[key].component) : null
           propsChildren.push(
-          <ElCollapseItem title={itemProps[key].title}>
-              {itemProps[key].children?<PropsItem item={itemProps[key].children}></PropsItem>: null}
-          </ElCollapseItem>
+            <ElCollapseItem title={itemProps[key].title}>
+              {itemProps[key].children ? <PropsItem item={itemProps[key].children}></PropsItem> : null}
+              {itemProps[key].component ?
+                <Suspense>
+                  <AsyncComp></AsyncComp>
+                </Suspense>
+                : null}
+            </ElCollapseItem>
           )
         }
       })
@@ -52,7 +66,7 @@ const DlockContainerOperatorPanel = defineComponent({
     const seniorPanel = () => {
     }
     const TypeRender = (i) => {
-      return  modulePanel(props.item)
+      return modulePanel(props.item)
     }
 
     return () => (
@@ -66,12 +80,15 @@ const DlockContainerOperatorPanel = defineComponent({
             ['组件', '样式', '高级'].map((item, i) => {
               return (
                 <ElTabPane label={item}>
-                  {()=>TypeRender(i)}
+                  {() => TypeRender(i)}
                 </ElTabPane>
-                )
+              )
             })
           }
         </ElTabs>
+        <Suspense>
+          <AsyncComp></AsyncComp>
+        </Suspense>
       </div>
     );
   },
