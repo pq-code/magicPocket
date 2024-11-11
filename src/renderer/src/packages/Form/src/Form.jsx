@@ -24,6 +24,10 @@ const From = defineComponent({
   },
   setup(props, { emit, slots }) {
     const inputValue = ref({});
+    const formRef = ref(null)
+    onMounted(() => {
+      props.item.ref = formRef.value; // ref抛出去给外面
+    })
     const handleChange = () => {
 
     }
@@ -75,7 +79,7 @@ const From = defineComponent({
           );
         });
 
-      const form = <ElForm vModel={inputValue.value} ref="formRef" >
+      const form = <ElForm ref={formRef} vModel={inputValue.value} >
         <ElRow gutter={formProps.value?.gutter || 20}>{formChildren}</ElRow>
       </ElForm>;
       const button = []

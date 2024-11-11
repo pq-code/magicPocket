@@ -7,13 +7,8 @@ export const Form = {
   group: "基础组件",
   npm: {
     exportName: "Form",
-    package: '@renderer/packages',
+    component: 'packages/Form/src/Form.jsx',
     destructuring: true,
-    component: async () => {
-      const component = await import('@renderer/packages')
-      console.log(component)
-      return component['Form']
-    }
   },
   props: {
     className: '',
@@ -124,6 +119,7 @@ export const Form = {
       npm: {
         exportName: "ElInput",
         package: "element-plus",
+        component: "element-plus/lib/components/inut",
         // version: "1.19.18",
         // package: "src/index.js",
         destructuring: true,
@@ -147,6 +143,7 @@ export const Form = {
       npm: {
         exportName: "ElInput",
         package: "element-plus",
+        component: "element-plus/lib/components/inut",
         // version: "1.19.18",
         // package: "src/index.js",
         destructuring: true,
@@ -170,6 +167,7 @@ export const Form = {
       npm: {
         exportName: "ElInput",
         package: "element-plus",
+        component: "element-plus/lib/components/inut",
         // version: "1.19.18",
         // package: "src/index.js",
         destructuring: true,

@@ -2,6 +2,22 @@ import Form from "@renderer/packages/Form";
 import { ElInput } from "element-plus";
 import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
 import DlockContainer from '@renderer/packages/DlockContainer/src/DlockContainer.jsx'
+
+const component = (url) => {
+  if (url.includes('element')) {
+    return defineAsyncComponent({
+      loader: () => import(url),
+      delay: 200,
+    })
+  } else {
+    return defineAsyncComponent({
+      // loader: () => import('../../../packages/Table/src/Table.jsx'),
+      loader: () => import(/* @vite-ignore */'../../../' + url),
+      delay: 200,
+    })
+  }
+}
+
 /**
  * 根据类型和子元素渲染不同类型的组件
  *
@@ -10,42 +26,36 @@ import DlockContainer from '@renderer/packages/DlockContainer/src/DlockContainer
  * @returns 渲染完成的组件元素
  */
 export const typeRender = (item, children) => {
-  let returnElement
-  switch (item.type) {
-    case 'container':
-      returnElement = generateContainer(item,children)
-      break;
-    case 'Form':
-      returnElement = generateForm(item,children)
-      break;
-    case 'input':
-      returnElement = generateInput(item,children)
-      break;
-     // 其他类型的处理
-    default:
-      returnElement = null
-      break;
+  let npm = item.npm
+  let AsyncComp = null
+  let returnElement = null
+  if (npm?.component && npm.component.includes('packages')) {
+    AsyncComp = component(npm.component)
+  } else {
+    switch (item.type) {
+      case 'container':
+        returnElement = generateContainer(item, children)
+        break;
+      case 'Form':
+        returnElement = generateForm(item, children)
+        break;
+      case 'input':
+        returnElement = generateInput(item, children)
+        break;
+      // 其他类型的处理
+      default:
+        returnElement = null
+        break;
+    }
   }
-  return returnElement;
+  return returnElement || <AsyncComp key={item.key} item={item} children={children} ></AsyncComp>
 }
 
 const generateContainer = (item, children) => {
   return (
     <DlockContainer item={item} children={children} />
-    // <div
-    //   key={item.key}
-    //   className={item.props.className}
-    //   style={item.props.style}
-    //   onClick={clickContainer(item)}
-    //   onMouseenter={handleMouseEnter}
-    //   onMouseleave={handleMouseLeave}
-    // >
-    //   <PageContainer pageJSON={item} children={children} onChoose={clickContainer}></PageContainer>
-    // </div>
   )
 }
-
-
 
 const generateForm = (item, children) => {
   return (

@@ -38,7 +38,7 @@ onMounted(()=> {
     </div>
 
     <div class="draggingDragging-center">
-      <div class="draggingDragging-l" :style="{ maxWidth: lengthWidth ? '320px' : '80px' }">
+      <div class="draggingDragging-l" :style="{ maxWidth: lengthWidth ? '320px' : '80px', minHeight : '80px'}">
         <draggingDraggingL></draggingDraggingL>
       </div>
       <div class="draggingDragging-middle">

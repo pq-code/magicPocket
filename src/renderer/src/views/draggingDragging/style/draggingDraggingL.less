@@ -1,5 +1,6 @@
 .draggingDraggingL{
   padding: 10px;
+  min-width: 280px;
   .draggingDraggingL-title {
     height: 30px;
     font-family: PingFang SC, PingFang SC;
@@ -42,7 +43,9 @@
 .draggingDraggingMain {
   padding: 10px;
   height: calc(100% - 20px);
-  width: calc(100% - 20px);
+  // max-height: calc(100vh - 20px);
+  max-width: calc(100vw - 590px);
+  overflow-y: auto;
 }
 
 .draggingDraggingR {

@@ -1,12 +1,14 @@
 import { createApp } from "vue";
 import { Form } from "./components/Form";
 import { Container } from "./components/Container";
+import { Table } from "./components/Table";
 
 const app = createApp({});
 
 const components = [
   Container,
-  Form
+  Form,
+  Table
 ]
 
 function arrayToObject(arr) {
@@ -20,17 +22,17 @@ const componentList = []
 
 const setComponentList = () => {
   Object.keys(componentMap).forEach((e) => {
-    let npm = componentMap[e].npm
-    if (npm && npm.component) {
-      npm.component().then(res => {
-        if (res) {
-          if (!window[componentMap[e].npm.exportName]) {
-            window[componentMap[e].npm.exportName] = res
-            app.component(npm.exportName, res);
-          }
-        }
-      })
-    }
+    // let npm = componentMap[e].npm
+    // if (npm && npm.component) {
+    //   npm.component().then(res => {
+    //     if (res) {
+    //       if (!window[componentMap[e].npm.exportName]) {
+    //         window[componentMap[e].npm.exportName] = res
+    //         app.component(npm.exportName, res);
+    //       }
+    //     }
+    //   })
+    // }
     componentList.push(componentMap[e])
   })
   return componentList

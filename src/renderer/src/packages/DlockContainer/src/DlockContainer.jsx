@@ -33,6 +33,7 @@ const DlockContainer = defineComponent({
      * @returns 无返回值
      */
     const clickContainer = (e) => {
+      e.stopPropagation()
       // 如果选中的对象不为空，则清除选中对象的高亮标记
       if (currentOperatingObject.value && JSON.stringify(currentOperatingObject.value) !== '{}') {
         document.getElementById(currentOperatingObject.value.key).classList.remove('selected-highlighted');
