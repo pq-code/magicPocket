@@ -62,10 +62,6 @@ const componentContainer = defineComponent({
     // 克隆方法
     const handleClone = (e) => {
       console.log(e,e.item,componentContainerSon.value);
-      return {
-        ...this.$cloneDeep(model),   // 深拷贝物料模板
-        id: this.$getRandomCode(8),  // 生成物料id
-      }
     };
 
     onMounted(() => {

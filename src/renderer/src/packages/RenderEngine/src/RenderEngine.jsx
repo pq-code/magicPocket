@@ -1,10 +1,11 @@
 import { defineComponent, ref, watch, nextTick, computed } from 'vue';
-import '../style/index.less'
+import style from '../style/index.module.less';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { VueDraggable } from 'vue-draggable-plus'
 import { typeRender } from "../components/TypeRenderEngine"
 import { storeToRefs } from 'pinia'
 import useCanvasOperation from '@renderer/views/draggingDragging/hooks/useCanvasOperation.ts'
+import ComponentMaker from '../components/ComponentMaker.jsx'
 
 const RenderEngine = defineComponent({
   props: {
@@ -68,21 +69,28 @@ const RenderEngine = defineComponent({
       return (
         whetherYouCanDrag ?
           <VueDraggable
-            className='PageContainer'
-            style={{ width: '100%', height: '100%' }}
+            className={style.PageContainer}
+            style=''
             vModel={componentList.value}
             group='people'
             ghostClass="ghost"
             chosenClass="chosen"
             selector="selector"
-            animation={500}        // 动画延迟
+            animation={200}        // 动画延迟
             sort={true}            // 是否可推拽排序
           >
-             { renderComponent }
+            {
+              renderComponent.length ?
+                renderComponent.map(e =>
+                  <ComponentMaker {...e.props}>
+                    {e}
+                  </ComponentMaker>)
+                : null
+            }
           </VueDraggable>
-          : <div className='root'>
-            {renderComponent}
-          </div>
+          : (<div className='root'>
+              {renderComponent}
+            </div>)
       )
     }
     /**
@@ -103,6 +111,7 @@ const RenderEngine = defineComponent({
         );
       }
     }
+
     /**
      * 开始渲染页面
      *

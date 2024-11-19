@@ -94,9 +94,7 @@ const From = defineComponent({
           <div style={{ padding: '0 10px' }}>{button}</div>
         )
       }
-      return (<DlockContainer item={props.item} children= {
-        [form].filter(Boolean)
-      } />)
+      return ([form].filter(Boolean))
     }
 
     const vnode = computed(() => {

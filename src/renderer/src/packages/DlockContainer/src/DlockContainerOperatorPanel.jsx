@@ -1,5 +1,4 @@
 import { defineComponent, ref, watch, onMounted } from "vue";
-import "./style/index.less";
 import CodeHighlight from "@renderer/packages/CodeHighlight/src/CodeHighlight.jsx";
 import { humpToUnderline } from '@renderer/utils/index'
 import {

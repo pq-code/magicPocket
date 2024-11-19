@@ -2,6 +2,9 @@ import { defineComponent, ref, watch, nextTick, computed } from 'vue';
 import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { storeToRefs } from 'pinia'
+import style from '../style/index.module.less'
+import { VueDraggable } from 'vue-draggable-plus'
+import { he } from 'element-plus/es/locale/index.mjs';
 
 const DlockContainer = defineComponent({
   props: {
@@ -22,36 +25,9 @@ const DlockContainer = defineComponent({
     prop: 'modelValue',
     event: 'update:modelValue',
   },
-  setup(props, { emit ,slots}) {
+  setup(props, { emit, slots }) {
     const store = useDraggingDraggingStore();
     const { pageJSON, currentOperatingObject } = storeToRefs(store);
-
-    /**
-     * 点击容器函数
-     * 标记选中对象，提供选中对象进行编辑
-     * @param e 事件对象
-     * @returns 无返回值
-     */
-    const clickContainer = (e) => {
-      e.stopPropagation()
-      // 如果选中的对象不为空，则清除选中对象的高亮标记
-      if (currentOperatingObject.value && JSON.stringify(currentOperatingObject.value) !== '{}') {
-        document.getElementById(currentOperatingObject.value.key).classList.remove('selected-highlighted');
-      }
-      currentOperatingObject.value = props.item
-      e.currentTarget?.classList.add('selected-highlighted');
-    }
-
-    /**
-     * 处理鼠标进入事件
-     *
-     * @param e 事件对象
-     */
-    function handleMouseEnter(e) {
-      if (!e.currentTarget?.classList.contains('selected-highlighted')) {
-        e.currentTarget?.classList.add('hover-highlighted');
-      }
-    }
 
     // 字符串处理函数 + px
     const processStringAddPx = computed(() => {
@@ -71,15 +47,6 @@ const DlockContainer = defineComponent({
         return /(px|rem|%|em)$/.test(str) ? str : `${str}px`
       }
     })
-
-    /**
-     * 处理鼠标离开事件
-     *
-     * @param e 事件对象
-     */
-    function handleMouseLeave(e) {
-      e.currentTarget?.classList.remove('hover-highlighted');
-    }
 
     const divProps = computed(() => {
       let value = {}
@@ -124,44 +91,67 @@ const DlockContainer = defineComponent({
      */
     const renderComponent = () => {
       // 子级内容
-      const Dom = [
-        <PageContainer pageJSON={props.item} children={props.children}
-          className={divProps.value['class-name']}
-          style={props.item.props?.divProps?.style || {}}>
-            { slots }
-          </PageContainer>
-      ];
+      const Dom = [];
       // 标题
       if (titleProps.value.title) {
         let titleDom = (
-          <div className={titleProps.value['class-name']} style={props.item.props.titleProps['style'] || {}} >
+          <div className={
+            [titleProps.value['class-name'],
+            style.DivContainerTitle].filter(Boolean).join(' ')
+          } style={props.item.props.titleProps['style'] || {}} >
             {titleProps.value.title}
           </div>
         );
         Dom.unshift(titleDom)
       }
+      if (slots.default) {
+        Dom.push(slots.default())
+      } else {
+        Dom.push(
+          <VueDraggable
+          vModel={props.item.children}
+          group = {{ name: "people", pull: "clone", put: false }}
+          ghostClass="ghost"
+          chosenClass="chosen"
+          selector="selector"
+          animation={200}        // 动画延迟
+          sort={true}            // 是否可推拽排序
+          className={style.DivContainerNosolt}
+          style={props.item.props?.style}
+        >
+          <span> 拖拽组件放入容器中 </span>
+        </VueDraggable >
+        )
+      }
       return (
-        <div
+        <VueDraggable
+          vModel={props.item.children}
+          group = {{ name: "people", pull: "clone", put: false }}
+          ghostClass="ghost"
+          chosenClass="chosen"
+          selector="selector"
+          animation={200}        // 动画延迟
+          sort={true}            // 是否可推拽排序
           id={props.item.key}
           key={props.item.key}
-          className={props.item.props?.className}
+          className={[
+            props.item.props?.className,
+            style.DivContainer
+          ].filter(Boolean).join(' ')}
           style={props.item.props?.style}
-          onClick={clickContainer}
-          onMouseenter={handleMouseEnter}
-          onMouseleave={handleMouseLeave}
         >
-          {Dom.filter(Boolean)}
-        </div>
+         {Dom.filter(Boolean)}
+        </VueDraggable >
       )
     }
 
-    const vnode = computed(() => {
-      return renderComponent()
-    })
+const vnode = computed(() => {
+  return renderComponent()
+})
 
-    return () => (
-      vnode.value
-    );
+return () => (
+  vnode.value
+);
   },
 });
 
