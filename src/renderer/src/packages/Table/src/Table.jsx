@@ -120,12 +120,13 @@ const Table = defineComponent({
             defaultSort={tableProps.value?.defaultSort}
             showSummary={tableProps.value?.showSummary}
             summaryMethod={tableProps.value?.summaryMethod}
-            style="
-              width: 100%;
-              min-height: 300px;
-              height: calc(100% - 60px);
-              max-height: 720px;
-            ">
+            style={tableProps.value?.style || {
+              width: '100%',
+              'min-height': '300px',
+              'height': 'calc(100% - 60px)',
+              'max-height': '720px'
+            }
+            }>
             {ElTableColumnList()}
           </ElTable>
           {tableProps.value?.showPagination ?

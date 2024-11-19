@@ -71,11 +71,12 @@ const RenderEngine = defineComponent({
             className='PageContainer'
             style={{ width: '100%', height: '100%' }}
             vModel={componentList.value}
-            animation={150}
             group='people'
-            sort={true}
-            onSort={handleEnd}
-            onClone={nodeClone}
+            ghostClass="ghost"
+            chosenClass="chosen"
+            selector="selector"
+            animation={500}        // 动画延迟
+            sort={true}            // 是否可推拽排序
           >
              { renderComponent }
           </VueDraggable>

@@ -31,10 +31,6 @@ const From = defineComponent({
       drawer.value = true;
     };
 
-    defineExpose({
-      openDrawer,
-    });
-
     return () => (
       <ElDrawer
         v-model={drawer.value}

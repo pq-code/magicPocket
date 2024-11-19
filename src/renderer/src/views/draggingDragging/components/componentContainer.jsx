@@ -59,6 +59,14 @@ const componentContainer = defineComponent({
     const selectComponents = (e) => {
       console.log(e);
     };
+    // 克隆方法
+    const handleClone = (e) => {
+      console.log(e,e.item,componentContainerSon.value);
+      return {
+        ...this.$cloneDeep(model),   // 深拷贝物料模板
+        id: this.$getRandomCode(8),  // 生成物料id
+      }
+    };
 
     onMounted(() => {
       init();
@@ -69,9 +77,11 @@ const componentContainer = defineComponent({
         className="componentContainer"
         vModel={componentContainerSon.value}
         animation={150}
-        group={{ name: "people", pull: "clone", put: false }}
+        // option={group:{ name: "people", pull: "clone", put: false }}
+        group = {{ name: "people", pull: "clone", put: false }}
         sort={false}
         onStart={onStart}
+        onClone={handleClone}
       >
         {componentContainerSon.value.map((item, index) => {
           return (
