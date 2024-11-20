@@ -1,22 +1,40 @@
 import Form from "@renderer/packages/Form";
 import { ElInput } from "element-plus";
-import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx'
-import DlockContainer from '@renderer/packages/DlockContainer/src/DlockContainer.jsx'
+import PageContainer from '@renderer/packages/PageContainer/src/PageContainer.jsx';
+import DlockContainer from '@renderer/packages/DlockContainer/src/DlockContainer.jsx';
+import { defineAsyncComponent } from 'vue';
 
 const component = (url) => {
-  if (url.includes('element')) {
-    return defineAsyncComponent({
-      loader: () => import(url),
-      delay: 200,
-    })
-  } else {
-    return defineAsyncComponent({
-      // loader: () => import('../../../packages/Table/src/Table.jsx'),
-      loader: () => import(/* @vite-ignore */'../../../' + url),
-      delay: 200,
-    })
-  }
-}
+  return defineAsyncComponent({
+    loader: async () => {
+      if (url.includes('element')) {
+        return await import(url);
+      } else {
+        return await import(/* @vite-ignore */'../../../' + url);
+      }
+    },
+    delay: 200,
+  });
+};
+
+const componentGenerators = {
+  container: (item, children) => (
+    <DlockContainer item={item}>
+      {children || null}
+    </DlockContainer>
+  ),
+  Form: (item, children) => (
+    <Form key={item.key} item={item} children={children}>
+      {children || null}
+    </Form>
+  ),
+  input: (item, children) => (
+    <ElInput {...item.props.formItemProps}>
+      {children || null}
+    </ElInput>
+  ),
+  // 其他类型的处理
+};
 
 /**
  * 根据类型和子元素渲染不同类型的组件
@@ -26,51 +44,18 @@ const component = (url) => {
  * @returns 渲染完成的组件元素
  */
 export const typeRender = (item, children) => {
-  let npm = item.npm
-  let AsyncComp = null
-  let returnElement = null
+  let npm = item.npm;
+  let AsyncComp = null;
+  let returnElement = null;
+
   if (npm?.component && npm.component.includes('packages')) {
-    AsyncComp = component(npm.component)
+    AsyncComp = component(npm.component);
   } else {
-    switch (item.type) {
-      case 'container':
-        returnElement = generateContainer(item, children)
-        break;
-      case 'Form':
-        returnElement = generateForm(item, children)
-        break;
-      case 'input':
-        returnElement = generateInput(item, children)
-        break;
-      // 其他类型的处理
-      default:
-        returnElement = null
-        break;
+    const generator = componentGenerators[item.type];
+    if (generator) {
+      returnElement = generator(item, children);
     }
   }
-  return returnElement || <AsyncComp key={item.key} item={item} children={children} > {children}</AsyncComp>
-}
 
-const generateContainer = (item, children) => {
-  return (
-    <DlockContainer item={item}>
-      {children}
-    </DlockContainer>
-  )
-}
-
-const generateForm = (item, children) => {
-  return (
-    <Form key={item.key} item={item} children={children} >
-      {children}
-    </Form>
-  )
-}
-
-const generateInput = (item, children) => {
-  return (
-    <ElInput {...item.props.formItemProps}>
-    </ElInput>
-  )
-}
-
+  return returnElement || <AsyncComp key={item.key} item={item} children={children}>{children}</AsyncComp>;
+};

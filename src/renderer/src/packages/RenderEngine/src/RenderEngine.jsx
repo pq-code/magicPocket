@@ -1,23 +1,22 @@
 import { defineComponent, ref, watch, nextTick, computed } from 'vue';
 import style from '../style/index.module.less';
-import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
-import { VueDraggable } from 'vue-draggable-plus'
-import { typeRender } from "../components/TypeRenderEngine"
-import { storeToRefs } from 'pinia'
-import useCanvasOperation from '@renderer/views/draggingDragging/hooks/useCanvasOperation.ts'
-import ComponentMaker from '../components/ComponentMaker.jsx'
+import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts';
+import { VueDraggable } from 'vue-draggable-plus';
+import { typeRender } from '../components/TypeRenderEngine';
+import { storeToRefs } from 'pinia';
+import useCanvasOperation from '@renderer/views/draggingDragging/hooks/useCanvasOperation.ts';
+import ComponentMaker from '../components/ComponentMaker.jsx';
 
 const RenderEngine = defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: () => {}
+      default: () => ({}),
     },
     listData: {
       type: Array,
-      default: () => []
-    }
-    // fileListMap: Object
+      default: () => [],
+    },
   },
 
   model: {
@@ -26,12 +25,12 @@ const RenderEngine = defineComponent({
   },
 
   setup(props, { emit }) {
-    const { addHistoryOperatingObject } = useCanvasOperation()
+    const { addHistoryOperatingObject } = useCanvasOperation(); 
 
     const store = useDraggingDraggingStore();
     const { pageJSON } = storeToRefs(store); // 页面数据
-    const whetherYouCanDrag = computed(() => pageJSON.value.whetherYouCanDrag); //
-    const componentList = ref(pageJSON.value?.children || []) // 组件列表
+    const whetherYouCanDrag = computed(() => pageJSON.value.whetherYouCanDrag);
+    const componentList = ref(pageJSON.value?.children || []);
 
     watch(
       () => pageJSON.value,
@@ -41,99 +40,61 @@ const RenderEngine = defineComponent({
       { deep: true }
     );
 
-    watch (
-      () => componentList.value,
-      (newValue) => {
-        if (newValue !== pageJSON.value.children) {
-          pageJSON.value.children = newValue;
+    watch(
+      [() => componentList.value, () => props.modelValue],
+      ([newComponentList, newModelValue]) => {
+        if (newComponentList !== pageJSON.value.children) {
+          pageJSON.value.children = newComponentList;
         }
-      }
+        addHistoryOperatingObject(); // 保存历史记录
+      },
+      { deep: true }
     );
-
-    const handleEnd = (e) => {
-      // 添加历史操作对象
-      nextTick(() => {
-        addHistoryOperatingObject()
-      })
-    }
-    const nodeClone = (e) => {
-      console.log(e)
-    }
-    /**
-     * 渲染根虚拟节点
-     *
-     * @returns 返回根虚拟节点
-     */
-    const renderRootVnode = () => {
-      let renderComponent = renderComponents(componentList.value)
-      return (
-        whetherYouCanDrag ?
-          <VueDraggable
-            className={style.PageContainer}
-            style=''
-            vModel={componentList.value}
-            group = {{ name: "people", pull: true, put: true }}
-            ghostClass="ghost"
-            chosenClass="chosen"
-            selector="selector"
-            animation={200}        // 动画延迟
-            sort={true}            // 是否可推拽排序
-          >
-            {
-              renderComponent.length ?
-                renderComponent.map(e =>
-                  <ComponentMaker {...e.props}>
-                    {e}
-                  </ComponentMaker>)
-                : null
-            }
-          </VueDraggable>
-          : (<div className='root'>
-              {renderComponent}
-            </div>)
-      )
-    }
-    /**
-     * 渲染组件
-     *
-     * @returns 渲染结果
-     */
+    // 深度遍历
     const renderComponents = (_page) => {
-      if(!_page) return null
+      if (!_page) return null;
       if (Array.isArray(_page)) {
-        return _page.map(child => {
+        return _page.map((child) => {
           const children = Array.isArray(child.children) ? renderComponents(child.children) : [];
           return startRender(child, children);
         });
       } else {
-        return (
-          startRender(_page)
-        );
+        return startRender(_page);
       }
-    }
-
-    /**
-     * 开始渲染页面
-     *
-     * @returns 渲染后的页面组件
-     */
+    };
+    // 开始渲染
     const startRender = (item, children) => {
-      // 给DOM赋予唯一标识
-      item.key = `${item.type}-${Number(Math.random() * 10000).toFixed(0)}`
-      return typeRender(item, children)
-    }
+      item.key = `${item.type}-${Number(Math.random() * 10000).toFixed(0)}`;
+      return whetherYouCanDrag ? (
+        <ComponentMaker item={item}>
+          {typeRender(item, children)}
+        </ComponentMaker>
+      ) : (
+        typeRender(item, children)
+      );
+    };
 
-    watch(()=>props.modelValue,()=> {
-      addHistoryOperatingObject()
-    })
+    const renderRootVnode = computed(() => {
+      const renderComponent = renderComponents(componentList.value); // 深度优先遍历
+      return whetherYouCanDrag ? (
+        <VueDraggable
+          className={style.PageContainer}
+          vModel={componentList.value}
+          group={{ name: 'people', pull: true, put: true }}
+          ghostClass="ghost"
+          chosenClass="chosen"
+          selector="selector"
+          animation={200}
+          sort={true}
+        >
+          {renderComponent}
+        </VueDraggable>
+      ) : (
+        <div className={style.PageContainer}>{renderComponent}</div>
+      );
+    });
 
-    // 渲染结果缓存
-    const renderResult = computed(() => renderRootVnode());
-
-    return () => (
-      // 容器
-      renderResult.value
-    );
+    return () => renderRootVnode.value;
   },
 });
 
