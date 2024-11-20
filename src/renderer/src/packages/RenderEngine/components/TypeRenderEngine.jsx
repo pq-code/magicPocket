@@ -48,18 +48,22 @@ export const typeRender = (item, children) => {
         break;
     }
   }
-  return returnElement || <AsyncComp key={item.key} item={item} children={children} ></AsyncComp>
+  return returnElement || <AsyncComp key={item.key} item={item} children={children} > {children}</AsyncComp>
 }
 
 const generateContainer = (item, children) => {
   return (
-    <DlockContainer item={item} children={children} />
+    <DlockContainer item={item}>
+      {children}
+    </DlockContainer>
   )
 }
 
 const generateForm = (item, children) => {
   return (
-    <Form key={item.key} item={item} children={children} />
+    <Form key={item.key} item={item} children={children} >
+      {children}
+    </Form>
   )
 }
 

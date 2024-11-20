@@ -99,7 +99,7 @@ const ComponentMaker = defineComponent({
       return (
         <VueDraggable
           vModel={props.item}
-          group = {{ name: "people", pull: "clone", put: false }}
+          group = {{ name: "people", pull: true, put: true }}
           ghostClass="ghost"
           chosenClass="chosen"
           selector="selector"

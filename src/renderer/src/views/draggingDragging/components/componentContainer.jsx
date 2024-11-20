@@ -44,24 +44,8 @@ const componentContainer = defineComponent({
 
     const init = () => {};
 
-    const onClone = (e) => {
-      console.log(e);
-    };
-
-    const onStart = (e) => {
-      currentDragObject = e.clonedData;
-    };
-
-    const handleEnd = (e) => {
-      console.log(e);
-    };
-
     const selectComponents = (e) => {
       console.log(e);
-    };
-    // 克隆方法
-    const handleClone = (e) => {
-      console.log(e,e.item,componentContainerSon.value);
     };
 
     onMounted(() => {
@@ -72,16 +56,15 @@ const componentContainer = defineComponent({
       <VueDraggable
         className="componentContainer"
         vModel={componentContainerSon.value}
-        animation={150}
+        animation={200}
         // option={group:{ name: "people", pull: "clone", put: false }}
         group = {{ name: "people", pull: "clone", put: false }}
         sort={false}
-        onStart={onStart}
-        onClone={handleClone}
       >
         {componentContainerSon.value.map((item, index) => {
           return (
             <div
+              id={item.key}
               key={`${item.componentName}_${index}`}
               className="componentContainerSon"
               onClick={selectComponents}

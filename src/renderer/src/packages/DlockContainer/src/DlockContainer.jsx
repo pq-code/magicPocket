@@ -108,25 +108,16 @@ const DlockContainer = defineComponent({
         Dom.push(slots.default())
       } else {
         Dom.push(
-          <VueDraggable
-          vModel={props.item.children}
-          group = {{ name: "people", pull: "clone", put: false }}
-          ghostClass="ghost"
-          chosenClass="chosen"
-          selector="selector"
-          animation={200}        // 动画延迟
-          sort={true}            // 是否可推拽排序
-          className={style.DivContainerNosolt}
-          style={props.item.props?.style}
-        >
-          <span> 拖拽组件放入容器中 </span>
-        </VueDraggable >
+          <div className={style.DivContainerNosolt}>
+            <span> 拖拽组件放入容器中 </span>
+          </div>
         )
       }
+
       return (
         <VueDraggable
           vModel={props.item.children}
-          group = {{ name: "people", pull: "clone", put: false }}
+          group = {{ name: "people", pull: true, put: true }}
           ghostClass="ghost"
           chosenClass="chosen"
           selector="selector"
