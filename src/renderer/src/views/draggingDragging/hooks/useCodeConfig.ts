@@ -1,24 +1,31 @@
 import { computed, onMounted, onBeforeUnmount } from "vue";
 
-export default function useCodeConfig() {
-  const vnodeProps = {};
-  const processStringAddPxCache = new Map();
+export default function useCanvasOperation() {
+
+
+  // 使用 Map 替代 WeakMap
+  const processStringAddPxCache = new Map<string, string>();
+
+  // 预编译正则表达式
+  const unitRegex = /(px|rem|%|em)$/i;
+  const commaSpaceRegex = /[, ]+/;
+  const camelCaseRegex = /([a-z])([A-Z])/g;
 
   const processStringAddPx = computed(() => {
-    return (str) => {
+    return (str: string) => {
       if (processStringAddPxCache.has(str)) {
-        return processStringAddPxCache.get(str);
+        return processStringAddPxCache.get(str)!;
       }
       if (!str) {
         return '0';
       }
-      let result;
-      if (/[, ]/.test(str)) {
-        const strArray = str.split(/[, ]+/).filter(Boolean);
-        const processedArray = strArray.map(item => /(px|rem|%|em)$/.test(item) ? item : `${item}px`);
+      let result: string;
+      if (commaSpaceRegex.test(str)) {
+        const strArray = str.split(commaSpaceRegex).filter(Boolean);
+        const processedArray = strArray.map(item => unitRegex.test(item) ? item : `${item}px`);
         result = processedArray.length ? processedArray.join(' ') : '23px';
       } else {
-        result = /(px|rem|%|em)$/.test(str) ? str : `${str}px`;
+        result = unitRegex.test(str) ? str : `${str}px`;
       }
 
       processStringAddPxCache.set(str, result);
@@ -27,12 +34,22 @@ export default function useCodeConfig() {
   });
 
   // 渲染前收集配置信息
-  const collectProps = (item) => {
+  const collectProps = (item: any) => {
+    const vnodeProps: any = {};
+
+    const convertKey = (key: string) => {
+      if (key.startsWith('cs')) {
+        key = key.slice(2);
+        key = key.replace(camelCaseRegex, '$1-$2').toLowerCase();
+      }
+      return key;
+    };
+
     Object.keys(item).forEach((key) => {
       if (key.includes('Props')) {
-        const resultProps = {};
-        item[key]?.children.forEach((child) => {
-          const newKey = child.key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        const resultProps: any = {};
+        item[key]?.children.forEach((child: any) => {
+          const newKey = convertKey(child.key);
           resultProps[newKey] = child.value;
         });
 
@@ -49,20 +66,23 @@ export default function useCodeConfig() {
         };
       }
     });
-    return vnodeProps
-  };
 
+    return vnodeProps;
+  };
 
   onMounted(() => {
     // init()
   });
 
   onBeforeUnmount(() => {
-
+    // 清理资源
+    processStringAddPxCache.clear();
   });
+
 
   return {
     processStringAddPx,
     collectProps
-  };
+  }
 }
+

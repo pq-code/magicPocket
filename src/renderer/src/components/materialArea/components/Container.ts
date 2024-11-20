@@ -12,25 +12,25 @@ export const Container = {
           label: '文字大小',
           type: 'input',
           value: '',
-          key: 'fontSize'
+          key: 'csfontSize'
         },
         {
           label: '粗细',
           type: 'input',
           value: '',
-          key: 'fontWeight'
+          key: 'csfontWeight'
         },
         {
           label: '内间距',
           type: 'input',
           value: '',
-          key: 'padding'
+          key: 'cspadding'
         },
         {
           label: '外间距',
           type: 'input',
           value: '',
-          key: 'margin'
+          key: 'csmargin'
         },
         {
           label: 'className',
@@ -71,31 +71,31 @@ export const Container = {
           label: '文字大小',
           type: 'input',
           value: '',
-          key: 'fontSize'
+          key: 'csfontSize'
         },
         {
           label: '粗细',
           type: 'input',
           value: '',
-          key: 'fontWeight'
+          key: 'csfontWeight'
         },
         {
           label: '内间距',
           type: 'input',
           value: '',
-          key: 'padding'
+          key: 'cspadding'
         },
         {
           label: '外间距',
           type: 'input',
           value: '',
-          key: 'margin'
+          key: 'csmargin'
         },
         {
           label: '标题位置',
           type: 'segmented',
           value: '',
-          key: 'textAlign',
+          key: 'cstextAlign',
           options: [
             {
               label: '左',
