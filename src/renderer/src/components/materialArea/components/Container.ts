@@ -2,7 +2,7 @@
 export const Container = {
   componentName: "div容器",
   type: "container",
-  icon: "",
+  icon: "icon-fuxuankuangkong",
   group: "基础组件",
   props: {
     divProps: {

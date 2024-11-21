@@ -1,7 +1,7 @@
 export const Image = {
   componentName: "图片",
   type: "image",
-  icon: "",
+  icon: "icon-tupian",
   group: "输入组件",
   npm: {
     exportName: "ElInput",

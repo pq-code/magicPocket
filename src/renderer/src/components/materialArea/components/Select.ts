@@ -1,7 +1,7 @@
 export const Select = {
   componentName: "下拉框",
   type: "select",
-  icon: "",
+  icon: "icon-jiantouxiaxiao",
   group: "输入组件",
   npm: {
     exportName: "ElInput",

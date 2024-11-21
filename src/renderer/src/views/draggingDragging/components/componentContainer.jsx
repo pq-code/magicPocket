@@ -57,7 +57,6 @@ const componentContainer = defineComponent({
         className="componentContainer"
         vModel={componentContainerSon.value}
         animation={200}
-        // option={group:{ name: "people", pull: "clone", put: false }}
         group = {{ name: "people", pull: "clone", put: false }}
         sort={false}
       >
@@ -69,7 +68,7 @@ const componentContainer = defineComponent({
               className="componentContainerSon"
               onClick={selectComponents}
             >
-              <i class="iconfont icon-yibiaopan"></i>
+              <i className={['iconfont', item.icon || 'icon-yibiaopan'].join(' ')}></i>
               {item.componentName}
             </div>
           );

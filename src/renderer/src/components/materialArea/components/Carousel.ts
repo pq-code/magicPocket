@@ -1,7 +1,7 @@
 export const Carousel = {
   componentName: "走马灯",
   type: "carousel",
-  icon: "",
+  icon: "icon-fuxuankuangduogekong",
   group: "Element",
   npm: {
     exportName: "Breadcrumb",

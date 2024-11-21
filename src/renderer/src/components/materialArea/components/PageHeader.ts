@@ -1,7 +1,7 @@
 export const PageHeader = {
   componentName: "页头",
   type: "PageHeader",
-  icon: "",
+  icon: "icon-erjiyetou",
   group: "Element",
   npm: {
     exportName: "ElInput",

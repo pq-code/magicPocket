@@ -3,7 +3,7 @@
 export const Table = {
   componentName: "tabel表格",
   type: "table",
-  icon: "",
+  icon: "icon-Tab_zidingyiziduan",
   group: "基础组件",
   npm: {
     exportName: "Ptabel",

@@ -3,7 +3,7 @@
 export const Form = {
   componentName: "表单",
   type: "Form",
-  icon: "",
+  icon: "icon-dingdan",
   group: "基础组件",
   npm: {
     exportName: "Form",

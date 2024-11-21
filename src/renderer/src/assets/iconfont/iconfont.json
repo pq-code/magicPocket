@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7366640",
+      "name": "二级页头1",
+      "font_class": "erjiyetou",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "5288584",
+      "name": "开关按钮",
+      "font_class": "kaiguananniu",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "12550619",
+      "name": "按钮",
+      "font_class": "anniu",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "33986998",
+      "name": "更多",
+      "font_class": "gengduo3",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "1166959",
+      "name": "rotate",
+      "font_class": "xuanzhuan",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
       "icon_id": "29797974",
       "name": "好友认证",
       "font_class": "haoyourenzheng",

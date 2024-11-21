@@ -1,7 +1,7 @@
 export const Input = {
   componentName: "输入框",
   type: "input",
-  icon: "",
+  icon: "icon-bianji",
   group: "输入组件",
   npm: {
     exportName: "ElInput",

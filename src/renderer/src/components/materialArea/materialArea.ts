@@ -1,8 +1,8 @@
-import { createApp } from "vue";
+
 import { Form } from "./components/Form";
 import { Container } from "./components/Container";
 import { Table } from "./components/Table";
-import { Input } from "./components/input";
+import { Input } from "./components/Input";
 import { Select } from "./components/Select";
 import { Image } from "./components/Image";
 import { Divider } from "./components/Divider";
@@ -10,6 +10,14 @@ import { Carousel } from "./components/Carousel";
 import { PageHeader } from "./components/PageHeader";
 import { Backtop } from "./components/backtop";
 import { Breadcrumb } from "./components/Breadcrumb";
+import { Button } from "./components/Button";
+import { Search } from "./components/Search";
+
+
+
+
+
+
 
 const components = [
   Container,
@@ -22,11 +30,11 @@ const components = [
   Carousel,
   Backtop,
   PageHeader,
-  Breadcrumb
+  Breadcrumb,
+  Button,
+  Search
 ]
 
-
-const app = createApp({});
 
 function arrayToObject(arr) {
   return arr.reduce((obj, item, index) => {
