@@ -27,7 +27,7 @@ export const Form = {
           {
             label: '否',
             value: false
-            },],
+          },],
           key: 'isReadOnly'
         },
         {
@@ -107,82 +107,104 @@ export const Form = {
       title: '表单项',
       component: 'packages/Form/components/FormItemConfig.jsx',
       children: [
+      ],
+      itemList: [
+        {
+          componentName: "输入框",
+          type: "input",
+          icon: "",
+          group: "基础组件",
+          npm: {
+            exportName: "ElInput",
+            package: "element-plus",
+            component: "element-plus/lib/components/inut",
+            destructuring: true,
+          },
+          props: {
+            formItemProps: {
+              primaryKey: "760",
+              label: "表单项",
+              size: "medium",
+              device: "desktop",
+              fullWidth: true,
+              placeholder: "请输入"
+            },
+          },
+          fnEvent: {
+            onChange: {
+              type: "function",
+              value: "if(value > 10) {alert(value)}",
+              parameter: ["value"],
+            },
+            onInput: {
+              type: "function",
+              value: "if(value > 10) {alert(value)}",
+              parameter: ["value"],
+            },
+          }
+        },
+        {
+          componentName: "输入框",
+          type: "Select",
+          icon: "",
+          group: "基础组件",
+          npm: {
+            exportName: "ElSelect",
+            package: "element-plus",
+            component: "element-plus/lib/components/Select",
+            destructuring: true,
+          },
+          props: {
+            formItemProps: {
+              primaryKey: "11111",
+              label: "表单项",
+              size: "medium",
+              device: "desktop",
+              fullWidth: true,
+              placeholder: "请输入"
+            },
+          },
+          fnEvent: {
+            onChange: {
+              type: "function",
+              value: `
+                const childVnode = props.item.props.formItemProps.itemList || [];
+                if(value == 1) {
+                  childVnode[0].type = 'Select';
+                  console.log(childVnode)
+                } else {
+                  childVnode.push(
+                    {
+                      componentName: "输入框",
+                      type: "input",
+                      icon: "",
+                      group: "基础组件",
+                      npm: {
+                        exportName: "ElInput",
+                        package: "element-plus",
+                        destructuring: true
+                      },
+                      props: {
+                        formItemProps: {
+                          primaryKey: 'input' + props.item?.props.formItemProps.itemList.length,
+                          label: "表单项",
+                          size: "medium",
+                          device: "desktop",
+                          fullWidth: true
+                        },
+                        placeholder: "请输入"
+                      },
+                    key: Math.random().toString(36)}
+                  )
+                }
+              `,
+              parameter: ["value", 'props'],
+            },
+          }
+        },
       ]
     }
   },
-  children: [
-    {
-      componentName: "输入框",
-      type: "input",
-      icon: "",
-      group: "基础组件",
-      npm: {
-        exportName: "ElInput",
-        package: "element-plus",
-        component: "element-plus/lib/components/inut",
-        // version: "1.19.18",
-        // package: "src/index.js",
-        destructuring: true,
-      },
-      props: {
-        "formItemProps": {
-          "primaryKey": "760",
-          "label": "表单项",
-          "size": "medium",
-          "device": "desktop",
-          "fullWidth": true
-        },
-        "placeholder": "请输入"
-      }
-    },
-    {
-      componentName: "输入框",
-      type: "input",
-      icon: "",
-      group: "基础组件",
-      npm: {
-        exportName: "ElInput",
-        package: "element-plus",
-        component: "element-plus/lib/components/inut",
-        // version: "1.19.18",
-        // package: "src/index.js",
-        destructuring: true,
-      },
-      props: {
-        "formItemProps": {
-          "primaryKey": "760",
-          "label": "表单项",
-          "size": "medium",
-          "device": "desktop",
-          "fullWidth": true
-        },
-        "placeholder": "请输入"
-      }
-    },
-    {
-      componentName: "输入框",
-      type: "input",
-      icon: "",
-      group: "基础组件",
-      npm: {
-        exportName: "ElInput",
-        package: "element-plus",
-        component: "element-plus/lib/components/inut",
-        // version: "1.19.18",
-        // package: "src/index.js",
-        destructuring: true,
-      },
-      props: {
-        "formItemProps": {
-          "primaryKey": "760",
-          "label": "表单项",
-          "size": "medium",
-          "device": "desktop",
-          "fullWidth": true
-        },
-        "placeholder": "请输入"
-      }
-    },
-  ]
+  children: []
 }
 

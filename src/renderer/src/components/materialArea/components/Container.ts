@@ -70,7 +70,7 @@ export const Container = {
         {
           label: '文字大小',
           type: 'input',
-          value: '',
+          value: '23',
           key: 'csfontSize'
         },
         {

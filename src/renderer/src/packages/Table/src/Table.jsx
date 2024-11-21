@@ -101,40 +101,38 @@ const Table = defineComponent({
     }
 
     return () => (
-      <DlockContainer ref={divRes} item={props.item} children={
-        <div>
-          <ElTable
-            ref={tableRef}
-            data={tableData.value}
-            // height={tableProps.value?.height}
-            border={tableProps.value?.border}
-            stripe={tableProps.value?.stripe}
-            rowStyle={tableProps.value?.rowStyle}
-            headerRowClassName={tableProps.value?.headerRowClassName}
-            headerCellStyle={tableProps.value?.headerCellStyle}
-            cellStyle={tableProps.value?.cellStyle}
-            maxHeight={tableProps.value?.maxHeight}
-            highlightCurrentRow={tableProps.value?.highlightCurrentRow}
-            scrollbarAlwaysOn={tableProps.value?.scrollbarAlwaysOn}
-            sortOrders={tableProps.value?.sortOrders}
-            defaultSort={tableProps.value?.defaultSort}
-            showSummary={tableProps.value?.showSummary}
-            summaryMethod={tableProps.value?.summaryMethod}
-            style={tableProps.value?.style || {
-              width: '100%',
-              'min-height': '300px',
-              'height': 'calc(100% - 60px)',
-              'max-height': '720px'
-            }
-            }>
-            {ElTableColumnList()}
-          </ElTable>
-          {tableProps.value?.showPagination ?
-          <div style={{'margin-top' : '10px'}}>
-            <ElPagination background layout="prev, pager, next" total={tableData.value.length} />
-          </div> : null}
-        </div>
-        }/>
+      <div>
+      <ElTable
+        ref={tableRef}
+        data={tableData.value}
+        // height={tableProps.value?.height}
+        border={tableProps.value?.border}
+        stripe={tableProps.value?.stripe}
+        rowStyle={tableProps.value?.rowStyle}
+        headerRowClassName={tableProps.value?.headerRowClassName}
+        headerCellStyle={tableProps.value?.headerCellStyle}
+        cellStyle={tableProps.value?.cellStyle}
+        maxHeight={tableProps.value?.maxHeight}
+        highlightCurrentRow={tableProps.value?.highlightCurrentRow}
+        scrollbarAlwaysOn={tableProps.value?.scrollbarAlwaysOn}
+        sortOrders={tableProps.value?.sortOrders}
+        defaultSort={tableProps.value?.defaultSort}
+        showSummary={tableProps.value?.showSummary}
+        summaryMethod={tableProps.value?.summaryMethod}
+        style={tableProps.value?.style || {
+          width: '100%',
+          'min-height': '300px',
+          'height': 'calc(100% - 60px)',
+          'max-height': '720px'
+        }
+        }>
+        {ElTableColumnList()}
+      </ElTable>
+      {tableProps.value?.showPagination ?
+      <div style={{'margin-top' : '10px'}}>
+        <ElPagination background layout="prev, pager, next" total={tableData.value.length} />
+      </div> : null}
+    </div>
     )
   },
 });

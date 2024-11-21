@@ -49,6 +49,7 @@ export default function useCanvasOperation() {
       if (key.includes('Props')) {
         const resultProps: any = {};
         item[key]?.children.forEach((child: any) => {
+          if(!child.key) return
           const newKey = convertKey(child.key);
           resultProps[newKey] = child.value;
         });

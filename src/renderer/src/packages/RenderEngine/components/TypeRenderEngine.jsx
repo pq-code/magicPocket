@@ -28,7 +28,7 @@ const componentGenerators = {
     </Form>
   ),
   input: (item, children) => (
-    <ElInput {...item.props.formItemProps}>
+    <ElInput {...item.props.formItemProps} >
       {children || null}
     </ElInput>
   ),
@@ -42,7 +42,7 @@ const componentGenerators = {
  * @param children 当前渲染组件的子元素
  * @returns 渲染完成的组件元素
  */
-export const typeRender = (item, children) => {
+export const TypeRenderEngine = (item, children) => {
   let npm = item.npm;
   let AsyncComp = null;
   let returnElement = null;

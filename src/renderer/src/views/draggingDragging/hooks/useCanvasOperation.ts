@@ -3,7 +3,7 @@ import { useDraggingDraggingStore } from "@renderer/stores/draggingDragging/useD
 import { deepClone } from "@renderer/utils/index";
 import { ElMessage } from "element-plus";
 import { storeToRefs } from "pinia";
-import { editCodeConfig } from "@renderer/api/apis/lowCode/lowCode";
+import { editCodeConfig,saveCodeConfig } from "@renderer/api/apis/lowCode/lowCode";
 export default function useCanvasOperation() {
   let {
     pageJSON, // 页面所有数据
@@ -19,42 +19,42 @@ export default function useCanvasOperation() {
    * @returns 无返回值
    */
   const addHistoryOperatingObject = () => {
-    if (historyOperatingObject.value.length >= 20) {
-      // 使用 slice 替代 shift + push，减少数组操作
-      historyOperatingObject.value = historyOperatingObject.value.slice(1);
-      currentOperatingObjectIndex.value =
-        historyOperatingObject.value.length - 1;
-    }
-    // 假设 deepClone 函数存在且能正确返回 pageJSON.value 的深拷贝
-    const clonedPage = deepClone(pageJSON.value) as typeof pageJSON;
-    if (clonedPage !== undefined) {
-      if (
-        historyOperatingObject.value.length - 1 !==
-        currentOperatingObjectIndex.value
-      ) {
-        // 如果当前处于中间步骤，则清空后续步骤，并重新添加
-        historyOperatingObject.value = historyOperatingObject.value.slice(
-          0,
-          currentOperatingObjectIndex.value + 1
-        );
-        historyOperatingObject.value.push(clonedPage);
-        currentOperatingObjectIndex.value =
-          historyOperatingObject.value.length - 1;
-        return;
-      }
-      // 判断当前值和上一次是否相同，相同就不保存了
-      if (
-        JSON.stringify(clonedPage) ===
-        JSON.stringify(
-          historyOperatingObject.value[historyOperatingObject.value.length - 1]
-        )
-      ) {
-        return;
-      }
-      historyOperatingObject.value.push(clonedPage);
-      currentOperatingObjectIndex.value =
-      historyOperatingObject.value.length - 1;
-    }
+    // if (historyOperatingObject.value.length >= 20) {
+    //   // 使用 slice 替代 shift + push，减少数组操作
+    //   historyOperatingObject.value = historyOperatingObject.value.slice(1);
+    //   currentOperatingObjectIndex.value =
+    //     historyOperatingObject.value.length - 1;
+    // }
+    // // 假设 deepClone 函数存在且能正确返回 pageJSON.value 的深拷贝
+    // const clonedPage = deepClone(pageJSON.value) as typeof pageJSON;
+    // if (clonedPage !== undefined) {
+    //   if (
+    //     historyOperatingObject.value.length - 1 !==
+    //     currentOperatingObjectIndex.value
+    //   ) {
+    //     // 如果当前处于中间步骤，则清空后续步骤，并重新添加
+    //     historyOperatingObject.value = historyOperatingObject.value.slice(
+    //       0,
+    //       currentOperatingObjectIndex.value + 1
+    //     );
+    //     historyOperatingObject.value.push(clonedPage);
+    //     currentOperatingObjectIndex.value =
+    //       historyOperatingObject.value.length - 1;
+    //     return;
+    //   }
+    //   // 判断当前值和上一次是否相同，相同就不保存了
+    //   if (
+    //     JSON.stringify(clonedPage) ===
+    //     JSON.stringify(
+    //       historyOperatingObject.value[historyOperatingObject.value.length - 1]
+    //     )
+    //   ) {
+    //     return;
+    //   }
+    //   historyOperatingObject.value.push(clonedPage);
+    //   currentOperatingObjectIndex.value =
+    //   historyOperatingObject.value.length - 1;
+    // }
   };
 
   /**
@@ -126,9 +126,11 @@ export default function useCanvasOperation() {
       // 保存成功后，延迟一秒提示
       console.log("保存成功",pageJSON.value);
       editCodeConfig({
-        codeConfigName: 'test',
         codeConfig: pageJSON.value,
-        codeConfigId:'231f703a-5acf-462d-8257-2cb2e56b4baf',
+        codeConfigName: 'test',
+        codeConfigId:'4f25f23c-eadf-41f7-9557-b74514064fe8',
+        // userId: 'op_Kr4i1oy0H73j6lmolby7-QOsw',
+        // userName : 'yk'
       }).then(res => {
         ElMessage({ message: "保存成功", type: "success" });
         console.log(res);

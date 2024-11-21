@@ -39,7 +39,7 @@ const DlockContainer = defineComponent({
 
       if (vnodeProps.titleProps?.props?.title) {
         const titleDom = (
-          <div className={[vnodeProps.titleProps.props['class-name'], style.DivContainerTitle].filter(Boolean).join(' ')} style={vnodeProps.titleProps.style}>
+          <div className={[vnodeProps?.titleProps?.props['className'], style.DivContainerTitle].filter(Boolean).join(' ')} style={vnodeProps.titleProps.style}>
             {vnodeProps.titleProps.props.title}
           </div>
         );
@@ -58,8 +58,8 @@ const DlockContainer = defineComponent({
 
       const containerProps = {
         id: props.item.key,
-        className: [vnodeProps.divProps.props['class-name'], style.DivContainer].filter(Boolean).join(' '),
-        style: vnodeProps.divProps.style
+        className: [vnodeProps?.divProps?.props['className'], style.DivContainer].filter(Boolean).join(' '),
+        style: vnodeProps?.divProps?.style
       };
 
       return whetherYouCanDrag.value ? (

@@ -23,10 +23,13 @@ onMounted(()=> {
   init()
   getCodeConfig(
     {
-      codeConfigId: '231f703a-5acf-462d-8257-2cb2e56b4baf',
+      codeConfigName: 'test',
+      codeConfigId:'4f25f23c-eadf-41f7-9557-b74514064fe8',
     }
   ).then((res)=>{
-    pageJSON.value = res.result.codeConfig
+    if(res.result.codeConfig) {
+       pageJSON.value = res.result.codeConfig
+    }
     console.log('获取到保存数据res',pageJSON.value)
   })
 })

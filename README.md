@@ -4,48 +4,33 @@ An Electron application with Vue and TypeScript
 
 ## 低代码
 
+## 目标
+
 实现组件库
   编写JSON规则 ✅
-  实现组件自动挂载
+  实现组件自动挂载 ✅
   组件库分离
 实现渲染器
   渲染器渲染编辑内容 ✅
-  渲染器自动挂载组件
+  渲染器自动挂载组件 ✅
   渲染器快捷键绑定 ✅
   编辑新增删除 ✅
 
 实现控制面板
   动态渲染基础控制 ✅
   灵活动态加载自定义控制面板 ✅
-  事件绑定
+  事件绑定 ✅
   css代码生成
 实现托拽
   树形结构托拽 ✅
   托拽拷贝 ✅
+  拖拽嵌套 ✅
 
-## 
+## 进度
+  可以拖拽生成页面
+  支持组件嵌套拖动，自动生成JSON数据
+  动态生成配置面板实现双向绑定修改组件配置
+  支持平台内编辑器输入假代码业务逻辑转成真实函数操控组件
+  支持独立拆分使用内部组件
+  支持生成表单页面，自定义输入框逻辑，接口调用，表格展示
 
-### Install
-
-```bash
-$ yarn
-```
-
-### Development
-
-```bash
-$ yarn dev
-```
-
-### Build
-
-```bash
-# For windows
-$ yarn build:win
-
-# For macOS
-$ yarn build:mac
-
-# For Linux
-$ yarn build:linux
-```

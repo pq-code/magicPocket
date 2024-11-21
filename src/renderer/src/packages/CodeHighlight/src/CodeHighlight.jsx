@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch, nextTick, defineExpose } from 'vue';
-import "./style/index.less";
+import "../style/index.less";
 
 const CodeHighlight = defineComponent({
   props: {

@@ -2,7 +2,7 @@ import { defineComponent, ref, watch, nextTick, computed } from 'vue';
 import style from '../style/index.module.less';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts';
 import { VueDraggable } from 'vue-draggable-plus';
-import { typeRender } from '../components/TypeRenderEngine';
+import { TypeRenderEngine } from '../components/TypeRenderEngine';
 import { storeToRefs } from 'pinia';
 import useCanvasOperation from '@renderer/views/draggingDragging/hooks/useCanvasOperation.ts';
 import ComponentMaker from '../components/ComponentMaker.jsx';
@@ -25,10 +25,10 @@ const RenderEngine = defineComponent({
   },
 
   setup(props, { emit }) {
-    const { addHistoryOperatingObject } = useCanvasOperation(); 
+    const { addHistoryOperatingObject } = useCanvasOperation();
 
     const store = useDraggingDraggingStore();
-    const { pageJSON } = storeToRefs(store); // 页面数据
+    const { pageJSON, currentOperatingObject } = storeToRefs(store); // 页面数据
     const whetherYouCanDrag = computed(() => pageJSON.value.whetherYouCanDrag);
     const componentList = ref(pageJSON.value?.children || []);
 
@@ -67,12 +67,20 @@ const RenderEngine = defineComponent({
       item.key = `${item.type}-${Number(Math.random() * 10000).toFixed(0)}`;
       return whetherYouCanDrag ? (
         <ComponentMaker item={item}>
-          {typeRender(item, children)}
+          {TypeRenderEngine(item, children)}
         </ComponentMaker>
       ) : (
-        typeRender(item, children)
+        TypeRenderEngine(item, children)
       );
     };
+
+
+    // 取消选中
+    const clickContainer = (e) => {
+      e.stopPropagation();
+      currentOperatingObject.value = null;
+    };
+
 
     const renderRootVnode = computed(() => {
       const renderComponent = renderComponents(componentList.value); // 深度优先遍历
@@ -86,6 +94,7 @@ const RenderEngine = defineComponent({
           selector="selector"
           animation={200}
           sort={true}
+          onClick={clickContainer}
         >
           {renderComponent}
         </VueDraggable>
