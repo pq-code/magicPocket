@@ -1,18 +1,20 @@
-import { defineComponent, ref, watch, onMounted } from 'vue';
-import RenderEngine from '@renderer/packages/RenderEngine/src/RenderEngine.jsx'
-import { buildUUID } from "@renderer/utils"
+import { defineComponent, ref, computed, onMounted } from 'vue';
+import RenderEngine from '@renderer/packages/RenderEngine/src/RenderEngine.jsx';
+import { buildUUID } from "@renderer/utils";
+import { ElButton, ElDialog, ElTooltip } from 'element-plus';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts';
+import Highlight from 'highlight.js'; // 假设你使用的是 highlight.js
+
 const draggingDraggingMain = defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     listData: {
       type: Array,
       default: () => []
     }
-    // fileListMap: Object
   },
   model: {
     prop: 'modelValue',
@@ -20,51 +22,61 @@ const draggingDraggingMain = defineComponent({
   },
   setup(props, { emit }) {
     const store = useDraggingDraggingStore();
-    const { pageJSON } = storeToRefs(store); // 页面数据
+    const { pageJSON, currentOperatingObject } = storeToRefs(store); // 页面数据
 
     const rootJSON = ref(props.modelValue);
     const dialogVisible = ref(false);
+
+    // 计算属性，用于格式化 JSON 字符串
+    const nodeJSON = computed(() => JSON.stringify(pageJSON.value, null, 2));
+
+    // 渲染根节点 vnode
+    const renderRootVnode = computed(() => (
+      <RenderEngine key={rootJSON.value.id || buildUUID()} {...rootJSON.value} />
+    ));
+
     onMounted(() => {
+      // 初始化操作
     });
 
+    const handleOpenDialog = () => {
+      dialogVisible.value = true;
+    };
 
-    const renderRootVnode = computed(() => {
-      return  <RenderEngine key={rootJSON.id || buildUUID()} {...rootJSON} ></RenderEngine>
-    })
-
-    const nodeJSON = ref(JSON.stringify(pageJSON.value))
-
+     // 取消选中
+     const clickContainer = (e) => {
+      e.stopPropagation();
+      currentOperatingObject.value = null;
+     };
+    
     return () => (
-      <div className='draggingDraggingMain'>
+      <div className='draggingDraggingMain' onClick={clickContainer}>
         <div className='connections'>
-          <el-tooltip
+          <ElTooltip
             class="box-item"
             effect="dark"
             content="页面JSON结构"
             placement="top-start"
           >
-            <ElButton text='primary' onClick={() => dialogVisible.value = true}>
-              <i className='iconfont icon-connections'></i>
+            <ElButton text='primary' onClick={handleOpenDialog}>
+              <i style={{ color: 'rgb(0 0 0)',fontSize: '23px' }} className='iconfont icon-connections'></i>
             </ElButton>
-          </el-tooltip>
+          </ElTooltip>
         </div>
-
-        { renderRootVnode.value }
-
+        {renderRootVnode.value}
         <ElDialog
           vModel={dialogVisible.value}
           title="页面JSON结构"
-          width="500"
-          height="400"
+          width="800"
+          height="700"
         >
+          <div style={{ height: '700px', overflow: 'auto' }}>
+            <highlightjs
+              language='javascript'
+              code={nodeJSON.value}
+            />
+          </div>
         </ElDialog>
-
-        <div>
-          <highlightjs
-            language='javascript'
-            code={nodeJSON.value}>
-          </highlightjs>
-        </div>
       </div>
     );
   },
