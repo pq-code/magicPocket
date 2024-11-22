@@ -65,6 +65,9 @@ export default function useCanvasOperation() {
             'display': resultProps['display']
           }
         };
+        if (resultProps['height'] && resultProps['height'].length) {
+          vnodeProps[key].style['height'] = processStringAddPx.value(resultProps['height'])
+        }
       }
     });
 

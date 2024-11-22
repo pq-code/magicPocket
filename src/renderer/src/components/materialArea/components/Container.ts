@@ -9,9 +9,15 @@ export const Container = {
       title: '容器属性',
       children: [
         {
-          label: '文字大小',
+          label: '高度',
           type: 'input',
           value: '',
+          key: 'csheight'
+        },
+        {
+          label: '文字大小',
+          type: 'input',
+          value: '23',
           key: 'csfontSize'
         },
         {
@@ -23,7 +29,7 @@ export const Container = {
         {
           label: '内间距',
           type: 'input',
-          value: '',
+          value: '10',
           key: 'cspadding'
         },
         {
@@ -54,6 +60,22 @@ export const Container = {
             }
           ]
         },
+        {
+          label: '是否滚动',
+          type: 'segmented',
+          value: '',
+          key: 'overflow',
+          options: [
+            {
+              label: '是',
+              value: true
+            },
+            {
+              label: '否',
+              value: false
+            }
+          ]
+        },
       ],
       style: {
       }
@@ -66,6 +88,12 @@ export const Container = {
           type: 'input',
           value: '',
           key: 'title'
+        },
+        {
+          label: '高度',
+          type: 'input',
+          value: '30',
+          key: 'csheight'
         },
         {
           label: '文字大小',
@@ -88,7 +116,7 @@ export const Container = {
         {
           label: '外间距',
           type: 'input',
-          value: '',
+          value: '0 0 10 0',
           key: 'csmargin'
         },
         {

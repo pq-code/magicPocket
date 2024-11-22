@@ -103,14 +103,15 @@ export default function useCanvasOperation() {
    */
   const clearHistoryOperatingObject = () => {
     pageJSON.value = {
-      type: "",
-      title: "",
-      whetherYouCanDrag: false,
+      type: 'page',
+      title: '页面',
+      whetherYouCanDrag: true,
       props: {
-        className: "",
-        style: ""
+        className: 'PageContainer',
+        style: '',
       },
-      children: []
+      children: [
+      ]
     }; // 清空
     currentDragObject.value = {};
     currentOperatingObject.value = {};

@@ -45,13 +45,13 @@ const DlockContainer = defineComponent({
         );
         Dom.unshift(titleDom);
       }
-
-      if (slots.default) {
+      let childrenS = slots.default()
+      if (vnodeProps.titleProps?.props?.title || (slots && slots.default && childrenS[0].children.length)) {
         Dom.push(slots.default());
       } else {
         Dom.push(
           <div className={style.DivContainerNosolt}>
-            <span> 拖拽组件放入容器中 </span>
+            <span style={'border: 2px dashed #7bb3fc'}> 拖拽组件放入容器中 </span>
           </div>
         );
       }

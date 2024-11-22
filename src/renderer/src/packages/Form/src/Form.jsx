@@ -128,6 +128,8 @@ const From = defineComponent({
       const { api, isSubmit, isReset } = formProps.props;
       Api = api; // 获取接口信息
 
+      console.log('vnodeProps',vnodeProps)
+
       const formChildren = childVnode.map(item => renderComponent(item, formProps.props));
 
       const formButtons = [
@@ -144,8 +146,8 @@ const From = defineComponent({
       }
 
       return (
-        <ElForm ref={formRef} vModel={inputValue.value}>
-          <ElRow>{formChildren}</ElRow>
+        <ElForm ref={formRef} vModel={inputValue.value} >
+          <ElRow gutter={Number(formProps.props.gutter) || 20}>{formChildren}</ElRow>
         </ElForm>
       );
     };

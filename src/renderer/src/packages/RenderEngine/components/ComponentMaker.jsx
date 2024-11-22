@@ -67,7 +67,7 @@ const ComponentMaker = defineComponent({
     const renderComponentTag = () => {
       if (isCurrentOperatingObject.value) {
         return (
-          <div className={style.ComponentTag}>
+          <div className={style.ComponentTag} style={{ 'z-index': 100 }}>
             <i class="iconfont icon-lajitong5" onClick={deleteObject}></i>
           </div>
         );
