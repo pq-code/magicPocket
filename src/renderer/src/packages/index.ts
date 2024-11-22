@@ -4,14 +4,12 @@ import type { App } from "vue";
 // 导入组件
 // import TypeRenderer from './TypeRenderer'
 // import PageContainer from './PageContainer'
-import PTable from './PTable'
 import Form from './Form'
 
 // 存储组件列表
 const components = [
     // TypeRenderer,
     // PageContainer,
-    PTable,
     Form
 ]
 
@@ -34,6 +32,5 @@ export default install
 export {
     // TypeRenderer,
     // PageContainer,
-    PTable,
     Form
 }

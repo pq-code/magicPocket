@@ -87,18 +87,27 @@ const ComponentMaker = defineComponent({
           animation={200}
           sort={true}
         >
-          <div
-            className={[
-              style.Container,
-              isCurrentOperatingObject.value ? style.SelectedHighlighted : ''
-            ].filter(Boolean).join(' ')}
-            onClick={clickContainer}
-            onMouseenter={handleMouseEnter}
-            onMouseleave={handleMouseLeave}
+          <ElTooltip
+            class="box-item"
+            effect="light"
+            content={props.item?.componentName}
+            placement="right"
           >
-            {renderComponentTag()}
-            {slots.default ? slots.default() : null}
-          </div>
+            {{
+              reference: () => renderComponentTag(),
+              default: () => <div
+                className={[
+                  style.Container,
+                  isCurrentOperatingObject.value ? style.SelectedHighlighted : ''
+                ].filter(Boolean).join(' ')}
+                onClick={clickContainer}
+                onMouseenter={handleMouseEnter}
+                onMouseleave={handleMouseLeave}
+              >
+                {slots.default ? slots.default() : null}
+              </div>
+            }}
+          </ElTooltip>
         </VueDraggable>
       );
     };

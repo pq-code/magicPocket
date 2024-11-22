@@ -1,9 +1,8 @@
-import { createApp } from "vue";
 
-const app = createApp({});
+// const app = createApp({});
 
 // 自动注册
-export const customComponent = async (item) => {
+export const customComponent = async () => {
   // const name = item.npm.exportName // 组件名称
   // const packages = item.npm.package
   // console.log(packages)

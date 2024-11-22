@@ -1,15 +1,15 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
-import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElCollapse,ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
+import { ElRow, ElForm, ElTooltip, ElFormItem, ElCol, ElCollapse, ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
 
 const CreateCode = defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     pageJSON: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     children: {
       type: Array,
@@ -26,14 +26,14 @@ const CreateCode = defineComponent({
     }
     const clickCopy = () => {
       navigator.clipboard.writeText(code.value)
-          .then(() => {
+        .then(() => {
           // 复制成功的逻辑
-            ElMessage({ message: '复制成功', type: 'success' })
-          })
-          .catch((error) => {
+          ElMessage({ message: '复制成功', type: 'success' })
+        })
+        .catch((error) => {
           // 复制失败的逻辑
           console.error('复制失败：', error);
-      });
+        });
     }
     const code = ref(
       `
@@ -59,14 +59,14 @@ const CreateCode = defineComponent({
       `)
     return () => (
       <ElDrawer
-      vModel={props.modelValue}
-      title="代码生成"
+        vModel={props.modelValue}
+        title="代码生成"
         direction='rtl'
         size='50%'
-      before-close={handleClose}
+        before-close={handleClose}
       >
         <div className='ElDrawer-heard'>
-          <ElButton type= 'primary' text='primary' onClick={clickCopy}>
+          <ElButton type='primary' text='primary' onClick={clickCopy}>
             点击复制
           </ElButton>
         </div>
@@ -76,7 +76,7 @@ const CreateCode = defineComponent({
             code={code.value}>
           </highlightjs>
         </div>
-    </ElDrawer>
+      </ElDrawer>
     );
   },
 });

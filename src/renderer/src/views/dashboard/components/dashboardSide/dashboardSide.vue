@@ -20,14 +20,12 @@ console.log(routerMap)
         default-active="2"
         class="el-menu-vertical-demo"
         :collapse="!modelValue"
-        @open="handleOpen"
-        @close="handleClose"
         :collapse-transition="false"
         router
         :show-timeout="0"
         :hide-timeout="0"
       >
-        <el-menu-item v-for="(item, index) in routerMap" :key="item.name" :index="item.path">
+        <el-menu-item v-for="(item) in routerMap" :key="item.name" :index="item.path">
            <i class="iconfont icon-yingyongruanjian"></i>
           <template #title>{{ item.meta.title }}</template>
         </el-menu-item>

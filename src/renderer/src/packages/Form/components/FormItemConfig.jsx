@@ -65,7 +65,7 @@ const From = defineComponent({
         <div className={style.FormItemConfig}>
           <i className='iconfont icon-bianji cursor:pointer' onClick={() => editFormItem(index)}></i>
           <ElInput size="small" vModel={item.props.formItemProps.label} />
-          <ElInput size="small" vModel={item.props.formItemProps.value} />
+          <ElInput size="small" vModel={item.props.formItemProps.primaryKey} />
           <i className='iconfont icon-lajitong5 cursor:pointer' onClick={() => deleteFormItem(index)}></i>
         </div>
       ));
@@ -75,7 +75,7 @@ const From = defineComponent({
       <div>
         <div className={style.FormItemConfigTitle}>
           <span>标题</span>
-          <span>value</span>
+          <span>key</span>
         </div>
         <div className={style.FormItemConfigList}>
           {renderFormItem(props.item?.props.formItemProps.itemList || [])}

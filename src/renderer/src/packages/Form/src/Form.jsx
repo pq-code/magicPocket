@@ -53,8 +53,8 @@ const From = defineComponent({
     };
 
 
-    const handleInput = (e) => {
-      let fnEvent = item.fnEvent;
+    const handleInput = (item, e) => {
+      let fnEvent = item?.fnEvent || null;
       item.props.formItemProps.value = e;
       if (fnEvent && fnEvent.onInput) {
         try {
@@ -83,9 +83,8 @@ const From = defineComponent({
     const renderComponent = (item, formProps) => {
       const colKey = getColKey(item)
       const { isReadOnly, span, label, primaryKey, labelPosition, rules, value } = item.props.formItemProps;
-
       // 收集控制面板输入的值
-      inputValue.value[primaryKey] = value;
+      if(value) inputValue.value[primaryKey] = value;
 
       let children = null;
 
@@ -127,6 +126,8 @@ const From = defineComponent({
       const formProps = vnodeProps.formProps;
       const { api, isSubmit, isReset } = formProps.props;
       Api = api; // 获取接口信息
+
+      inputValue.value = {}
 
       console.log('vnodeProps',vnodeProps)
 

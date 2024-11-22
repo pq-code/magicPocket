@@ -26,16 +26,6 @@ const TableColumnConfig = defineComponent({
     const TableColumnSideRef = ref(null);
 
     // 获取props
-    const tableProps = computed(() => {
-      const itemProps = props.item?.props || {};
-      const propsKey = (props.item?.type || '').toLowerCase() + 'Props';
-      const children = itemProps[propsKey]?.children || [];
-
-      return children.reduce((acc, item) => {
-        acc[item.key] = item.value;
-        return acc;
-      }, {});
-    })
 
     const addFormItem = () => {
       props.item?.children.push(
@@ -79,7 +69,7 @@ const TableColumnConfig = defineComponent({
           <span>key</span>
         </div>
         <div className={style.FormItemConfigList}>
-          {tableColumn(props.item?.children || [])}
+          {tableColumn(props.item?.props?.tableColumnProps?.itemList || [])}
         </div>
         <div style={"margin-top: 10px"}> <ElButton onClick={addFormItem} text>添加</ElButton> </div>
         <TableColumnSide ref={TableColumnSideRef}></TableColumnSide>

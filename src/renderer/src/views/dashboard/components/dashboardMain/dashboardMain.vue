@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import dashboardSide from '@renderer/views/dashboard/components/dashboardSide/dashboardSide.vue'
 
-const defaultSwitch = true
 
 let lengthWidth = ref( window.innerWidth > 1000 ? true : false)
 // 收起撤面板

@@ -11,38 +11,7 @@ export const Table = {
     component: 'packages/Table/src/Table.jsx',
     destructuring: true,
   },
-  children: [
-    {
-      label: "表格1",
-      prop: 'a',
-      width: 200,
-      align: "center",
-    },
-    {
-      label: "表格2",
-      prop: 'b',
-      width: 200,
-      align: "center",
-    },
-    {
-      label: "表格3",
-      prop: 'c',
-      width: 200,
-      align: "center",
-    },
-    {
-      label: "表格4",
-      prop: 'd',
-      width: 200,
-      align: "center",
-    },
-    {
-      label: "表格5",
-      prop: 'e',
-      width: 200,
-      align: "center",
-    },
-  ],
+  children: [],
   props: {
     name: "title",
     propType: "string",
@@ -78,6 +47,20 @@ export const Table = {
             value: false
             },],
           key: 'selectable'
+        },
+        {
+          label: '是否带序号',
+          type: 'segmented',
+          value: true,
+          options: [{
+            label: '是',
+            value: true
+          },
+          {
+            label: '否',
+            value: false
+            },],
+          key: 'serialNumber'
         },
         {
           label: '是否分页',
@@ -210,7 +193,39 @@ export const Table = {
     tableColumnProps: {
       title: '表格项',
       component: 'packages/Table/components/TableColumnConfig.jsx',
-      children: []
+      children: [],
+      itemList:  [
+        {
+          label: "表格1",
+          prop: 'a',
+          width: 200,
+          align: "center",
+        },
+        {
+          label: "表格2",
+          prop: 'b',
+          width: 200,
+          align: "center",
+        },
+        {
+          label: "表格3",
+          prop: 'c',
+          width: 200,
+          align: "center",
+        },
+        {
+          label: "表格4",
+          prop: 'd',
+          width: 200,
+          align: "center",
+        },
+        {
+          label: "表格5",
+          prop: 'e',
+          width: 200,
+          align: "center",
+        },
+      ]
     },
     pagingProps: {
       title: '分页',
@@ -232,7 +247,7 @@ export const Table = {
           type: 'input',
         }
       ]
-    }
+    },
   },
   data: [
     {

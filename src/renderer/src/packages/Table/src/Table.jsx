@@ -1,15 +1,17 @@
-import { defineComponent, ref, watch, nextTick, computed, onMounted } from 'vue';
-import DlockContainer from '@renderer/packages/DlockContainer/src/DlockContainer.jsx'
-import { ElTooltip } from 'element-plus';
+import { defineComponent, ref, shallowRef, computed, onMounted } from 'vue';
+import { ElTooltip, ElTableColumn, ElTable, ElPagination } from 'element-plus';
+import useCodeConfig from '@renderer/views/draggingDragging/hooks/useCodeConfig.ts';
+import { deepClone } from '@renderer/utils/index';
+
 const Table = defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: () => { }
+      default: () => ({})
     },
     item: {
       type: Object,
-      default: () => { }
+      default: () => ({})
     },
     children: {
       type: Array,
@@ -23,13 +25,19 @@ const Table = defineComponent({
   },
 
   setup(props, { emit }) {
+    const { collectProps } = useCodeConfig();
+
     const tableRef = ref(null);
-    const divRes = ref(null)
+    const divRes = ref(null);
+
+    const SELECTION_COLUMN = { type: 'selection', label: '', width: 55, align: 'center' };
+    const SERIAL_NUMBER_COLUMN = { label: '序号',type:"index", width: 55, align: 'center' };
 
     onMounted(() => {
-      console.log(divRes.value)
+      // props.item.ref = tableRef.value
     });
-    const tableData = ref(props.item.data);
+
+    const tableData = shallowRef(deepClone(props.item.data));
 
     // 获取props
     const tableProps = computed(() => {
@@ -41,99 +49,135 @@ const Table = defineComponent({
         acc[item.key] = item.value;
         return acc;
       }, {});
-    })
-    const handleSelectionChange = () => {
-      console.log('123213213123123')
-    }
-    // 计算是否需要勾选
-    const columns = computed(() => {
-      let children = props.item?.children || [];
-      if (tableProps.value.selectable && children[0]?.type !== 'selection') {
-        children = [{ width: 55, type: 'selection' }, ...children];
-      } else if (!tableProps.value.selectable && children[0]?.type === 'selection') {
-        children = children.slice(1);
-      }
-      console.log(children)
-      return children;
     });
 
-    // 获取ElTableColumnList
-    const ElTableColumnList = computed(() => {
-      return columns.value.map((item) => {
-        return (
-          <ElTableColumn
-            prop={item?.prop}
-            label={item?.label}
-            width={item?.width}
-            align={item?.align}
-            fixed={item?.fixed}
-            minWidth={item?.minWidth}
-            showOverflowTooltip={item?.showOverflowTooltip}
-            type={item?.type}
-            onselectionChange={handleSelectionChange}
-          >
-            {{
-              header: () => {
-                if (item.description) {
-                  return (
-                    <div title={item.description}>
-                      <ElTooltip effect="dark" placement="top-start">
-                        {{
-                          default: () => item.label,
-                          content: () => item.description,
-                        }}
-                      </ElTooltip>
-                    </div>
-                  );
-                }
-                return item.label;
-              },
-              default: () => {
-                if (item.slotName != null && item.slotName !== '') {
-                  return <div>{item.slotName}</div>;
-                }
-                return null;
-              }
-            }}
-          </ElTableColumn>
-        )
-      }).filter(Boolean);
-    })
+    const handleSelectionChange = () => {
+      console.log('Selection changed');
+    };
+    const handleCurrentChange = () => {
+      console.log('Current page changed');
+    }
+    const onChange = () => {
+      console.log('onChange');
+    }
+    const prevClick = () => {
+      console.log('prevClick');
+    }
+    const nextClick = () => {
+      console.log('nextClick');
+    }
 
-    return () => (
-      <div>
-        <ElTable
-          ref={tableRef}
-          data={tableData.value}
-          // height={tableProps.value?.height}
-          border={tableProps.value?.border}
-          stripe={tableProps.value?.stripe}
-          rowStyle={tableProps.value?.rowStyle}
-          headerRowClassName={tableProps.value?.headerRowClassName}
-          headerCellStyle={tableProps.value?.headerCellStyle}
-          cellStyle={tableProps.value?.cellStyle}
-          maxHeight={tableProps.value?.maxHeight}
-          highlightCurrentRow={tableProps.value?.highlightCurrentRow}
-          scrollbarAlwaysOn={tableProps.value?.scrollbarAlwaysOn}
-          sortOrders={tableProps.value?.sortOrders}
-          defaultSort={tableProps.value?.defaultSort}
-          showSummary={tableProps.value?.showSummary}
-          summaryMethod={tableProps.value?.summaryMethod}
-          style={tableProps.value?.style || {
-            width: '100%',
-            'min-height': '300px',
-            'height': 'calc(100% - 60px)',
-            'max-height': '720px'
-          }
-          }>
-          {ElTableColumnList.value}
-        </ElTable>
-        {tableProps.value?.showPagination ?
-          <div style={{ 'margin-top': '10px' }}>
-            <ElPagination background layout="prev, pager, next" total={tableData.value.length} />
-          </div> : null}
-      </div>
-    )
+    const getColumns = (tableColumnLists, tableProps) => {
+      let columns = deepClone(tableColumnLists) || [];
+
+      if (tableProps.props.selectable) {
+        columns.unshift(SELECTION_COLUMN);
+      } else {
+        columns = columns.filter(item => item.type !== 'selection');
+      }
+
+      if (tableProps.props.serialNumber) {
+        const index = columns[0].type === 'selection' ? 1 : 0;
+        columns.splice(index, 0, SERIAL_NUMBER_COLUMN);
+      } else {
+        columns = columns.filter(item => item.label !== '序号');
+      }
+
+      return columns;
+    };
+
+    const renderColumns = (columns) => {
+      return columns.map((item) => (
+        <ElTableColumn
+          prop={item?.prop}
+          label={item?.label}
+          width={item?.width}
+          align={item?.align}
+          fixed={item?.fixed}
+          minWidth={item?.minWidth}
+          showOverflowTooltip={item?.showOverflowTooltip}
+          type={item?.type}
+          onselectionChange={handleSelectionChange}
+        />
+      ));
+    };
+
+    const renderPaging = (pagingProp, tableProps) => {
+      if (!tableProps.props.showPagination) return null;
+      return (
+        <div style={{ marginTop: '10px', ...pagingProp.style }}>
+          <ElPagination
+            background={pagingProp?.props?.background || false} // 是否为分页按钮添加背景色
+            layout="prev, pager, next" // 组件布局，子组件名用逗号分隔
+            total={tableData.value.length} // 总条目数
+            pageSize={pagingProp.props?.pageSize || 5} // 每页显示条目个数
+            pageSizes={pagingProp.props?.pageSizes || [5, 10, 20]} // 每页显示个数选择器的选项设置
+            pagerCount={pagingProp.props?.pagerCount || 5} // 总页数
+            currentPage={pagingProp.props?.currentPage || 1} // 当前页数
+            size={pagingProp.props.size || 'small'} // 分页大小
+            disabled={pagingProp.props.size || false} // 是否禁用分页
+            hideOnSinglePage={pagingProp.props?.hideOnSinglePage || false} // 只有一页时是否隐藏分页器
+            nextText={pagingProp.props?.nextText} // 下一页按钮的文字
+            prevIcon={pagingProp.props?.prevIcon} // 上一页按钮的图标
+            prevText={pagingProp.props?.prevText} // 上一页按钮的文字
+            appendSizeTo={pagingProp.props?.appendSizeTo} // 下拉框挂载到哪个 DOM 元素
+            popperClass={pagingProp.props?.popperClass} // 下拉框的类名
+            onSizeChange={handleSizeChange} // 每页显示个数选择器的选项设置
+            onCurrentChange={handleCurrentChange} // 当前页数改变时会触发
+            onChange={onChange} //onSizeChange 和 onCurrentChange
+            onPrevClick={prevClick} //用户点击上一页按钮改变当前页时触发
+            onNextClick={nextClick} //用户点击下一页按钮改变当前页时触发}
+          />
+        </div>
+      );
+    };
+
+    const handleSizeChange = (e) => {
+      console.log('Page size changed', e);
+    }
+    const render = () => {
+      const vnodeProps = collectProps(props.item.props); // 收集组件属性
+      console.log('vnodeProps', vnodeProps);
+      const tableProps = vnodeProps.tableProps;
+
+      const tableColumnList = props.item.props.tableColumnProps.itemList || [];
+      const pagingProp = vnodeProps.pagingProps;
+
+      return (
+        <div>
+          <ElTable
+            ref={tableRef}
+            data={tableData.value}
+            border={tableProps.props?.border}
+            stripe={tableProps.props?.stripe}
+            rowStyle={tableProps.props?.rowStyle}
+            headerRowClassName={tableProps.props?.headerRowClassName}
+            headerCellStyle={tableProps.props?.headerCellStyle}
+            cellStyle={tableProps.props?.cellStyle}
+            maxHeight={tableProps.props?.maxHeight}
+            highlightCurrentRow={tableProps.props?.highlightCurrentRow}
+            scrollbarAlwaysOn={tableProps.props?.scrollbarAlwaysOn}
+            sortOrders={tableProps.props?.sortOrders}
+            defaultSort={tableProps.props?.defaultSort}
+            showSummary={tableProps.props?.showSummary}
+            summaryMethod={tableProps.props?.summaryMethod}
+            style={{
+              width: '100%',
+              minHeight: '300px',
+              height: 'calc(100% - 60px)',
+              maxHeight: '720px',
+            }}
+          >
+            {renderColumns(getColumns(tableColumnList, tableProps))}
+          </ElTable>
+          {renderPaging(pagingProp, tableProps)}
+        </div>
+      );
+    };
+
+    const vnode = computed(() => render());
+
+    return () => vnode.value;
   },
 });
 

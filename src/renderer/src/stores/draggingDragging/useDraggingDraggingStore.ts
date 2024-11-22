@@ -1,6 +1,5 @@
-import { ref,onMounted,onBeforeUnmount } from 'vue'
+import { ref} from 'vue'
 import { defineStore } from 'pinia'
-import { deepClone } from '@renderer/utils/index'
 
 
 export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () => {

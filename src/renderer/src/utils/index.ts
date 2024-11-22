@@ -66,7 +66,6 @@ export function removeEmptyStrings(e:object) {
 export function isJsonStr(str: any) {
   if (typeof str == 'string') {
     try {
-        const obj = JSON.parse(str);
         return true;
     } catch (e) {
         return true;
@@ -176,27 +175,6 @@ export const getCssVar = (prop: string, dom = document.documentElement) => {
   return getComputedStyle(dom).getPropertyValue(prop)
 }
 
-/**
- * 查找数组对象的某个下标
- * @param {Array} ary 查找的数组
- * @param {Functon} fn 判断的方法
- */
-// eslint-disable-next-line
-export const findIndex = <T = Recordable>(ary: Array<T>, fn: Fn): number => {
-  if (ary.findIndex) {
-    return ary.findIndex(fn)
-  }
-  let index = -1
-  ary.some((item: T, i: number, ary: Array<T>) => {
-    const ret: T = fn(item, i, ary)
-    if (ret) {
-      index = i
-      return ret
-    }
-  })
-  return index
-}
-
 export const trim = (str: string) => {
   return str.replace(/(^\s*)|(\s*$)/g, '')
 }
@@ -255,7 +233,7 @@ export function firstUpperCase(str: string) {
 /**
  * 把对象转为formData
  */
-export function objToFormData(obj: Recordable) {
+export function objToFormData(obj: any) {
   const formData = new FormData()
   Object.keys(obj).forEach((key) => {
     formData.append(key, obj[key])

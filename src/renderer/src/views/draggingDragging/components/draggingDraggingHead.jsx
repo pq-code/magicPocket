@@ -74,6 +74,7 @@ const draggingDraggingHead = defineComponent({
             </ElButton>
           </ElTooltip>
             <ElButton onClick={clearHistoryOperatingObject}>重做</ElButton>
+            <ElButton onClick={foundCode} type="primary">预览</ElButton>
             <ElButton onClick={foundCode} type="primary">代码生成</ElButton>
           </div>
 

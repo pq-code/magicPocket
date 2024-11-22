@@ -48,20 +48,48 @@ const draggingDraggingMain = defineComponent({
       e.stopPropagation();
       currentOperatingObject.value = null;
      };
-    
+
     return () => (
       <div className='draggingDraggingMain' onClick={clickContainer}>
         <div className='connections'>
-          <ElTooltip
-            class="box-item"
-            effect="dark"
-            content="页面JSON结构"
-            placement="top-start"
-          >
-            <ElButton text='primary' onClick={handleOpenDialog}>
-              <i style={{ color: 'rgb(0 0 0)',fontSize: '23px' }} className='iconfont icon-connections'></i>
-            </ElButton>
-          </ElTooltip>
+          <dvi className="connectionsItem">
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="页面JSON结构"
+              placement="top-start"
+            >
+              <ElButton text='primary' onClick={handleOpenDialog}>
+                <i style={{ color: 'rgb(0 0 0)',fontSize: '23px' }} className='iconfont icon-shezhi4'></i>
+              </ElButton>
+            </ElTooltip>
+          </dvi>
+
+          <dvi className="connectionsItem">
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="页面大纲结构"
+              placement="top-start"
+            >
+              <ElButton text='primary' onClick={handleOpenDialog}>
+                <i style={{ color: 'rgb(0 0 0)',fontSize: '23px' }} className='iconfont icon-connections'></i>
+              </ElButton>
+            </ElTooltip>
+          </dvi>
+
+          {/* <dvi>
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="页面JSON结构"
+              placement="top-start"
+            >
+              <ElButton text='primary' onClick={handleOpenDialog}>
+                <i style={{ color: 'rgb(0 0 0)',fontSize: '23px' }} className='iconfont icon-connections'></i>
+              </ElButton>
+            </ElTooltip>
+          </dvi> */}
         </div>
         {renderRootVnode.value}
         <ElDialog

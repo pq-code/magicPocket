@@ -10,7 +10,6 @@ import router from '../router/index'
 //     : sessionStorage.getItem('token');
 
 let token;
-let cancelRequest;
 
 const service: AxiosInstance = axios.create({
     baseURL: '/',
@@ -21,12 +20,12 @@ const service: AxiosInstance = axios.create({
 service.interceptors.request.use(
     (config) => {
         // cancelRequest=true 取消重复请求
-        if (config.data.cancelRequest) {
-            cancelRequest = setInterval(() => {
+        // if (config.data.cancelRequest) {
+        //     cancelRequest = setInterval(() => {
 
-            }, 3000)
-            return Promise.reject('接口重复调用');
-        }
+        //     }, 3000)
+        //     return Promise.reject('接口重复调用');
+        // }
 
         token = sessionStorage.getItem('token');
 
