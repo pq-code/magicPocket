@@ -2,7 +2,7 @@ import { defineComponent, ref, watch, onMounted } from 'vue';
 import componentContainer from './componentContainer'
 import { Search } from '@element-plus/icons-vue'
 import { componentList } from "@renderer/components/materialArea/materialArea"
-import { ElRow,ElForm,ElTooltip, ElFormItem, ElCol, ElCollapse,ElCollapseItem, ElSelect, ElOption, ElInput } from 'element-plus';
+import {  ElCollapse,ElCollapseItem, ElInput } from 'element-plus';
 
 const draggingDraggingL = defineComponent({
   props: {
@@ -10,7 +10,6 @@ const draggingDraggingL = defineComponent({
       type: Object,
       default: () => {}
     },
-    // fileListMap: Object
   },
   model: {
     prop: 'modelValue',

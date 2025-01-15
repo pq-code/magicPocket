@@ -40,9 +40,11 @@ const From = defineComponent({
         console.log(res);
       });
     };
-
     const reset = () => {
-      inputValue.value = {};
+      props.item.props.formItemProps.itemList.forEach(item => {
+        item.props.formItemProps.value = '';
+      });
+      // inputValue.value = {};
     };
 
     const getColKey = (item) => {
@@ -72,7 +74,6 @@ const From = defineComponent({
         let parameter = [...new Set([...fnEvent.onChange.parameter, ...['props', 'inputValue']])];
         try {
           const fn = new Function(parameter, fnEvent.onChange.value);
-          console.log(fn);
           fn(e, props, inputValue.value);
         } catch (error) {
           console.error('Error executing function:', error);

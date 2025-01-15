@@ -10,7 +10,7 @@ const draggingDraggingL = defineComponent({
   props: {
     modelValue: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     // fileListMap: Object
   },
@@ -28,7 +28,7 @@ const draggingDraggingL = defineComponent({
       activeIndex.value = index;
     };
     const handleChange = () => {
-      
+
     }
     const init = () => {
 
@@ -37,38 +37,6 @@ const draggingDraggingL = defineComponent({
       init()
     });
 
-    // const TypeRender = (item) => {
-    //   switch (item.type) {
-    //     case 'container':
-    //       return (
-    //         <DlockContainerOperatorPanel item={item}></DlockContainerOperatorPanel>
-    //       )
-    //     case 'Form':
-    //       return (
-    //        <FormvOperatorPanel item={item}></FormvOperatorPanel>
-    //       )
-    //     case 'switch':
-    //       return (
-    //         <div className='RadioLabel'>
-    //           <div className='RadioLabel-titel'> {item.label}</div>
-    //           <ElSwitch
-    //             modelValue={item.value}
-    //             size="small"
-    //             active-text="编辑"
-    //             inactive-text="只读"
-    //           />
-    //         </div>
-    //       )
-    //     default:
-    //       return (
-    //         <div className='form-item'>
-    //           <div>{item.label}</div>
-    //           <ElInput size="small" {...item} > </ElInput>
-    //         </div>
-    //       )
-    //   }
-    // }
-
     const TypeRender = (item) => {
       return (
         <ControlPanel item={item}></ControlPanel>
@@ -76,18 +44,24 @@ const draggingDraggingL = defineComponent({
     }
 
     const RenderEngine = (item) => {
-      if (!item || JSON.stringify(item) == '{}') (
-        <div style={
-          {'text-align': 'center',
-            'line-height': '500px',
-            'font-size': '13px',
+      if (!item || JSON.stringify(item) == '{}') {
+        return <div style={{
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}> <span style={
+          {
+            'text-align': 'center',
+            'font-size': '23px',
             'font-weight': 600,
             color: 'rgb(51, 51, 51)',
             padding: '0px 5px',
             background: '-webkit-linear-gradient(315deg, rgb(66, 211, 146) 25%, rgb(100, 126, 255)) text',
-            '-webkit-text-fill-color': 'transparent'}
-        }> 点击中间画布区域选中要操作的对象 </div>
-      )
+            '-webkit-text-fill-color': 'transparent'
+          }
+        }>点击中间画布区域选中要操作的对象</span> </div>
+      }
 
       return (
         <div className="draggingDraggingR">
@@ -97,7 +71,7 @@ const draggingDraggingL = defineComponent({
               className="draggingDraggingR-content-list"
             >
               <ElCollapse vModel={activeNames.value} onChange={handleChange}>
-                { TypeRender(item) }
+                {TypeRender(item)}
               </ElCollapse>
             </div>
           </div>

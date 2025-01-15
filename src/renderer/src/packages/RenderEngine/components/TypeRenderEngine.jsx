@@ -7,7 +7,7 @@ const component = (url) => {
   return defineAsyncComponent({
     loader: async () => {
       if (url.includes('element')) {
-        return await import(url);
+        return await import(/* @vite-ignore */'../../../' + url);
       } else {
         return await import(/* @vite-ignore */'../../../' + url);
       }

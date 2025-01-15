@@ -14,9 +14,9 @@ if (process.env['ELECTRON_RENDERER_URL']) {
 console.log('documentsPath-------------****-----------', documentsPath)
 
 export const seq = new Sequelize({
-  dialect: 'sqlite',
-  storage: documentsPath,
-  timezone: '+08:00'
+  // dialect: 'sqlite',
+  // storage: documentsPath,
+  // timezone: '+08:00'
 })
 
 seq

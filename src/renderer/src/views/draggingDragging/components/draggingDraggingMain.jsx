@@ -3,7 +3,7 @@ import RenderEngine from '@renderer/packages/RenderEngine/src/RenderEngine.jsx';
 import { buildUUID } from "@renderer/utils";
 import { ElButton, ElDialog, ElTooltip } from 'element-plus';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts';
-import Highlight from 'highlight.js'; // 假设你使用的是 highlight.js
+import QuillCodeEditor from "@renderer/components/QuillCodeEditor/QuillCodeEditor.jsx"
 
 const draggingDraggingMain = defineComponent({
   props: {
@@ -77,19 +77,6 @@ const draggingDraggingMain = defineComponent({
               </ElButton>
             </ElTooltip>
           </dvi>
-
-          {/* <dvi>
-            <ElTooltip
-              class="box-item"
-              effect="dark"
-              content="页面JSON结构"
-              placement="top-start"
-            >
-              <ElButton text='primary' onClick={handleOpenDialog}>
-                <i style={{ color: 'rgb(0 0 0)',fontSize: '23px' }} className='iconfont icon-connections'></i>
-              </ElButton>
-            </ElTooltip>
-          </dvi> */}
         </div>
         {renderRootVnode.value}
         <ElDialog
@@ -98,11 +85,8 @@ const draggingDraggingMain = defineComponent({
           width="800"
           height="700"
         >
-          <div style={{ height: '700px', overflow: 'auto' }}>
-            <highlightjs
-              language='javascript'
-              code={nodeJSON.value}
-            />
+          <div style={{ height: '700px', overflow: 'auto',padding: '10px' }}>
+            <QuillCodeEditor vModel={nodeJSON.value}></QuillCodeEditor>
           </div>
         </ElDialog>
       </div>
