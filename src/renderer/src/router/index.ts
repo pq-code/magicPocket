@@ -1,14 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import systemSettings from './branch/systemSettings'
-import ssh from './branch/ssh'
-import spaceDisplay from './branch/spaceDisplay'
 import draggingDragging from './branch/draggingDragging'
 
 export const routerMap = [
-  ...systemSettings,
-  ...ssh,
   ...draggingDragging,
-  ...spaceDisplay
 ]
 const router = {
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,7 +15,7 @@ const router = {
     {
       path: "/dashboard",
       name: "dashboard",
-      redirect: "/spaceDisplay",
+      redirect: "/draggingDragging",
       component: () =>
         import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
       children: routerMap,
