@@ -50,15 +50,19 @@ const ComponentMaker = defineComponent({
       currentOperatingObject.value = props.item;
     };
 
-    const handleMouseEnter = (e) => {
-      e.stopPropagation();
-      if (!e.currentTarget?.classList.contains(style.SelectedHighlighted)) {
-        e.currentTarget?.classList.add(style.HoverHighlighted);
+    // 仅在最顶层（鼠标直接悬停的节点）显示悬停边框，父节点不显示
+    const handleMouseOver = (e) => {
+      const el = e.currentTarget;
+      if (!el) return;
+      const isDirectHover = e.target === el;
+      if (isDirectHover && !el.classList.contains(style.SelectedHighlighted)) {
+        el.classList.add(style.HoverHighlighted);
+      } else {
+        el.classList.remove(style.HoverHighlighted);
       }
     };
 
     const handleMouseLeave = (e) => {
-      e.stopPropagation();
       e.currentTarget?.classList.remove(style.HoverHighlighted);
     };
 
@@ -101,7 +105,7 @@ const ComponentMaker = defineComponent({
                   isCurrentOperatingObject.value ? style.SelectedHighlighted : ''
                 ].filter(Boolean).join(' ')}
                 onClick={clickContainer}
-                onMouseenter={handleMouseEnter}
+                onMouseover={handleMouseOver}
                 onMouseleave={handleMouseLeave}
               >
                 {slots.default ? slots.default() : null}

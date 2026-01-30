@@ -1,8 +1,10 @@
 # magicpocket
 
-基于 Electron + Vue 3 + TypeScript 的**低代码搭建平台**，专注通过拖拽与配置生成页面。
+基于 Electron + Vue 3 + TypeScript 的**低代码搭建平台**，专注通过拖拽与配置生成页面，并内置全局悬浮对话与 Agent 设置入口。
 
-> 已移除：空间展示(3D)、WebRTC、linkSsh，仅保留低代码相关功能。
+> 已移除：空间展示(3D)、WebRTC、linkSsh，仅保留低代码与对话相关功能。
+
+- **项目说明与目录结构**：[docs/项目说明与目录结构.md](./docs/项目说明与目录结构.md)（简述、技术栈、目录分类与快速定位）
 
 ## 低代码
 

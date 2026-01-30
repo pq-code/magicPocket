@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FloatingChat from './components/FloatingChat/FloatingChat.vue'
+import FloatingChat from './components/FloatingChat'
 </script>
 
 <template>

@@ -1,1 +1,3 @@
-export { default as FloatingChat } from './FloatingChat.vue'
+import FloatingChat from './FloatingChat'
+export { FloatingChat }
+export default FloatingChat

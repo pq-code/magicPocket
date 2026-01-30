@@ -1,0 +1,299 @@
+{
+  "version": "2.6",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bi8Au",
+      "x": 0,
+      "y": 0,
+      "name": "Frame",
+      "clip": true,
+      "width": 800,
+      "height": 600,
+      "fill": "#FFFFFF",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "cornerRadius": 9,
+          "id": "4boDa",
+          "x": 138,
+          "y": 210,
+          "context": "对话框",
+          "fill": "#CCCCCC",
+          "width": 215,
+          "height": 300
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 10,
+          "id": "E0pKs",
+          "x": 360,
+          "y": 450,
+          "fill": "#CCCCCC",
+          "width": 60,
+          "height": 60
+        },
+        {
+          "type": "rectangle",
+          "id": "j5x1K",
+          "x": 206,
+          "y": 436,
+          "fill": "#f0f0f0ff",
+          "width": 140,
+          "height": 32
+        }
+      ]
+    },
+    {
+      "type": "rectangle",
+      "id": "isvyb",
+      "x": 206,
+      "y": 397,
+      "fill": "#f0f0f0ff",
+      "width": 140,
+      "height": 32
+    },
+    {
+      "type": "rectangle",
+      "id": "NMcU2",
+      "x": 206,
+      "y": 277,
+      "fill": "#f0f0f0ff",
+      "width": 140,
+      "height": 112
+    },
+    {
+      "type": "ellipse",
+      "id": "wlBv1",
+      "x": 144,
+      "y": 277,
+      "fill": "#f7f7f7ff",
+      "width": 26,
+      "height": 24
+    },
+    {
+      "type": "ellipse",
+      "id": "0dKDv",
+      "x": 144,
+      "y": 397,
+      "fill": "#f7f7f7ff",
+      "width": 26,
+      "height": 24
+    },
+    {
+      "type": "ellipse",
+      "id": "iZ26M",
+      "x": 144,
+      "y": 435,
+      "fill": "#f7f7f7ff",
+      "width": 26,
+      "height": 24
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": [
+        10,
+        10,
+        0,
+        0
+      ],
+      "id": "MK6Kc",
+      "x": 139,
+      "y": 210,
+      "fill": "#f0f0f0ff",
+      "width": 214,
+      "height": 48
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": [
+        0,
+        0,
+        10,
+        10
+      ],
+      "id": "iLo3E",
+      "x": 139,
+      "y": 477,
+      "fill": "#f0f0f0ff",
+      "width": 214,
+      "height": 33
+    },
+    {
+      "type": "frame",
+      "id": "Y2rmS",
+      "x": 0,
+      "y": 0,
+      "name": "对话聊天-设计",
+      "width": 800,
+      "height": 600,
+      "fill": "#f5f5f5",
+      "layout": "none"
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": 12,
+      "id": "IdJ4F",
+      "x": 80,
+      "y": 100,
+      "name": "panel",
+      "fill": "#ffffff",
+      "width": 320,
+      "height": 400
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": [
+        12,
+        12,
+        0,
+        0
+      ],
+      "id": "qzej1",
+      "x": 80,
+      "y": 100,
+      "name": "header",
+      "fill": "#f0f0f0",
+      "width": 320,
+      "height": 44
+    },
+    {
+      "type": "text",
+      "id": "dNVMw",
+      "x": 96,
+      "y": 112,
+      "name": "title",
+      "fill": "#333333",
+      "content": "对话",
+      "fontFamily": "Inter",
+      "fontSize": 14,
+      "fontWeight": "normal"
+    },
+    {
+      "type": "rectangle",
+      "id": "iQuvl",
+      "x": 88,
+      "y": 152,
+      "name": "msgArea",
+      "fill": "#ffffff",
+      "width": 296,
+      "height": 200
+    },
+    {
+      "type": "text",
+      "id": "KRa2Q",
+      "x": 140,
+      "y": 230,
+      "name": "emptyHint",
+      "fill": "#999999",
+      "content": "输入消息开始对话",
+      "fontFamily": "Inter",
+      "fontSize": 13,
+      "fontWeight": "normal"
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": [
+        10,
+        10,
+        0,
+        0
+      ],
+      "id": "b9Kx5",
+      "x": 80,
+      "y": 408,
+      "name": "pastePreview",
+      "fill": "#2f3241",
+      "width": 320,
+      "height": 40
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": [
+        0,
+        0,
+        12,
+        12
+      ],
+      "id": "1sVwY",
+      "x": 80,
+      "y": 448,
+      "name": "inputRow",
+      "fill": "#fafafa",
+      "width": 320,
+      "height": 52
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": 8,
+      "id": "RRXfE",
+      "x": 92.97297297297297,
+      "y": 460,
+      "name": "inputBg",
+      "fill": "#f0f0f0",
+      "width": 216,
+      "height": 36
+    },
+    {
+      "type": "text",
+      "id": "75Yd4",
+      "x": 105.94594594594595,
+      "y": 468,
+      "name": "inputPlaceholder",
+      "fill": "#999999",
+      "textGrowth": "fixed-width",
+      "width": 139,
+      "content": "输入消息或粘贴图片...",
+      "fontFamily": "Inter",
+      "fontSize": 13,
+      "fontWeight": "normal"
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": 8,
+      "id": "MfM7K",
+      "x": 322.1621621621622,
+      "y": 460,
+      "name": "sendBtn",
+      "fill": "#555555",
+      "width": 61,
+      "height": 36
+    },
+    {
+      "type": "text",
+      "id": "QBCrh",
+      "x": 335.13513513513516,
+      "y": 468,
+      "name": "sendText",
+      "fill": "#ffffff",
+      "textGrowth": "fixed-width",
+      "width": 29,
+      "content": "发送",
+      "fontFamily": "Inter",
+      "fontSize": 13,
+      "fontWeight": "normal"
+    },
+    {
+      "type": "rectangle",
+      "cornerRadius": 12,
+      "id": "TPFWO",
+      "x": 409,
+      "y": 440,
+      "name": "model",
+      "fill": "#e8e8e8",
+      "width": 60,
+      "height": 60
+    },
+    {
+      "type": "ellipse",
+      "id": "NiQQu",
+      "x": 421,
+      "y": 452,
+      "name": "modelInner",
+      "fill": "#f7f7f7",
+      "width": 36,
+      "height": 36
+    }
+  ]
+}
