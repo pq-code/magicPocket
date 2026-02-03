@@ -1,0 +1,50 @@
+{
+  "componentName": "表单",
+  "type": "Form",
+  "icon": "icon-dingdan",
+  "group": "基础组件",
+  "key": "Form-xyz789",
+  "npm": {
+    "exportName": "Form",
+    "package": "@renderer/packages",
+    "component": "packages/Form/src/Form.jsx",
+    "destructuring": true
+  },
+  "props": {
+    "formProps": {
+      "title": "表单属性",
+      "children": [
+        { "key": "span", "label": "几列", "type": "segmented", "value": 24, "options": [
+          { "label": "1列", "value": 24 },
+          { "label": "2列", "value": 12 }
+        ]}
+      ]
+    },
+    "formItemProps": {
+      "title": "表单项",
+      "component": "packages/Form/components/FormItemConfig.jsx",
+      "children": [],
+      "itemList": [
+        {
+          "componentName": "输入框",
+          "type": "input",
+          "group": "基础组件",
+          "npm": {
+            "exportName": "ElInput",
+            "package": "element-plus",
+            "destructuring": true
+          },
+          "props": {
+            "formItemProps": {
+              "primaryKey": "input-1",
+              "label": "姓名",
+              "placeholder": "请输入"
+            }
+          },
+          "children": []
+        }
+      ]
+    }
+  },
+  "children": []
+}

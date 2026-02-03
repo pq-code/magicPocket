@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magicpocket/schemas/page-node.json",
+  "title": "Page Node Protocol",
+  "description": "MagicPocket 页面根与画布节点 JSON Schema，供 Agent 校验与生成",
+  "$defs": {
+    "NodeNpmInfo": {
+      "type": "object",
+      "properties": {
+        "exportName": { "type": "string", "description": "导出名" },
+        "package": { "type": "string", "description": "包名" },
+        "destructuring": { "type": "boolean" },
+        "component": { "type": "string", "description": "自定义组件路径" }
+      },
+      "required": ["exportName", "package"]
+    },
+    "CanvasNode": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "description": "组件类型" },
+        "key": { "type": "string", "description": "实例唯一 id" },
+        "componentName": { "type": "string", "description": "中文展示名" },
+        "group": { "type": "string" },
+        "icon": { "type": "string" },
+        "props": { "type": "object", "additionalProperties": true },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CanvasNode" }
+        },
+        "npm": { "$ref": "#/$defs/NodeNpmInfo" }
+      },
+      "required": ["type", "componentName", "props", "children"]
+    },
+    "PageRoot": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "page" },
+        "title": { "type": "string" },
+        "whetherYouCanDrag": { "type": "boolean" },
+        "props": { "type": "object", "additionalProperties": true },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CanvasNode" }
+        },
+        "version": { "type": "string" },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "description": { "type": "string" },
+            "updatedAt": { "type": "string" }
+          }
+        }
+      },
+      "required": ["type", "title", "whetherYouCanDrag", "props", "children"]
+    }
+  },
+  "$ref": "#/$defs/PageRoot"
+}

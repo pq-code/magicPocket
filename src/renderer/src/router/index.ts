@@ -10,12 +10,11 @@ const router = {
     {
       path: '/',
       name: 'home',
-      redirect: "/draggingDragging",
+      redirect: "/dashboard",
     },
     {
       path: "/dashboard",
       name: "dashboard",
-      redirect: "/draggingDragging",
       component: () =>
         import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
       children: routerMap,
@@ -30,13 +29,8 @@ const router = {
         title: ('routes.basic.login'),
       },
     },
-    {
-      path: '/draggingDragging',
-      name: 'draggingDragging',
-      component: () =>
-        import(/* webpackChunkName: "about" */ "@renderer/views/draggingDragging/draggingDragging.vue"),
-      meta: { hidden: false, title: '低代码平台' }
-    }
+    // 以下路由已移至 routerMap，通过 dashboard 的 children 注册
+    ...routerMap
   ]
 }
 

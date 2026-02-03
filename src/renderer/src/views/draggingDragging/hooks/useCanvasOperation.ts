@@ -4,57 +4,54 @@ import { deepClone } from "@renderer/utils/index";
 import { ElMessage } from "element-plus";
 import { storeToRefs } from "pinia";
 import { editCodeConfig } from "@renderer/api/apis/lowCode/lowCode";
+import { createDefaultPageRoot, toSerializablePageSnapshot } from "@renderer/type/page-node";
 export default function useCanvasOperation() {
-  let {
-    pageJSON, // 页面所有数据
-    currentDragObject, // 当前拖拽对象
-    currentOperatingObject, // 当前操作对象
-    currentOperatingObjectIndex, // 当前处于第几步
-    historyOperatingObject, // 历史操作列表 最多纪录20步
-  } = storeToRefs(useDraggingDraggingStore());
+  const store = useDraggingDraggingStore();
+  const {
+    pageJSON,
+    currentDragObject,
+    currentOperatingObject,
+    currentOperatingObjectIndex,
+    historyOperatingObject,
+    currentCodeConfigId,
+    currentCodeConfigName,
+  } = storeToRefs(store);
+
+  const MAX_HISTORY_LENGTH = 20;
 
   /**
-   * 添加当前操作对象的历史记录
-   *
-   * @returns 无返回值
+   * 添加当前操作对象的历史记录（撤销/重做用）
+   * - 若在历史中间产生新操作，则截断后续记录
+   * - 若与上一条相同则跳过，避免重复
+   * - 最多保留 MAX_HISTORY_LENGTH 条
    */
   const addHistoryOperatingObject = () => {
-    // if (historyOperatingObject.value.length >= 20) {
-    //   // 使用 slice 替代 shift + push，减少数组操作
-    //   historyOperatingObject.value = historyOperatingObject.value.slice(1);
-    //   currentOperatingObjectIndex.value =
-    //     historyOperatingObject.value.length - 1;
-    // }
-    // // 假设 deepClone 函数存在且能正确返回 pageJSON.value 的深拷贝
-    // const clonedPage = deepClone(pageJSON.value) as typeof pageJSON;
-    // if (clonedPage !== undefined) {
-    //   if (
-    //     historyOperatingObject.value.length - 1 !==
-    //     currentOperatingObjectIndex.value
-    //   ) {
-    //     // 如果当前处于中间步骤，则清空后续步骤，并重新添加
-    //     historyOperatingObject.value = historyOperatingObject.value.slice(
-    //       0,
-    //       currentOperatingObjectIndex.value + 1
-    //     );
-    //     historyOperatingObject.value.push(clonedPage);
-    //     currentOperatingObjectIndex.value =
-    //       historyOperatingObject.value.length - 1;
-    //     return;
-    //   }
-    //   // 判断当前值和上一次是否相同，相同就不保存了
-    //   if (
-    //     JSON.stringify(clonedPage) ===
-    //     JSON.stringify(
-    //       historyOperatingObject.value[historyOperatingObject.value.length - 1]
-    //     )
-    //   ) {
-    //     return;
-    //   }
-    //   historyOperatingObject.value.push(clonedPage);
-    //   currentOperatingObjectIndex.value =
-    //   historyOperatingObject.value.length - 1;
-    // }
+    // 使用 toSerializablePageSnapshot 排除 VueDraggable/Sortable 注入的循环引用
+    const snapshot = toSerializablePageSnapshot(pageJSON.value);
+    if (!snapshot) return;
+
+    const history = historyOperatingObject.value;
+    const currentIndex = currentOperatingObjectIndex.value;
+
+    // 若在历史中间产生新操作，截断后续记录
+    if (history.length > 0 && currentIndex < history.length - 1) {
+      historyOperatingObject.value = history.slice(0, currentIndex + 1);
+    }
+
+    // 若与上一条相同则跳过（快照已为纯 JSON 结构，可安全 stringify）
+    const lastSnapshot = historyOperatingObject.value[historyOperatingObject.value.length - 1];
+    if (lastSnapshot && JSON.stringify(snapshot) === JSON.stringify(lastSnapshot)) {
+      return;
+    }
+
+    historyOperatingObject.value.push(snapshot);
+
+    // 超过最大条数时移除最旧的一条
+    if (historyOperatingObject.value.length > MAX_HISTORY_LENGTH) {
+      historyOperatingObject.value = historyOperatingObject.value.slice(1);
+    }
+
+    currentOperatingObjectIndex.value = historyOperatingObject.value.length - 1;
   };
 
   /**
@@ -102,17 +99,7 @@ export default function useCanvasOperation() {
    * @returns 无返回值
    */
   const clearHistoryOperatingObject = () => {
-    pageJSON.value = {
-      type: 'page',
-      title: '页面',
-      whetherYouCanDrag: true,
-      props: {
-        className: 'PageContainer',
-        style: '',
-      },
-      children: [
-      ]
-    }; // 清空
+    pageJSON.value = createDefaultPageRoot();
     currentDragObject.value = {};
     currentOperatingObject.value = {};
     addHistoryOperatingObject();
@@ -128,10 +115,8 @@ export default function useCanvasOperation() {
       console.log("保存成功",pageJSON.value);
       editCodeConfig({
         codeConfig: pageJSON.value,
-        codeConfigName: 'test',
-        codeConfigId:'4f25f23c-eadf-41f7-9557-b74514064fe8',
-        // userId: 'op_Kr4i1oy0H73j6lmolby7-QOsw',
-        // userName : 'yk'
+        codeConfigName: currentCodeConfigName.value,
+        codeConfigId: currentCodeConfigId.value,
       }).then(res => {
         ElMessage({ message: "保存成功", type: "success" });
         console.log(res);

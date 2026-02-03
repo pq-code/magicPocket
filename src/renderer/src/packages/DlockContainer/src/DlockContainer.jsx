@@ -45,9 +45,10 @@ const DlockContainer = defineComponent({
         );
         Dom.unshift(titleDom);
       }
-      let childrenS = slots.default()
-      if (vnodeProps.titleProps?.props?.title || (slots && slots.default && childrenS[0].children.length)) {
-        Dom.push(slots.default());
+      // 根据数据模型判断：有子节点则渲染 slot 内容，否则显示占位提示
+      const hasChildren = Array.isArray(props.item.children) && props.item.children.length > 0;
+      if (hasChildren) {
+        Dom.push(slots.default?.() ?? null);
       } else {
         Dom.push(
           <div className={style.DivContainerNosolt}>

@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch, onMounted } from "vue";
+import { defineComponent, ref, watch, onMounted, computed } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import { useDraggingDraggingStore } from "@renderer/stores/draggingDragging/useDraggingDraggingStore.ts";
 
@@ -42,10 +42,33 @@ const componentContainer = defineComponent({
 
     const componentContainerSon = computed(() => props.componentList);
 
+    const getSourceLabel = (source) => {
+      if (source === 'platform') return '平台'
+      if (source === 'local') return '本地'
+      if (source === 'builtin') return '内置'
+      return ''
+    }
+
+    const getSourceColor = (source) => {
+      if (source === 'platform') return '#67c23a'
+      if (source === 'local') return '#409eff'
+      if (source === 'builtin') return '#909399'
+      return '#c0c4cc'
+    }
+
     const init = () => {};
 
     const selectComponents = (e) => {
       console.log(e);
+    };
+
+    // 克隆函数：确保拖拽到画布的组件包含完整的数据结构
+    const cloneComponent = (original) => {
+      return {
+        ...original,
+        key: `${original.type}-${Math.random().toString(36).substr(2, 9)}`,
+        children: original.children ? [...original.children] : []
+      };
     };
 
     onMounted(() => {
@@ -59,8 +82,11 @@ const componentContainer = defineComponent({
         animation={200}
         group = {{ name: "people", pull: "clone", put: false }}
         sort={false}
+        clone={cloneComponent}
       >
         {componentContainerSon.value.map((item, index) => {
+          const sourceLabel = getSourceLabel(item.materialSource)
+          const sourceColor = getSourceColor(item.materialSource)
           return (
             <div
               id={item.key}
@@ -68,8 +94,35 @@ const componentContainer = defineComponent({
               className="componentContainerSon"
               onClick={selectComponents}
             >
-              <i className={['iconfont', item.icon || 'icon-yibiaopan'].join(' ')}></i>
-              {item.componentName}
+              <div style="display:flex;align-items:center;gap:4px;">
+                <i className={['iconfont', item.icon || 'icon-yibiaopan'].join(' ')}></i>
+                <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                  {item.componentName}
+                </span>
+                {sourceLabel && (
+                  <span
+                    style={`
+                      font-size: 10px;
+                      padding: 0 4px;
+                      border-radius: 3px;
+                      border: 1px solid ${sourceColor};
+                      color: ${sourceColor};
+                      line-height: 16px;
+                      flex-shrink: 0;
+                    `}
+                  >
+                    {sourceLabel}
+                  </span>
+                )}
+              </div>
+              {item.description && (
+                <div
+                  title={item.description}
+                  style="margin-top:4px;font-size:10px;color:#909399;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
+                >
+                  {item.description}
+                </div>
+              )}
             </div>
           );
         })}

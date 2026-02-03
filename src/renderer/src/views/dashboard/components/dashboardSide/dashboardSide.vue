@@ -17,7 +17,7 @@ console.log(routerMap)
   <div class="dashboardSide-center">
     <div class="ashboardSide-center-main">
       <el-menu
-        default-active="2"
+        default-active="/draggingDragging"
         class="el-menu-vertical-demo"
         :collapse="!modelValue"
         :collapse-transition="false"
@@ -26,7 +26,7 @@ console.log(routerMap)
         :hide-timeout="0"
       >
         <el-menu-item v-for="(item) in routerMap" :key="item.name" :index="item.path">
-           <i class="iconfont icon-yingyongruanjian"></i>
+          <i :class="['iconfont', item.meta?.icon || 'icon-yingyongruanjian']"></i>
           <template #title>{{ item.meta.title }}</template>
         </el-menu-item>
       </el-menu>

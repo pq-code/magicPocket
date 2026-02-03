@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch, nextTick, computed } from 'vue';
+import { defineComponent, ref, watch, computed } from 'vue';
 import style from '../style/index.module.less';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts';
 import { VueDraggable } from 'vue-draggable-plus';
@@ -6,6 +6,7 @@ import { TypeRenderEngine } from '../components/TypeRenderEngine';
 import { storeToRefs } from 'pinia';
 import useCanvasOperation from '@renderer/views/draggingDragging/hooks/useCanvasOperation.ts';
 import ComponentMaker from '../components/ComponentMaker.jsx';
+import { buildUUID } from '@renderer/utils';
 
 const RenderEngine = defineComponent({
   props: {
@@ -62,9 +63,14 @@ const RenderEngine = defineComponent({
         return startRender(_page);
       }
     };
-    // 开始渲染
+    /**
+     * 开始渲染：仅在节点无 key 时生成，避免每次渲染都变更导致 Vue diff 异常
+     * key 应在拖拽新增节点时生成，此处仅做兜底
+     */
     const startRender = (item, children) => {
-      item.key = `${item.type}-${Number(Math.random() * 10000).toFixed(0)}`;
+      if (!item.key) {
+        item.key = `${item.type}-${buildUUID()}`;
+      }
       return whetherYouCanDrag ? (
         <ComponentMaker item={item}>
           {TypeRenderEngine(item, children)}

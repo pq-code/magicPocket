@@ -1,60 +1,39 @@
-import Form from "@renderer/packages/Form";
-import { ElInput } from "element-plus";
-import DlockContainer from '@renderer/packages/DlockContainer/src/DlockContainer.jsx';
-import { defineAsyncComponent } from 'vue';
-
-const component = (url) => {
-  return defineAsyncComponent({
-    loader: async () => {
-      if (url.includes('element')) {
-        return await import(/* @vite-ignore */'../../../' + url);
-      } else {
-        return await import(/* @vite-ignore */'../../../' + url);
-      }
-    },
-    delay: 200,
-  });
-};
-
-const componentGenerators = {
-  container: (item, children) => (
-    <DlockContainer item={item}>
-      {children || null}
-    </DlockContainer>
-  ),
-  Form: (item, children) => (
-    <Form key={item.key} item={item} children={children}>
-      {children || null}
-    </Form>
-  ),
-  input: (item, children) => (
-    <ElInput {...item.props.formItemProps} >
-      {children || null}
-    </ElInput>
-  ),
-  // 其他类型的处理
-};
+/**
+ * 类型渲染引擎：纯 meta 驱动，不写死组件列表
+ * - 根据节点 npm（或注册表 type -> npm）通过加载器动态解析组件
+ * - 支持 local / npm / remote / localFs，与组件库、编辑器解耦
+ */
+import { resolveSourceType, createAsyncComponent, loadComponent } from '@renderer/core/loader';
+import { getComponentNpm } from '@renderer/core/renderer/ComponentRegistry';
 
 /**
- * 根据类型和子元素渲染不同类型的组件
+ * 根据节点和子节点渲染组件
+ * 1. npm = item.npm ?? registry.get(item.type)
+ * 2. 无 npm -> 未知组件
+ * 3. 有 npm -> createAsyncComponent(npm) 渲染，传入 item / children
  *
- * @param item 当前渲染组件的类型信息
- * @param children 当前渲染组件的子元素
- * @returns 渲染完成的组件元素
+ * @param item 画布节点（含 type、props、npm 等）
+ * @param children 子节点 VNode 数组
  */
-export const TypeRenderEngine = (item, children) => {
-  let npm = item.npm;
-  let AsyncComp = null;
-  let returnElement = null;
+export function TypeRenderEngine(item, children) {
+  const npm = item.npm ?? getComponentNpm(item.type);
 
-  if (npm?.component && npm.component.includes('packages')) {
-    AsyncComp = component(npm.component);
-  } else {
-    const generator = componentGenerators[item.type];
-    if (generator) {
-      returnElement = generator(item, children);
-    }
+  if (!npm) {
+    return (
+      <div class="unknown-component">
+        未知组件: {item.type}
+        <span class="unknown-hint">（未配置 npm / 未注册）</span>
+      </div>
+    );
   }
 
-  return returnElement || <AsyncComp key={item.key} item={item} children={children}>{children}</AsyncComp>;
-};
+  const AsyncComp = createAsyncComponent(npm);
+
+  return (
+    <AsyncComp key={item.key} item={item} children={children}>
+      {children}
+    </AsyncComp>
+  );
+}
+
+export { resolveSourceType, loadComponent };

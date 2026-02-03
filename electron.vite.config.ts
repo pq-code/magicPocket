@@ -15,9 +15,9 @@ import IconsResolver from 'unplugin-icons/resolver'
 const pathSrc = path.resolve(__dirname, 'src')
 
 export default defineConfig({
-  // main: {
-  //   plugins: [externalizeDepsPlugin(), bytecodePlugin()]
-  // },
+  main: {
+    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+  },
   preload: {
     plugins: []
   },
@@ -68,11 +68,10 @@ export default defineConfig({
       host: true,
       open: false,//服务启动时自动在浏览器中打开应用
       // 反向代理配置
-      proxy: { //配置多个代理
+      proxy: { // 全部走本地 preload 服务（httpPort 默认 3000）
         '/api': {
-          // target: "http://192.168.6.43:8300/",
-          target: "http://localhost:3005",
-          changeOrigin: true, ///设置访问目标地址允许跨域
+          target: "http://localhost:3000",
+          changeOrigin: true,
           rewrite: (p) => p.replace(/^\/api/, '')
         },
         // '/region': {

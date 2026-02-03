@@ -12,6 +12,12 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import quadraticSpaceBag from "@renderer/packages";
+import { registerFromMetaList } from '@renderer/core';
+import { materialComponents, internalComponents } from '@renderer/packages/material';
+
+// 渲染器按 meta 解析组件：注册画布物料 + 内置组件（CodeHighlight/ControlPanel 等），不写死在渲染引擎中
+registerFromMetaList(materialComponents);
+registerFromMetaList(internalComponents);
 
 import './assets/iconfont/iconfont.css'
 

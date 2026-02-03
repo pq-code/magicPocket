@@ -3,20 +3,24 @@ import log from '../config/log/log'
 
 const path = require('path')
 
-let documentsPath
+let documentsPath: string
 
 if (process.env['ELECTRON_RENDERER_URL']) {
+  // 打包后运行：使用 out 下的 sqlite 路径
   documentsPath = './out/config/sqlite/magicPocket.db'
 } else {
-  documentsPath = path.join(process.env.USERPROFILE, 'Documents') + '\\magicPocket\\sqlite\\magicPocket.db'
+  // 开发环境：放到用户文档目录
+  const userHome = process.env.USERPROFILE || process.env.HOME || ''
+  documentsPath = path.join(userHome, 'Documents', 'magicPocket', 'sqlite', 'magicPocket.db')
 }
 
 console.log('documentsPath-------------****-----------', documentsPath)
 
+// SQLite 不支持自定义 timezone，不要传 timezone 参数
 export const seq = new Sequelize({
-  // dialect: 'sqlite',
-  // storage: documentsPath,
-  // timezone: '+08:00'
+  dialect: 'sqlite',
+  storage: documentsPath,
+  logging: false
 })
 
 seq

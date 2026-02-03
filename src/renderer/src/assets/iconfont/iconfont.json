@@ -6,6 +6,76 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "12904097",
+      "name": "CSS",
+      "font_class": "CSS",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "6496026",
+      "name": "Vue",
+      "font_class": "Vue",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "12600760",
+      "name": "js",
+      "font_class": "js",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "12600761",
+      "name": "jsx",
+      "font_class": "jsx",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "12600931",
+      "name": "ts",
+      "font_class": "ts",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "31260974",
+      "name": "md",
+      "font_class": "md",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "45926238",
+      "name": "JSON",
+      "font_class": "JSON_1",
+      "unicode": "e8f0",
+      "unicode_decimal": 59632
+    },
+    {
+      "icon_id": "22367249",
+      "name": "天气-下雨",
+      "font_class": "tianqi-xiayu",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "22630735",
+      "name": "天气-多云",
+      "font_class": "tianqi-duoyun",
+      "unicode": "e8ef",
+      "unicode_decimal": 59631
+    },
+    {
+      "icon_id": "25172898",
+      "name": "天气-晴天",
+      "font_class": "tianqi-qingtian",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
       "icon_id": "7366640",
       "name": "二级页头1",
       "font_class": "erjiyetou",

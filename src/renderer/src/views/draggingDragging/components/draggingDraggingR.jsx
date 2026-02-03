@@ -4,7 +4,7 @@ import FormvOperatorPanel from '@renderer/packages/Form/src/FormOperatorPanel.js
 import { ElInput, ElSwitch } from 'element-plus';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { storeToRefs } from 'pinia'
-import ControlPanel from '@renderer/packages/ControlPanel/src/ControlPanel'
+import ControlPanel from '@renderer/packages/ControlPanel/src/controlPanel'
 
 const draggingDraggingL = defineComponent({
   props: {

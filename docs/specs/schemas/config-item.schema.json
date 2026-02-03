@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magicpocket/schemas/config-item.json",
+  "title": "Config Item Schema",
+  "description": "MagicPocket 配置项 Schema，供 Agent 校验与生成",
+  "$defs": {
+    "ConfigItemOption": {
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "value": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "boolean" }] }
+      },
+      "required": ["label", "value"]
+    },
+    "ConfigItemSchema": {
+      "type": "object",
+      "properties": {
+        "key": { "type": "string" },
+        "label": { "type": "string" },
+        "type": { "enum": ["input", "segmented", "number", "boolean"] },
+        "value": {},
+        "required": { "type": "boolean" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ConfigItemOption" }
+        },
+        "rightText": { "type": "string" },
+        "longInput": { "type": "boolean" }
+      },
+      "required": ["key", "label", "type"]
+    },
+    "ConfigPropsGroup": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ConfigItemSchema" }
+        },
+        "component": { "type": "string" },
+        "style": { "type": "object" }
+      },
+      "required": ["title", "children"]
+    }
+  }
+}

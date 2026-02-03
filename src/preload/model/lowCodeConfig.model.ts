@@ -46,15 +46,11 @@ export const lowCodeConfig = seq.define(
     // 指定索引
     indexes: [
       {
-        // 索引名称
-        name: 'codeConfigId',
-        // 索引字段名称
+        name: 'idx_lowCodeConfig_codeConfigId',
         fields: ['codeConfigId']
       },
       {
-        // 索引名称
-        name: 'userId',
-        // 索引字段名称
+        name: 'idx_lowCodeConfig_userId',
         fields: ['userId']
       }
     ]

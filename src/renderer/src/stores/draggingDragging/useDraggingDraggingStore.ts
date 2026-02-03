@@ -1,10 +1,10 @@
-import { ref} from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-
+import { createDefaultPageRoot } from '@renderer/type/page-node'
+import type { PageRoot } from '@renderer/type/page-node'
 
 export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () => {
-
-// 页面JSON
+  // 页面JSON
 //   const pageJSON = ref({
 //     type: 'page',
 //     title: '页面',
@@ -132,18 +132,7 @@ export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () 
 //     ]
   //   })
 
-  const pageJSON = ref({
-    type: 'page',
-    title: '页面',
-    whetherYouCanDrag: true,
-    props: {
-      className: 'PageContainer',
-      style: '',
-    },
-    children: [
-    ]
-  }
-  )
+  const pageJSON = ref<PageRoot>(createDefaultPageRoot())
   const currentDragObject = ref({}) // 当前拖拽对象
 
   const currentEnvironment = ref(true) // 当前环境
@@ -151,8 +140,12 @@ export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () 
   const currentOperatingObject = ref()  // 当前操作对象
   const oldCurrentOperatingObject = ref() // 上一个操作对象
 
-  const historyOperatingObject = ref([]) // 历史操作列表 最多纪录20步
+  const historyOperatingObject = ref<PageRoot[]>([]) // 历史操作列表 最多纪录20步
   const currentOperatingObjectIndex = ref(0) // 当前处于第几步
+
+  /** 当前编辑的 codeConfig 配置，用于加载/保存时传入 API */
+  const currentCodeConfigId = ref('4f25f23c-eadf-41f7-9557-b74514064fe8')
+  const currentCodeConfigName = ref('test')
 
   return {
     pageJSON,
@@ -162,6 +155,7 @@ export const useDraggingDraggingStore = defineStore('draggingDraggingStore', () 
     oldCurrentOperatingObject,
     historyOperatingObject,
     currentOperatingObjectIndex,
+    currentCodeConfigId,
+    currentCodeConfigName,
   }
-
 })

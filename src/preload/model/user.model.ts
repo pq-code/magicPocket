@@ -23,6 +23,11 @@ export const User = seq.define(
       allowNull: false, //是否可以为空
       comment: '密码'
     },
+    metaphysics: {
+      type: DataTypes.STRING(255),
+      allowNull: true, // 密码加盐后的哈希，用于登录校验
+      comment: '密码哈希'
+    },
     externalToken: {
       type: DataTypes.STRING,
       allowNull: false, //是否可以为空
@@ -84,9 +89,7 @@ export const User = seq.define(
     // 指定索引
     indexes: [
       {
-        // 索引名称
-        name: 'userId',
-        // 索引字段名称
+        name: 'idx_user_userId',
         fields: ['userId']
       }
     ]

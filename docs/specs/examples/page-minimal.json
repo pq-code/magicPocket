@@ -1,0 +1,10 @@
+{
+  "type": "page",
+  "title": "页面",
+  "whetherYouCanDrag": true,
+  "props": {
+    "className": "PageContainer",
+    "style": ""
+  },
+  "children": []
+}

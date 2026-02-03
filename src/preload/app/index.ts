@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express'
 
 import { Server } from "socket.io";
 import http from "http";
@@ -12,18 +12,28 @@ import { join } from 'path'
 
 import { is } from '@electron-toolkit/utils'
 
-
+import materialRouter from '../router/material'
+import usersRouter from '../router/users'
+import lowCodeRouter from '../router/lowCode.express'
+import '../model/material.model'
+import '../model/lowCodeConfig.model'
+import { materialSeed } from '../service/material.service'
 
 let httpHost = httpPort
-let app = express();
+let app = express()
+
+app.use(express.json())
 
 if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-  app.use(express.static(process.env['ELECTRON_RENDERER_URL'])) // 获取页面
+  app.use(express.static(process.env['ELECTRON_RENDERER_URL']))
 } else {
-  app.use(express.static(join(__dirname, '../renderer/index.html')))// 获取页面
+  app.use(express.static(join(__dirname, '../renderer/index.html')))
 }
 
-// app.use(router.routes()).use(router.allowedMethods())// 判断请求是否支持
+// 代理会把 /api 重写掉，所以后端收到的是 /users/xxx、/lowCode/xxx、/materials
+app.use('/users', usersRouter)
+app.use('/lowCode', lowCodeRouter)
+app.use('/', materialRouter)
 
 // 开启http
 export const linkStartHttp = () => {
@@ -50,6 +60,11 @@ export const linkStartHttp = () => {
          - Network:  http://${locatIpIpv4}:${httpHost}
          ${locatIpIpv6[0] ? '- ipdv6Network: http://[' + (locatIpIpv6[0] as any)?.address || '没有ipv6' + ' }]:' + httpHost : ''}
       `);
+    materialSeed('system', 'system')
+      .then((r: { inserted: number; total: number }) => {
+        if (r.inserted > 0) console.log(`[物料] 默认物料已填入: ${r.inserted}/${r.total}`)
+      })
+      .catch((e: Error) => console.warn('[物料] seed 失败', e?.message))
   });
 
   //设置出错时的回调函数

@@ -1,11 +1,21 @@
-import { app, shell, BrowserWindow, Menu } from 'electron'
+import { app, shell, BrowserWindow, Menu, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 import { linkStartHttp } from "../preload/app/index"
+import { registerComponentLibraryHandlers } from "./componentLibrary"
 
 Menu.setApplicationMenu(null)
+
+// IPC: 选择目录对话框（在模块加载时注册，确保渲染进程调用时已存在）
+ipcMain.handle('dialog:selectDirectory', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory', 'createDirectory'],
+    title: '选择组件库目录'
+  })
+  return result.canceled ? null : result.filePaths[0]
+})
 
 function createWindow(): void {
   // Create the browser window.
@@ -61,6 +71,9 @@ function createWindow(): void {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
+
+  // 注册组件库相关 IPC 处理
+  registerComponentLibraryHandlers()
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
