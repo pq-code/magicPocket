@@ -1,12 +1,9 @@
-import { defineComponent, ref, watch, onMounted } from 'vue';
-import DlockContainerOperatorPanel from '@renderer/packages/DlockContainer/src/DlockContainerOperatorPanel.jsx'
-import FormvOperatorPanel from '@renderer/packages/Form/src/FormOperatorPanel.jsx'
-import { ElInput, ElSwitch } from 'element-plus';
+import { defineComponent, ref, watch, onMounted, computed } from 'vue';
 import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore.ts'
 import { storeToRefs } from 'pinia'
-import ControlPanel from '@renderer/packages/ControlPanel/src/controlPanel'
+import ControlPanel from '@renderer/internal/ControlPanel/src/controlPanel.jsx'
 
-const draggingDraggingL = defineComponent({
+const draggingDraggingR = defineComponent({
   props: {
     modelValue: {
       type: Object,
@@ -22,24 +19,21 @@ const draggingDraggingL = defineComponent({
     const store = useDraggingDraggingStore();
     const { pageJSON, currentOperatingObject } = storeToRefs(store);
     const draggingDraggingRRef = ref(null)
-    const activeIndex = ref(0);
-    const activeNames = ref('')
-    const handleSelect = (index) => {
-      activeIndex.value = index;
-    };
-    const handleChange = () => {
 
-    }
-    const init = () => {
+    // 创建一个唯一的 key，当选中对象变化时更新，强制重新渲染组件
+    const panelKey = computed(() => {
+      return currentOperatingObject.value?.key || 'empty';
+    });
 
-    }
+    const init = () => {}
     onMounted(() => {
       init()
     });
 
     const TypeRender = (item) => {
       return (
-        <ControlPanel item={item}></ControlPanel>
+        // 使用 key 强制组件在切换时重新渲染
+        <ControlPanel key={panelKey.value} item={item}></ControlPanel>
       )
     }
 
@@ -70,9 +64,7 @@ const draggingDraggingL = defineComponent({
               ref={draggingDraggingRRef}
               className="draggingDraggingR-content-list"
             >
-              <ElCollapse vModel={activeNames.value} onChange={handleChange}>
-                {TypeRender(item)}
-              </ElCollapse>
+              {TypeRender(item)}
             </div>
           </div>
         </div>
@@ -85,4 +77,4 @@ const draggingDraggingL = defineComponent({
   },
 });
 
-export default draggingDraggingL;
+export default draggingDraggingR;

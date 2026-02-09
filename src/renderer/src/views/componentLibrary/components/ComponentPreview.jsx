@@ -3,7 +3,7 @@
  */
 import { defineComponent, computed } from 'vue';
 import { ElButton, ElDescriptions, ElDescriptionsItem, ElCard, ElTag } from 'element-plus';
-import { TypeRenderEngine } from '@renderer/packages/RenderEngine/components/TypeRenderEngine';
+import { TypeRenderEngine } from '@renderer/internal/RenderEngine/components/TypeRenderEngine.jsx';
 
 const ComponentPreview = defineComponent({
   name: 'ComponentPreview',

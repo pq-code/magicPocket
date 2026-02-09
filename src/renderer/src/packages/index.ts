@@ -7,13 +7,14 @@ import type { App } from 'vue'
 import Form from './Form'
 import Table from './Table'
 import DlockContainer from './DlockContainer'
-import CodeHighlight from './CodeHighlight'
-import ControlPanel from './ControlPanel'
-import CreateCode from './CreateCode'
-import PageContainer from './PageContainer'
+import ElButton from './ElButton'
+import ElInput from './ElInput'
+import ElSelect from './ElSelect'
+import ElDivider from './ElDivider'
+import ElSwitch from './ElSwitch'
 
 /** 有 Vue 组件的包（需全局注册） */
-const vueComponents = [Form, Table, DlockContainer, CodeHighlight, ControlPanel, CreateCode, PageContainer]
+const vueComponents = [Form, Table, DlockContainer, ElButton, ElInput, ElSelect, ElDivider, ElSwitch]
 
 /** 统一安装：注册所有 Vue 组件 */
 export function install(Vue: App) {
@@ -33,10 +34,6 @@ export default { install }
 export { default as Form } from './Form'
 export { default as Table } from './Table'
 export { default as DlockContainer } from './DlockContainer'
-export { default as CodeHighlight } from './CodeHighlight'
-export { default as ControlPanel } from './ControlPanel'
-export { default as CreateCode } from './CreateCode'
-export { default as PageContainer } from './PageContainer'
 export { default as ElButton } from './ElButton'
 export { default as ElInput } from './ElInput'
 export { default as ElSelect } from './ElSelect'

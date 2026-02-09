@@ -6,7 +6,15 @@ import icon from '../../resources/icon.png?asset'
 import { linkStartHttp } from "../preload/app/index"
 import { registerComponentLibraryHandlers } from "./componentLibrary"
 
-Menu.setApplicationMenu(null)
+// 创建基本的编辑菜单以支持复制粘贴功能
+const isMac = process.platform === 'darwin'
+const template = [
+  ...(isMac ? [{ role: 'appMenu' }] : []),
+  { role: 'editMenu' }
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
 
 // IPC: 选择目录对话框（在模块加载时注册，确保渲染进程调用时已存在）
 ipcMain.handle('dialog:selectDirectory', async () => {

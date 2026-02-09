@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/plugin install create-adaptable-composable@https://github.com/vuejs-ai/skills)",
+      "Bash(claude plugin install create-adaptable-composable@https://github.com/vuejs-ai/skills)",
+      "WebSearch",
+      "Bash(npm run dev)"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+.monaco-editor-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  user-select: text;
+  -webkit-user-select: text;
+
+  // Ensure Monaco Editor fills the container properly
+  .monaco-editor {
+    height: 100% !important;
+    width: 100% !important;
+
+    // Customize Monaco Editor appearance if needed
+    .margin {
+      background-color: #fafafa !important;
+    }
+
+    .line-numbers {
+      color: #909399 !important;
+    }
+
+    .view-lines {
+      background-color: #fff !important;
+    }
+
+    // Optimize for performance
+    .view-line {
+      contain: layout style paint;
+    }
+  }
+
+  // Loading overlay styling
+  .editor-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 1000;
+    color: #909399;
+  }
+}

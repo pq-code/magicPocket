@@ -1,6 +1,7 @@
 import { defineComponent, ref, watch, onMounted, computed } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import { useDraggingDraggingStore } from "@renderer/stores/draggingDragging/useDraggingDraggingStore.ts";
+import { Table as BuiltinTableMeta } from "@renderer/packages/material";
 
 import {
   ElRow,
@@ -64,10 +65,19 @@ const componentContainer = defineComponent({
 
     // 克隆函数：确保拖拽到画布的组件包含完整的数据结构
     const cloneComponent = (original) => {
+      // 表格：如果来源（平台/本地）未携带默认 data，则兜底用内置 Table meta 的示例数据
+      const fallbackData =
+        (original?.type === "table" || original?.type === "Table") &&
+        !Array.isArray(original?.data) &&
+        Array.isArray(BuiltinTableMeta?.data)
+          ? BuiltinTableMeta.data
+          : undefined;
+
       return {
         ...original,
         key: `${original.type}-${Math.random().toString(36).substr(2, 9)}`,
-        children: original.children ? [...original.children] : []
+        children: original.children ? [...original.children] : [],
+        ...(fallbackData ? { data: fallbackData } : {})
       };
     };
 

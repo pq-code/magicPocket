@@ -1,20 +1,9 @@
 /**
  * 组件源码编辑器：读取/编辑组件文件，按文件类型高亮代码
  */
-import { defineComponent, ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { defineComponent, ref, watch, computed } from 'vue'
 import { ElButton, ElMessage } from 'element-plus'
-import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
-import typescript from 'highlight.js/lib/languages/typescript'
-import json from 'highlight.js/lib/languages/json'
-import xml from 'highlight.js/lib/languages/xml'
-import css from 'highlight.js/lib/languages/css'
-
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('typescript', typescript)
-hljs.registerLanguage('json', json)
-hljs.registerLanguage('xml', xml)
-hljs.registerLanguage('css', css)
+import MonacoEditor from '@renderer/internal/CodeEditor/src/MonacoEditor.jsx'
 
 /** 根据文件名推断高亮语言 */
 function getLanguage(filePath) {
@@ -27,11 +16,12 @@ function getLanguage(filePath) {
     jsx: 'javascript',
     ts: 'typescript',
     tsx: 'typescript',
-    vue: 'xml',
+    vue: 'html', // Monaco doesn't have Vue language, use HTML
     json: 'json',
+    css: 'css',
     less: 'css',
-    scss: 'css',
-    sass: 'css'
+    scss: 'scss',
+    sass: 'sass'
   }
   return map[ext] || 'plaintext'
 }
@@ -58,8 +48,6 @@ const ComponentSourceEditor = defineComponent({
     const loading = ref(false)
     const saving = ref(false)
     const currentPath = ref('')
-    const textareaRef = ref(null)
-    const highlightRef = ref(null)
 
     const actualPath = computed(() => {
       // 有明确路径时优先使用（descriptorPath 或 filePath）
@@ -119,57 +107,12 @@ const ComponentSourceEditor = defineComponent({
       }
     };
 
-    // 快捷键保存
-    const handleKeydown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        saveSource();
-      }
-    };
-
     const language = computed(() => getLanguage(currentPath.value))
-
-    const highlightedHtml = computed(() => {
-      const code = sourceContent.value
-      const lang = language.value
-      if (!code) return ''
-      if (lang === 'plaintext') return escapeHtml(code)
-      try {
-        const r = hljs.highlight(code, { language: lang, ignoreIllegals: true })
-        return r.value
-      } catch {
-        return escapeHtml(code)
-      }
-    })
-
-    function escapeHtml(text) {
-      const div = document.createElement('div')
-      div.textContent = text
-      return div.innerHTML
-    }
-
-    const onScroll = () => {
-      const ta = textareaRef.value
-      const pre = highlightRef.value
-      if (ta && pre) {
-        pre.scrollTop = ta.scrollTop
-        pre.scrollLeft = ta.scrollLeft
-      }
-    }
-
-    onMounted(() => {
-      const ta = textareaRef.value
-      if (ta) ta.addEventListener('scroll', onScroll)
-    })
-    onUnmounted(() => {
-      const ta = textareaRef.value
-      if (ta) ta.removeEventListener('scroll', onScroll)
-    })
 
     watch([() => props.component, () => props.filePath, () => props.isDescriptor], loadSource, { immediate: true })
 
     return () => (
-      <div class="source-editor-container">
+      <div class="component-source-editor-container" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <div class="editor-toolbar">
           <div class="toolbar-left">
             <span class="file-name">{currentPath.value?.split('/').pop() || '未选择文件'}</span>
@@ -187,27 +130,14 @@ const ComponentSourceEditor = defineComponent({
           </div>
         </div>
 
-        <div class="editor-content">
-          <div class="line-numbers">
-            {sourceContent.value.split('\n').map((_, i) => (
-              <div key={i} class="line-number">{i + 1}</div>
-            ))}
-          </div>
-          <div class="editor-mirror">
-            <pre ref={highlightRef} class="highlight-pre" data-lang={language.value}>
-              <code class="hljs" v-html={highlightedHtml.value} />
-            </pre>
-            <textarea
-              ref={textareaRef}
-              class="code-textarea"
-              v-model={sourceContent.value}
-              placeholder="// 在此编辑代码..."
-              spellcheck={false}
-              wrap="off"
-              onKeydown={handleKeydown}
-              onScroll={onScroll}
-            />
-          </div>
+        <div style={{ height: 'calc(100% - 40px)', width: '100%' }}>
+          <MonacoEditor
+            modelValue={sourceContent.value}
+            filename={currentPath.value?.split('/').pop() || 'file'}
+            language={language.value}
+            onUpdate:modelValue={(val) => (sourceContent.value = val)}
+            onSave={saveSource}
+          />
         </div>
       </div>
     )

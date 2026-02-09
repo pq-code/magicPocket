@@ -1,0 +1,147 @@
+.low-code-home {
+  padding: 28px 32px;
+  min-height: 100%;
+  overflow: auto;
+  background: #f5f7fa;
+
+  .low-code-home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .header-left {
+      h1 {
+        margin: 0 0 6px 0;
+        font-size: 22px;
+        font-weight: 600;
+        color: #1e293b;
+      }
+      .header-desc {
+        margin: 0;
+        font-size: 13px;
+        color: #64748b;
+      }
+    }
+
+    .create-btn {
+      height: 40px;
+      padding: 0 20px;
+      font-weight: 500;
+    }
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+
+    .search-input {
+      width: 280px;
+    }
+
+    .filter-select {
+      width: 120px;
+    }
+  }
+
+  .low-code-home-content {
+    min-height: 280px;
+
+    .el-skeleton {
+      padding: 20px 0;
+    }
+
+    .empty-tip {
+      padding: 80px 0;
+      :deep(.el-empty__description) {
+        margin-top: 12px;
+        color: #64748b;
+      }
+    }
+  }
+
+  .page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .page-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e8e8e8;
+
+    &:hover {
+      border-color: #409eff;
+      box-shadow: 0 4px 12px rgba(64, 158, 255, 0.12);
+    }
+
+    .page-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .page-card-icon {
+      flex-shrink: 0;
+      font-size: 24px;
+      color: #667eea;
+    }
+
+    .page-card-title {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 600;
+      color: #303133;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .page-card-menu {
+      flex-shrink: 0;
+      .menu-trigger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #909399;
+        &:hover {
+          color: #606266;
+          background: #f5f7fa;
+        }
+        .iconfont {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .page-card-id {
+      font-size: 12px;
+      color: #909399;
+      margin-bottom: 8px;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    .page-card-time {
+      font-size: 12px;
+      color: #909399;
+    }
+  }
+}
+
+.dropdown-item-danger {
+  color: #f56c6c !important;
+}

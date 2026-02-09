@@ -25,26 +25,36 @@ const TableColumnConfig = defineComponent({
   setup(props, { emit }) {
     const TableColumnSideRef = ref(null);
 
-    // 获取props
+    const getItemList = () => {
+      const list = props.item?.props?.tableColumnProps?.itemList;
+      if (Array.isArray(list)) return list;
+      // 兜底：如果不存在则初始化为响应式数组
+      if (props.item?.props?.tableColumnProps) {
+        props.item.props.tableColumnProps.itemList = [];
+        return props.item.props.tableColumnProps.itemList;
+      }
+      return [];
+    };
 
     const addFormItem = () => {
-      props.item?.children.push(
-        {
-          label: '表格'+ (props.item?.children.length + 1),
-          prop: '',
-          width: 200,
-          align: "center",
-        }
-      )
+      const list = getItemList();
+      list.push({
+        label: '表格' + (list.length + 1),
+        prop: '',
+        width: 200,
+        align: 'center',
+      });
     }
 
     const deleatFormItem = (i) => {
-      props.item?.children.splice(i,1)
+      const list = getItemList();
+      list.splice(i, 1);
     }
 
     const editFormItem = (i) => {
       console.log('TableColumnSideRef.value', TableColumnSideRef.value)
-      TableColumnSideRef.value?.openDrawer(props.item?.children[i])
+      const list = getItemList();
+      TableColumnSideRef.value?.openDrawer(list[i])
     }
 
     const tableColumn = (children) => {

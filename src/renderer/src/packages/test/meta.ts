@@ -1,7 +1,7 @@
-{
-  "type": "test",
-  "componentName": "测试",
-  "group": "自定义组件",
-  "description": "2222",
-  "props": {}
-}
+export const Test = {
+  type: "test",
+  componentName: "测试",
+  group: "自定义组件",
+  description: "2222",
+  props: {}
+};

@@ -1,9 +1,10 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import componentContainer from './componentContainer'
+import LayerTree from './LayerTree.jsx'
 import { Search } from '@element-plus/icons-vue'
 import { componentList } from "@renderer/components/materialArea/materialArea"
 import { useMaterialsStore } from '@renderer/stores/materials/useMaterialsStore'
-import { ElCollapse, ElCollapseItem, ElInput } from 'element-plus';
+import { ElCollapse, ElCollapseItem, ElInput, ElTabs, ElTabPane } from 'element-plus';
 
 const draggingDraggingL = defineComponent({
   props: {
@@ -89,45 +90,63 @@ const draggingDraggingL = defineComponent({
     })
     watch(componentList, init, { deep: true })
 
+    const activeTab = ref('materials')
+
+    const renderMaterialsTab = () => (
+      <div className='draggingDraggingL-main'>
+        <ElInput
+          v-model={inputValue.value}
+          placeholder="搜索组件库（按名称 / 类型 / 描述）"
+          suffix-icon={Search}
+        />
+        <div className='draggingDraggingL-container'>
+          <ElCollapse vModel={activeNames} onChange={handleChange}>
+            {
+              Object.keys(componentItemList.value).map((key, index) => {
+                const list = componentItemList.value[key] || []
+                const keyword = (inputValue.value || '').trim().toLowerCase()
+                // 过滤 + 简单排序
+                const enhanced = list
+                  .map((item) => ({
+                    ...item,
+                    __score: getMatchScore(item, keyword),
+                  }))
+                  .filter((item) => !keyword || item.__score > 0)
+                  .sort((a, b) => b.__score - a.__score)
+                  .map(({ __score, ...rest }) => rest)
+
+                if (!enhanced.length) return null
+
+                return (
+                  <ElCollapseItem title={key} name={index}>
+                    <componentContainer componentList={enhanced}></componentContainer>
+                  </ElCollapseItem>
+                )
+              })
+            }
+          </ElCollapse>
+        </div>
+      </div>
+    )
+
+    const renderLayerTab = () => (
+      <div className='draggingDraggingL-main'>
+        <LayerTree />
+      </div>
+    )
+
     return () => (
       <div className='draggingDraggingL'>
-        <div className='draggingDraggingL-title'>
-          组件库
-        </div>
-        <div className='draggingDraggingL-main'>
-          <ElInput
-            v-model={inputValue.value}
-            placeholder="搜索组件库（按名称 / 类型 / 描述）"
-            suffix-icon={Search}
-          />
-          <div className='draggingDraggingL-container'>
-            <ElCollapse vModel={activeNames} onChange={handleChange}>
-              {
-                Object.keys(componentItemList.value).map((key, index) => {
-                  const list = componentItemList.value[key] || []
-                  const keyword = (inputValue.value || '').trim().toLowerCase()
-                  // 过滤 + 简单排序
-                  const enhanced = list
-                    .map((item) => ({
-                      ...item,
-                      __score: getMatchScore(item, keyword),
-                    }))
-                    .filter((item) => !keyword || item.__score > 0)
-                    .sort((a, b) => b.__score - a.__score)
-                    .map(({ __score, ...rest }) => rest)
-
-                  if (!enhanced.length) return null
-
-                  return (
-                    <ElCollapseItem title={key} name={index}>
-                      <componentContainer componentList={enhanced}></componentContainer>
-                    </ElCollapseItem>
-                  )
-                })
-              }
-            </ElCollapse>
-          </div>
-        </div>
+        <ElTabs v-model={activeTab.value} type="card">
+          <ElTabPane label="组件库" name="materials">
+            <div className='draggingDraggingL-title'>组件库</div>
+            {renderMaterialsTab()}
+          </ElTabPane>
+          <ElTabPane label="图层" name="layers">
+            <div className='draggingDraggingL-title'>图层</div>
+            {renderLayerTab()}
+          </ElTabPane>
+        </ElTabs>
       </div>
     );
   },

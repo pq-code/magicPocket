@@ -1,25 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import draggingDragging from './branch/draggingDragging'
+import draggingDragging, { standaloneRoutes, navItems } from './branch/draggingDragging'
 
-export const routerMap = [
-  ...draggingDragging,
-]
+export { navItems }
+export const routerMap = draggingDragging
+
 const router = {
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      redirect: "/dashboard",
+      redirect: '/dashboard',
     },
     {
-      path: "/dashboard",
-      name: "dashboard",
+      path: '/dashboard',
+      name: 'dashboard',
+      redirect: { name: 'lowCodeHome' },
       component: () =>
         import(/* webpackChunkName: "about" */ "@renderer/views/dashboard/dashboard.vue"),
-      children: routerMap,
-      meta: { hidden: false, title: "首页" },
+      children: draggingDragging,
+      meta: { hidden: false, title: '首页' },
     },
+    ...standaloneRoutes,
     {
       path: '/login',
       name: 'login',
@@ -29,8 +30,6 @@ const router = {
         title: ('routes.basic.login'),
       },
     },
-    // 以下路由已移至 routerMap，通过 dashboard 的 children 注册
-    ...routerMap
   ]
 }
 

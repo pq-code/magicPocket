@@ -27,6 +27,36 @@ const loading = ref(false)
 // 新建组件弹窗
 const showCreateDialog = ref(false)
 
+// 预览区宽度（可拖拽调整）
+const previewWidth = ref(420)
+const MIN_PREVIEW = 280
+const MAX_PREVIEW = 800
+
+const startResize = (e: MouseEvent) => {
+  e.preventDefault()
+  const startX = e.clientX
+  const startW = previewWidth.value
+
+  const onMove = (e: MouseEvent) => {
+    const delta = e.clientX - startX
+    let w = startW + delta
+    w = Math.max(MIN_PREVIEW, Math.min(MAX_PREVIEW, w))
+    previewWidth.value = w
+  }
+
+  const onUp = () => {
+    document.removeEventListener('mousemove', onMove)
+    document.removeEventListener('mouseup', onUp)
+    document.body.style.cursor = ''
+    document.body.style.userSelect = ''
+  }
+
+  document.body.style.cursor = 'col-resize'
+  document.body.style.userSelect = 'none'
+  document.addEventListener('mousemove', onMove)
+  document.addEventListener('mouseup', onUp)
+}
+
 // 发布按钮文案：根据是否已有云端 id 切换
 const publishLabel = computed(() => {
   if (!selectedComponent.value) return '发布到物料平台'
@@ -44,9 +74,9 @@ const groupedComponents = computed(() => {
   return groups
 })
 
-// 返回首页
+// 返回首页（独立页面，需回到导航内的首页）
 const onBack = () => {
-  router.push({ name: 'dashboard' })
+  router.push({ name: 'lowCodeHome' })
 }
 
 // 选择组件库目录
@@ -304,11 +334,11 @@ onMounted(() => {
         />
       </div>
       
-      <!-- 中间 + 右侧：沙箱预览 + 代码编辑器 -->
+      <!-- 中间 + 右侧：沙箱预览 + 代码编辑器（可拖拽调整大小） -->
       <div class="main-content">
         <template v-if="selectedComponent">
           <!-- 沙箱预览区 -->
-          <div class="content-sandbox">
+          <div class="content-sandbox" :style="{ flex: `0 0 ${previewWidth}px` }">
             <div class="panel-header">
               <i class="iconfont icon-yulan" style="margin-right: 6px;"></i>
               <span>预览</span>
@@ -321,6 +351,15 @@ onMounted(() => {
             <div class="panel-body">
               <ComponentSandbox :component="selectedComponent" />
             </div>
+          </div>
+          
+          <!-- 可拖动分隔条：水平方向调整 -->
+          <div
+            class="resize-divider resize-horizontal"
+            @mousedown="startResize"
+            title="拖动调整预览区与编辑区宽度"
+          >
+            <i class="iconfont icon-arrow_shuipingtuodong_sliding-horizontal"></i>
           </div>
           
           <!-- 代码编辑器区（meta.ts 与源码统一在此编辑） -->
@@ -417,20 +456,47 @@ onMounted(() => {
   display: flex;
   overflow: hidden;
   
-  .content-sandbox,
+  .content-sandbox {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border-right: none;
+    background: #fafafa;
+  }
+  
+  .resize-divider {
+    flex-shrink: 0;
+    width: 6px;
+    background: #e8e8e8;
+    cursor: col-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    
+    &:hover {
+      background: #409eff;
+      .iconfont { opacity: 1; color: #fff; }
+    }
+    
+    .iconfont {
+      font-size: 14px;
+      opacity: 0.5;
+      color: #909399;
+      pointer-events: none;
+    }
+  }
+  
+  .resize-horizontal .iconfont {
+    font-family: 'iconfont' !important;
+  }
+  
   .content-editor {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0;
-  }
-  
-  .content-sandbox {
-    border-right: 1px solid #e8e8e8;
-    background: #fafafa;
-  }
-  
-  .content-editor {
+    min-width: 200px;
     background: #fff;
   }
   

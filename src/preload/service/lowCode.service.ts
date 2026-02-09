@@ -11,6 +11,21 @@ export interface CodeConfigBody {
   userName?: string
 }
 
+/** 列出所有配置（分页）：返回 codeConfigId、codeConfigName、createdAt 等 */
+export async function listCodeConfigs(params?: { page?: number; pageSize?: number }) {
+  const page = Math.max(1, params?.page ?? 1)
+  const pageSize = Math.min(100, Math.max(1, params?.pageSize ?? 50))
+  const offset = (page - 1) * pageSize
+  const { count, rows } = await lowCodeConfig.findAndCountAll({
+    attributes: ['id', 'codeConfigId', 'codeConfigName', 'userId', 'userName', 'createdAt', 'updatedAt'],
+    order: [['updatedAt', 'DESC']],
+    limit: pageSize,
+    offset
+  })
+  const list = rows.map((r) => (r.get ? r.get({ plain: true }) : r))
+  return { list, total: count }
+}
+
 /** 获取配置：按 codeConfigId 或 codeConfigName */
 export async function getCodeConfig(params: { codeConfigId?: string; codeConfigName?: string }) {
   const where: Record<string, string> = {}
@@ -40,6 +55,14 @@ export async function saveCodeConfig(body: CodeConfigBody) {
     return row
   }
   return await lowCodeConfig.create(payload)
+}
+
+/** 删除配置：按 codeConfigId */
+export async function deleteCodeConfig(codeConfigId: string) {
+  const row = await lowCodeConfig.findOne({ where: { codeConfigId } })
+  if (!row) return false
+  await row.destroy()
+  return true
 }
 
 /** 编辑配置：按 codeConfigId 更新 */

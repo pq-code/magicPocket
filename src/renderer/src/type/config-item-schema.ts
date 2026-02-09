@@ -16,8 +16,8 @@ export interface ConfigItemSchema {
   key: string;
   /** 展示标签 */
   label: string;
-  /** 控件类型：input | segmented | 等 */
-  type: 'input' | 'segmented' | 'number' | 'boolean';
+  /** 控件类型：input | segmented | number | boolean | color */
+  type: 'input' | 'segmented' | 'number' | 'boolean' | 'color';
   /** 默认值 */
   value?: unknown;
   /** 是否必填 */

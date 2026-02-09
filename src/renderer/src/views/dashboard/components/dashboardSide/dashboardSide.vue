@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { routerMap } from '@renderer/router/index'
+import { useRoute } from 'vue-router'
+import { navItems } from '@renderer/router/index'
 
 const emits = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -11,13 +12,13 @@ const props = defineProps({
     },
 });
 
-console.log(routerMap)
+const route = useRoute()
 </script>
 <template>
   <div class="dashboardSide-center">
     <div class="ashboardSide-center-main">
       <el-menu
-        default-active="/draggingDragging"
+        :default-active="route.path"
         class="el-menu-vertical-demo"
         :collapse="!modelValue"
         :collapse-transition="false"
@@ -25,7 +26,7 @@ console.log(routerMap)
         :show-timeout="0"
         :hide-timeout="0"
       >
-        <el-menu-item v-for="(item) in routerMap" :key="item.name" :index="item.path">
+        <el-menu-item v-for="(item) in navItems" :key="item.name" :index="item.path">
           <i :class="['iconfont', item.meta?.icon || 'icon-yingyongruanjian']"></i>
           <template #title>{{ item.meta.title }}</template>
         </el-menu-item>

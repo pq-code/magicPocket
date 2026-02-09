@@ -31,8 +31,10 @@ if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
 }
 
 // 代理会把 /api 重写掉，所以后端收到的是 /users/xxx、/lowCode/xxx、/materials
+// 若请求带 /api 前缀直达后端（如生产/直连），则 /api/lowCode 也需支持
 app.use('/users', usersRouter)
 app.use('/lowCode', lowCodeRouter)
+app.use('/api/lowCode', lowCodeRouter)
 app.use('/', materialRouter)
 
 // 开启http

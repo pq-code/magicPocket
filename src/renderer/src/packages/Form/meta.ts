@@ -1,5 +1,7 @@
 /**
  * Form 组件物料描述
+ * 表单项 formItemProps 支持：required（必填）、requiredMessage（校验文案，默认「xx不能为空」）、
+ * trigger（校验触发：blur/change）、rules（Element Plus 规则数组）。提交前会做必填校验。
  */
 export const Form = {
   componentName: '表单',
@@ -57,6 +59,20 @@ export const Form = {
           value: '',
           key: 'isReset',
           options: [{ label: '是', value: true }, { label: '否', value: false }]
+        },
+        {
+          label: '表单外边距',
+          type: 'input',
+          value: '',
+          rightText: 'px',
+          key: 'csmargin'
+        },
+        {
+          label: '表单内边距',
+          type: 'input',
+          value: '',
+          rightText: 'px',
+          key: 'cspadding'
         },
         {
           label: 'Api',

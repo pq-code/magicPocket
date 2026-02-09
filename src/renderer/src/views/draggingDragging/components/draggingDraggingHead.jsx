@@ -1,31 +1,46 @@
-import { ElButton,ElPageHeader,ElBreadcrumbItem,ElAvatar,ElTag ,ElDrawer} from 'element-plus';
-import { defineComponent, ref, watch, onMounted } from 'vue';
+import { ElButton, ElPageHeader, ElAvatar, ElDrawer, ElTooltip } from 'element-plus';
+import { defineComponent, ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import useCanvasOperation from '../hooks/useCanvasOperation';
-import CreateCode from '@renderer/packages/CreateCode';
-import router from '@renderer/router/index'
+import { useDraggingDraggingStore } from '@renderer/stores/draggingDragging/useDraggingDraggingStore';
+import CreateCode from '@renderer/internal/CreateCode/src/CreateCode.jsx';
+import router from '@renderer/router/index';
+
+/** 使用 localStorage 以便新窗口能读到（sessionStorage 按窗口隔离，新窗口读不到） */
+const PREVIEW_STORAGE_KEY = 'lowcode_preview_page';
+
 const draggingDraggingHead = defineComponent({
-  props: {
-  },
+  props: {},
   model: {
     prop: 'modelValue',
     event: 'update:modelValue',
   },
   setup(props, { emit }) {
-    const drawer = ref()
+    const drawer = ref(false);
+    const store = useDraggingDraggingStore();
+    const { pageJSON, currentOperatingObject } = storeToRefs(store);
     const {
       upHistoryOperatingObject,
       clearHistoryOperatingObject,
-      backHistoryOperatingObject
-    } = useCanvasOperation()
+      backHistoryOperatingObject,
+      deleteSelectedNode,
+    } = useCanvasOperation();
 
     const onBack = () => {
-      router.push({name:'dashboard'})
-    }
+      router.push({ name: 'lowCodeHome' });
+    };
 
-    const foundCode = () =>{
-      console.log('代码生成')
-      drawer.value = true
-    }
+    /** 预览：同窗口内路由跳转，保证与编辑页共用 localStorage，数据一定可读 */
+    const openPreview = () => {
+      const page = JSON.parse(JSON.stringify(pageJSON.value));
+      page.whetherYouCanDrag = false;
+      localStorage.setItem(PREVIEW_STORAGE_KEY, JSON.stringify(page));
+      router.push({ name: 'lowCodePreview' });
+    };
+
+    const foundCode = () => {
+      drawer.value = true;
+    };
 
     onMounted(() => {
     });
@@ -73,8 +88,17 @@ const draggingDraggingHead = defineComponent({
             <i className='iconfont icon-jiantouqianjin' onClick={upHistoryOperatingObject}></i>
             </ElButton>
           </ElTooltip>
-            <ElButton onClick={clearHistoryOperatingObject}>重做</ElButton>
-            <ElButton onClick={foundCode} type="primary">预览</ElButton>
+          <ElTooltip effect="dark" placement="top-start" content="删除 (Delete/Backspace)">
+            <ElButton
+              text="primary"
+              disabled={!currentOperatingObject.value || currentOperatingObject.value?.type === 'page'}
+              onClick={deleteSelectedNode}
+            >
+              <i className='iconfont icon-lajitong5'></i>
+            </ElButton>
+          </ElTooltip>
+            <ElButton onClick={clearHistoryOperatingObject}>清空</ElButton>
+            <ElButton onClick={openPreview} type="primary">预览</ElButton>
             <ElButton onClick={foundCode} type="primary">代码生成</ElButton>
           </div>
 
